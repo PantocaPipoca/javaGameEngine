@@ -1,0 +1,88 @@
+@startuml UMLDiagram
+
+abstract class FiguraGeometrica {
+    +translate(int dx, int dy): FiguraGeometrica
+    +toString(): String
+    +colide(FiguraGeometrica f): boolean
+    +colideComCirculo(Circulo c): boolean
+    +colideComPoligono(Poligono p): boolean
+}
+
+class Circulo extends FiguraGeometrica {
+    -centro: Ponto
+    -raio: double
+    +Circulo(String s)
+    +translate(int dx, int dy): Circulo
+    +perimetro(): double
+    +centro(): Ponto
+    +raio(): double
+    +colideComCirculo(Circulo c): boolean
+    +colideComPoligono(Poligono p): boolean
+}
+
+class Poligono extends FiguraGeometrica {
+    -pontos: Ponto[]
+    -segmentos: Segmento[]
+    +Poligono(String s)
+    +translate(int dx, int dy): Poligono
+    +toString(): String
+    +colideComCirculo(Circulo c): boolean
+    +colideComPoligono(Poligono p): boolean
+    +translatePontos(int dx, int dy): Ponto[]
+    +pontosToString(Ponto[] pontos): String
+}
+
+class Triangulo extends Poligono {
+    +Triangulo(String s)
+    +toString(): String
+    +translate(int dx, int dy): Triangulo
+}
+
+class Retangulo extends Poligono {
+    +Retangulo(String s)
+    +toString(): String
+    +translate(int dx, int dy): Retangulo
+    +canBeARectangle(Ponto p1, Ponto p2, Ponto p3, Ponto p4): boolean
+    +intersects(Segmento s): boolean
+}
+
+class Ponto {
+    -r: double
+    -theta: double
+    -x: int
+    -y: int
+    +Ponto(int x, int y)
+    +distancia(Ponto that): double
+    +translate(int dx, int dy): Ponto
+    +r(): double
+    +theta(): double
+    +x(): int
+    +y(): int
+}
+
+class Segmento {
+    -p1: Ponto
+    -p2: Ponto
+    +Segmento(Ponto p1, Ponto p2)
+    +intersects(Segmento s): boolean
+    +interseta(Circulo c): boolean
+    +p1(): Ponto
+    +p2(): Ponto
+}
+
+class GeometriaUtils {
+    +orientation(Ponto p, Ponto q, Ponto r): int
+    +onSegment(Ponto p, Ponto q, Ponto r): boolean
+}
+
+class Main {
+    +main(String[] args): void
+    +capital(String s): String
+}
+
+FiguraGeometrica <|-- Circulo
+FiguraGeometrica <|-- Poligono
+Poligono <|-- Triangulo
+Poligono <|-- Retangulo
+
+@enduml
