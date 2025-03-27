@@ -1,12 +1,9 @@
 package Figuras;
-import java.text.DecimalFormat;
 
 /** 
  * Define o ponto no plano cartesiano e no plano polar.
  * @author Daniel Pantyukhov a83896
  * @version 1.2 (26/03/25)
- * @inv As cooredenadas x e y sao sempre positivas
- *      r deve ser nao negativo e theta deve estar entre 0 e 90 graus.
  * **/
 public class Ponto {
     private double r, theta;
@@ -18,12 +15,7 @@ public class Ponto {
     *  @param y coordenada y
     **/
     public Ponto(double x, double y) {
-
-        if (x < 0 || y < 0) {
-            System.out.println("Ponto:vi");
-            throw new IllegalArgumentException();
-        }
-
+    
         this.x = x;
         this.y = y;
         r = Math.sqrt(x * x + y * y);
@@ -54,8 +46,7 @@ public class Ponto {
      * @return String do ponto no formato "(x,y)"
      */
     public String toString() {
-        DecimalFormat df = new DecimalFormat("0.00");
-        return "(" + df.format(x) + "," + df.format(y) + ")";
+        return String.format("(%.2f,%.2f)", x, y);
     }
 
     /**

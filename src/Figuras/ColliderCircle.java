@@ -1,6 +1,8 @@
 package Figuras;
 import java.text.DecimalFormat;
 
+import GameEngine.ICollider;
+
 public class ColliderCircle implements ICollider {
     private Ponto centroid;
     private double radius;

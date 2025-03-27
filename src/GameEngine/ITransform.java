@@ -1,4 +1,7 @@
-package Figuras;
+package GameEngine;
+
+import Figuras.Ponto;
+
 public interface ITransform {
     void move(Ponto dPos, int dlayer);
     void rotate(double dTheta);

@@ -1,16 +1,17 @@
-package Figuras;
-import java.text.DecimalFormat;
+package GameEngine;
+
+import Figuras.Ponto;
 
 public class Transform implements ITransform {
     private Ponto pos;
     private int layer;
-    private double angle;
+    private double rotation;
     private double scale;
     
-    public Transform(Ponto pos, int layer, double angle, double scale) {
+    public Transform(Ponto pos, int layer, double rotation, double scale) {
         this.pos = pos;
         this.layer = layer;
-        this.angle = angle;
+        this.rotation = rotation;
         this.scale = scale;
     }
     
@@ -20,8 +21,7 @@ public class Transform implements ITransform {
     }
     
     public void rotate(double dTheta) {
-        angle += (angle + dTheta) % 360;
-        if (angle < 0) angle += 360;
+        rotation += dTheta;
     }
     
     public void scale(double dScale) {
@@ -37,7 +37,7 @@ public class Transform implements ITransform {
     }
     
     public double angle() {
-        return angle;
+        return rotation;
     }
     
     public double scale() {
@@ -45,8 +45,7 @@ public class Transform implements ITransform {
     }
 
     public String toString() {
-        DecimalFormat df = new DecimalFormat("0.00");
-        return "(" + df.format(pos.x()) + "," + df.format(pos.y()) + ") " + layer + " " + df.format(angle) + " " + df.format(scale);
+        return String.format("%s %d %.2f %.2f", pos.toString(), layer, rotation, scale);
     }
     
 }
