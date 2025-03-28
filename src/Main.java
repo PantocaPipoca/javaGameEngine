@@ -1,5 +1,3 @@
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import Figuras.*;
@@ -39,7 +37,41 @@ public class Main {
         }
 
         GameObject obj = new GameObject(name, transform, figura);
-        System.out.println(obj.toString());
+
+        while(sc.hasNextLine()) {
+            String line = sc.nextLine().trim();
+            String[] tokens = line.split(" ");
+            String op = tokens[0];
+            switch (op) {
+                case "move":
+                if(tokens.length == 4) {
+                    double dx = Double.parseDouble(tokens[1]);
+                    double dy = Double.parseDouble(tokens[2]);
+                    int dlayer = Integer.parseInt(tokens[3]);
+                    transform.move(new Ponto(dx, dy), dlayer);
+                }
+                break;
+
+                case "rotate":
+                if(tokens.length == 2) {
+                    double dTheta = Double.parseDouble(tokens[1]);
+                    transform.rotate(dTheta);
+                }
+                break;
+
+                case "scale":
+                if(tokens.length == 2) {
+                    double dScale = Double.parseDouble(tokens[1]);
+                    transform.scale(dScale);
+                }
+                break;
+
+                default:
+                break;
+            }
+        }
+        obj = new GameObject(name, transform, figura);
+        System.out.println(obj);
 
         sc.close();
     }
