@@ -15,4 +15,10 @@ public abstract class FiguraGeometrica {
     public abstract boolean colide(FiguraGeometrica f);
     public abstract boolean colideComCirculo(Circulo c);
     public abstract boolean colideComPoligono(Poligono p);
+
+    public abstract Ponto centroide();
+    public abstract FiguraGeometrica clone();
+
+    public abstract FiguraGeometrica scale(double factor);
+    public abstract FiguraGeometrica rotate(double angle, Ponto centro);
 }

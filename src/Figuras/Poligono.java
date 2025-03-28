@@ -214,4 +214,57 @@ public class Poligono extends FiguraGeometrica {
         double xi = a.x() + (p.y() - a.y()) / m;
         return p.x() <= xi;
     }
+
+    public Ponto centroide() {
+        double x = 0;
+        double y = 0;
+        double area = 0;
+        int n = pontos.length;
+        for (int i = 0; i < n; i++) {
+            Ponto _i = pontos[i];
+            Ponto _j = pontos[(i + 1) % n]; // i + 1 Ponto e o % n fecha o ponto no fim
+            double cross = _i.x() * _j.y() - _j.x() * _i.y();
+
+            x += (_i.x() + _j.x()) * cross;
+            y += (_i.y() + _j.y()) * cross;
+            area += cross;
+        }
+
+        area /= 2;
+        x /= 6 * area;
+        y /= 6 * area;
+
+        return new Ponto(x, y);
+    }
+
+    public FiguraGeometrica clone() {
+        return new Poligono(pontos.length + " " + pontosToString(pontos));
+    }
+
+    public FiguraGeometrica scale(double factor) {
+        Ponto centroide = centroide();
+        int n = pontos.length;
+        Ponto[] newPontos = new Ponto[n];
+        for (int i = 0; i < n; i++) {
+            double dx = pontos[i].x() - centroide.x();
+            double dy = pontos[i].y() - centroide.y();
+            newPontos[i] = new Ponto(centroide.x() + dx * factor, centroide.y() + dy * factor);
+        }
+        return new Poligono(n + " " + pontosToString(newPontos));
+    }
+
+    public FiguraGeometrica rotate(double angle, Ponto centro) {
+        int n = pontos.length;
+        Ponto[] newPontos = new Ponto[n];
+        double rad = Math.toRadians(angle);
+
+        for (int i = 0; i < n; i++) {
+            double dx = pontos[i].x() - centro.x();
+            double dy = pontos[i].y() - centro.y();
+            double x = dx * Math.cos(rad) - dy * Math.sin(rad) + centro.x();
+            double y = dx * Math.sin(rad) + dy * Math.cos(rad) + centro.y();
+            newPontos[i] = new Ponto(x, y);
+        }
+        return new Poligono(n + " " + pontosToString(newPontos));
+    }
 }

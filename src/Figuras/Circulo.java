@@ -3,7 +3,6 @@ package Figuras;
  * Classe que representa um círculo.
  * @author Daniel Pantyukhov a83896
  * @version 1.1 (18/03/25)
- * @inv raio deve ser positivo e o círculo deve estar dentro do primeiro quadrante
  **/
 public class Circulo extends FiguraGeometrica {
     private Ponto centro;
@@ -24,10 +23,6 @@ public class Circulo extends FiguraGeometrica {
             double cx = Double.parseDouble(tokens[0]);
             double cy = Double.parseDouble(tokens[1]);
             double r = Double.parseDouble(tokens[2]);
-            if (r <= 0 || cx - r < 0 || cy - r < 0) {
-                System.out.println("Circulo:vi");
-                throw new IllegalArgumentException();
-            }
             centro = new Ponto(cx, cy);
             raio = r;
         } catch (NumberFormatException e) {
@@ -69,7 +64,7 @@ public class Circulo extends FiguraGeometrica {
      */
     @Override
     public String toString() {
-        return "Circulo: (" + centro.x() + "," + centro.y() + ") " + (int) raio;
+        return "(" + centro.x() + "," + centro.y() + ") " + raio;
     }
 
     /**
@@ -111,5 +106,21 @@ public class Circulo extends FiguraGeometrica {
     public boolean colideComCirculo(Circulo c) {
         double distancia = this.centro.distancia(c.centro());
         return distancia <= this.raio + c.raio();
+    }
+
+    public Ponto centroide() {
+        return centro;
+    }
+
+    public Circulo clone() {
+        return new Circulo(centro.x() + " " + centro.y() + " " + raio);
+    }
+
+    public Circulo scale(double factor) {
+        return new Circulo(centro.x() + " " + centro.y() + " " + raio * factor);
+    }
+
+    public Circulo rotate(double angle, Ponto centro) {
+        return this;
     }
 }
