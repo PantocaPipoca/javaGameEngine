@@ -1,14 +1,16 @@
 package GameEngine;
 
+import Figuras.FiguraGeometrica;
+
 public class GameObject implements IGameObject {
     private String name;
     private ITransform transform;
     private ICollider collider;
     
-    public GameObject(String name, ITransform transform, ICollider collider) {
+    public GameObject(String name, ITransform transform, FiguraGeometrica figura) {
         this.name = name;
         this.transform = transform;
-        this.collider = collider;
+        this.collider = new Collider(figura, transform);
     }
     
     public String name() {

@@ -5,13 +5,13 @@ import Figuras.Ponto;
 public class Transform implements ITransform {
     private Ponto pos;
     private int layer;
-    private double rotation;
+    private double angle;
     private double scale;
     
-    public Transform(Ponto pos, int layer, double rotation, double scale) {
+    public Transform(Ponto pos, int layer, double angle, double scale) {
         this.pos = pos;
         this.layer = layer;
-        this.rotation = rotation;
+        this.angle = angle;
         this.scale = scale;
     }
     
@@ -21,11 +21,13 @@ public class Transform implements ITransform {
     }
     
     public void rotate(double dTheta) {
-        rotation += dTheta;
+        angle = (angle + dTheta) % 360;
+        if (angle < 0) angle += 360;
     }
     
     public void scale(double dScale) {
-        scale *= dScale;
+        scale += dScale;
+        if (scale < 0) scale = 0;
     }
     
     public Ponto position() {
@@ -37,7 +39,7 @@ public class Transform implements ITransform {
     }
     
     public double angle() {
-        return rotation;
+        return angle;
     }
     
     public double scale() {
@@ -45,7 +47,7 @@ public class Transform implements ITransform {
     }
 
     public String toString() {
-        return String.format("%s %d %.2f %.2f", pos.toString(), layer, rotation, scale);
+        return String.format("%s %d %.2f %.2f", pos.toString(), layer, angle, scale);
     }
     
 }
