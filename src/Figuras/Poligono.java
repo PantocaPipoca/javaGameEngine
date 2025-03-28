@@ -119,14 +119,10 @@ public class Poligono extends FiguraGeometrica {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Poligono de " + pontos.length + " vertices: [");
         for (int i = 0; i < pontos.length; i++) {
-            sb.append("(" + pontos[i].x() + "," + pontos[i].y() + ")");
-            if (i < pontos.length - 1)
-                sb.append(", ");
+            sb.append(pontos[i] + " ");
         }
-        sb.append("]");
-        return sb.toString();
+        return sb.toString().trim();
     }
 
     /**
@@ -210,7 +206,7 @@ public class Poligono extends FiguraGeometrica {
         if(a.x() < p.x() && b.x() < p.x()){
             return false;
         }
-        double m = (double) (b.y() - a.y()) / (b.x() - a.x());
+        double m = (b.y() - a.y()) / (b.x() - a.x());
         double xi = a.x() + (p.y() - a.y()) / m;
         return p.x() <= xi;
     }
@@ -237,10 +233,20 @@ public class Poligono extends FiguraGeometrica {
         return new Ponto(x, y);
     }
 
+    /**
+     * Cria uma copia do poligono
+     * @return copia do poligono
+     */
     public FiguraGeometrica clone() {
         return new Poligono(pontos.length + " " + pontosToString(pontos));
     }
 
+    /**
+     * Escala o poligono por um fator
+     * @param factor fator de escala
+     * @return novo poligono escalado
+     * @see O pdf do enunciado :)
+     */
     public FiguraGeometrica scale(double factor) {
         Ponto centroide = centroide();
         int n = pontos.length;
@@ -253,6 +259,13 @@ public class Poligono extends FiguraGeometrica {
         return new Poligono(n + " " + pontosToString(newPontos));
     }
 
+    /**
+     * Roda o poligono por um angulo em torno de um ponto
+     * @param angle angulo de rotacao
+     * @param centro ponto em torno do qual o poligono vai rodar
+     * @return novo poligono rodado
+     * @see O pdf do enunciado :)
+     */
     public FiguraGeometrica rotate(double angle, Ponto centro) {
         int n = pontos.length;
         Ponto[] newPontos = new Ponto[n];

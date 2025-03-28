@@ -16,10 +16,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // Leitura do nome do GameObject
         String name = sc.nextLine().trim();
 
-        // Leitura dos dados da Transform: x y layer angle scale
         String[] tTokens = sc.nextLine().trim().split(" ");
         double x = Double.parseDouble(tTokens[0]);
         double y = Double.parseDouble(tTokens[1]);
@@ -28,21 +26,18 @@ public class Main {
         double scale = Double.parseDouble(tTokens[4]);
         ITransform transform = new Transform(new Ponto(x, y), layer, angle, scale);
 
-        // Leitura dos dados do Collider
         String colliderLine = sc.nextLine().trim();
         String[] cTokens = colliderLine.split(" ");
         FiguraGeometrica figura;
+        // Cria uma preset para a figura do collider
         if (cTokens.length == 3) {
-            // Se for círculo: "cx cy r"
             figura = new Circulo(colliderLine);
         } else {
-            // Se for polígono: monta a string com o número de vértices no início
             int n = cTokens.length / 2;
             String polyStr = n + " " + colliderLine;
             figura = new Poligono(polyStr);
         }
 
-        // Cria o GameObject (que internamente cria o Collider com a figura transformada)
         GameObject obj = new GameObject(name, transform, figura);
         System.out.println(obj.toString());
 

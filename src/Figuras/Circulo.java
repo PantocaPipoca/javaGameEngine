@@ -1,4 +1,5 @@
 package Figuras;
+
 /**
  * Classe que representa um círculo.
  * @author Daniel Pantyukhov a83896
@@ -64,7 +65,7 @@ public class Circulo extends FiguraGeometrica {
      */
     @Override
     public String toString() {
-        return "(" + centro.x() + "," + centro.y() + ") " + raio;
+        return String.format("%s %.2f", centro.toString(), raio);
     }
 
     /**
@@ -108,18 +109,37 @@ public class Circulo extends FiguraGeometrica {
         return distancia <= this.raio + c.raio();
     }
 
+    /**
+     * Devolve o ponto que representa o centroide do circulo (o centro do circulo)
+     * @return ponto que representa o centroide do circulo
+     */
     public Ponto centroide() {
         return centro;
     }
 
+    /**
+     * Devolve uma copia do circulo
+     * @return copia do circulo
+     */
     public Circulo clone() {
         return new Circulo(centro.x() + " " + centro.y() + " " + raio);
     }
 
+    /**
+     * Escala o circulo por um fator
+     * @param factor fator de escala
+     * @return novo circulo igual ao anterior mas, escalado
+     */
     public Circulo scale(double factor) {
         return new Circulo(centro.x() + " " + centro.y() + " " + raio * factor);
     }
 
+    /**
+     * Roda o circulo por um angulo (No fundo nao faz nada)
+     * @param angle angulo de rotacao
+     * @param centro ponto em torno do qual o circulo vai rodar
+     * @return novo circulo igual ao anterior mas, rodado
+     */
     public Circulo rotate(double angle, Ponto centro) {
         return this;
     }
