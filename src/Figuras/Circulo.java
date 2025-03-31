@@ -2,7 +2,7 @@ package Figuras;
 
 /**
  * Classe que representa um círculo.
- * @author Daniel Pantyukhov a83896
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.1 (18/03/25)
  **/
 public class Circulo extends FiguraGeometrica {
@@ -16,6 +16,10 @@ public class Circulo extends FiguraGeometrica {
     public Circulo(String s) {
         String[] tokens = s.split(" ");
         if(tokens.length != 3) {
+            System.out.println("Circulo:vi");
+            throw new IllegalArgumentException();
+        }
+        if(Double.parseDouble(tokens[2]) < 0) {
             System.out.println("Circulo:vi");
             throw new IllegalArgumentException();
         }

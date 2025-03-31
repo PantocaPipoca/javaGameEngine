@@ -1,7 +1,7 @@
 package Figuras;
 /** 
  * Classe abstrata que representa uma figura geometrica.
- * @author Daniel Pantyukhov a83896
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (18/03/25)
  * @inv Todas as figuras geometricas sao nao imutaveis
  * **/

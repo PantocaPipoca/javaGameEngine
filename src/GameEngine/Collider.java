@@ -3,6 +3,11 @@ package GameEngine;
 import Figuras.FiguraGeometrica;
 import Figuras.Ponto;
 
+/**
+ * Classe que representa um collider de um objeto.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (23/03/25)
+ **/
 public class Collider implements ICollider{
     
     private FiguraGeometrica figuraDoCollider;
@@ -25,10 +30,18 @@ public class Collider implements ICollider{
 
     }
 
+    /**
+     * Devolve o centroide do collider
+     * @return centroide do collider
+     */
     public Ponto centroid() {
         return figuraDoCollider.centroide();
     }
 
+    /**
+     * Passa a informacao de colisao para uma string
+     * @return string com a informacao de colisao
+     */
     public String toString() {
         return figuraDoCollider.toString();
     }

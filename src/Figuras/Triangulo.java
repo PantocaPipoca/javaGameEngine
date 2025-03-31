@@ -1,7 +1,7 @@
 package Figuras;
 /** 
  * Classe que representa um triangulo
- * @author Daue representa um poligonoiel Pantyukhov a83896
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (18/03/25)
  * @inv Os 3 pontos do triangulo nao podem ser colineares
  * **/

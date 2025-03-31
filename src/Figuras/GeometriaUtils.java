@@ -1,7 +1,7 @@
 package Figuras;
 /**
  * Classe com metodos uteis para a resolucao de problemas geometricos
- * @author Daniel Pantyukhov a83896
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (18/03/25)
  */
 public class GeometriaUtils {

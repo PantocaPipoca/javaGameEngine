@@ -2,7 +2,7 @@ package Figuras;
 
 /** 
  * Define o ponto no plano cartesiano e no plano polar.
- * @author Daniel Pantyukhov a83896
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.2 (26/03/25)
  * **/
 public class Ponto {
