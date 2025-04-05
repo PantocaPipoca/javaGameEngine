@@ -10,7 +10,7 @@ public class Ponto {
     private double x, y;
 
     /**
-    *  Construtor para um ponto recebendo coordenadas cartesianas
+    *  Construtor para um ponto recebendo coordenadas cartesianas pipoca
     *  @param x coordenada x
     *  @param y coordenada y
     **/
