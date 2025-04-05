@@ -2,6 +2,11 @@ package GameEngine;
 
 import Figuras.FiguraGeometrica;
 
+/**
+ * Classe que representa um objeto de jogo.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (23/03/25)
+ **/
 public class GameObject implements IGameObject {
     private String name;
     private ITransform transform;

@@ -1,7 +1,7 @@
 package Figuras;
 /**
  * Representa um segmento de reta definido por dois pontos.
- * @author Daniel Pantyukhov a83896
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.1 (01/03/25)
  * @inv os pontos devem ser diferentes
  * @see https://www.youtube.com/watch?v=bbTqI0oqL5U

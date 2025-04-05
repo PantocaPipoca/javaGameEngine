@@ -1,7 +1,7 @@
 package Figuras;
 /**
  * Classe principal que apenas le os dados de entrada e cria os objetos necessarios neste caso recebe os dados para verificar se um segmento de reta intersseta um circulo
- * @author Daniel Pantyukhov a83896
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (01/03/25)
  * @inv O retangulo deve ser formado por 4 pontos que formam angulo de 90 graus
  * @see https://www.dcs.gla.ac.uk/~pat/52233/slides/Geometry1x1.pdf

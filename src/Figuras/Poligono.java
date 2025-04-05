@@ -1,7 +1,7 @@
 package Figuras;
 /** 
  * Classe que representa um poligono
- * @author Daniel Pantyukhov a83896
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (18/03/25)
  * @inv O poligono deve ter no minimo 3 vertices
  *      Tres pontos consecutivos nao podem ser colineares
