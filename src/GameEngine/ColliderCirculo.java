@@ -78,4 +78,7 @@ public class ColliderCirculo implements ICollider{
         return circuloCollider.toString();
     }
 
+    public Circulo getFigura() {
+        return circuloCollider;
+    }
 }
