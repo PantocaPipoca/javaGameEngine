@@ -1,10 +1,7 @@
 package GameEngine;
 
 import Figuras.Circulo;
-import Figuras.FiguraGeometrica;
-import Figuras.Poligono;
 import Figuras.Ponto;
-import Figuras.Segmento;
 
 /**
  * Classe que representa um collider de um objeto.
