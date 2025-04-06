@@ -70,7 +70,7 @@ public class ColliderPoligono implements ICollider{
 
     /**
      * Verifica se um poligono colide com outro poligono
-     * @param p poligono a ser verificado
+     * @param cp poligono a ser verificado
      * @return true se colidem, false caso contrario
      */
     @Override
@@ -156,6 +156,10 @@ public class ColliderPoligono implements ICollider{
         return poligonoCollider.toString();
     }
 
+    /**
+     * Devolve o poligono do collider
+     * @return poligono do collider
+     */
     public Poligono getFigura() {
         return poligonoCollider;
     }

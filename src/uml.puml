@@ -10,7 +10,6 @@ class Ponto {
     +y()
 }
 class Segmento {
-
     -p1
     -p2
     +intersects()
@@ -43,12 +42,12 @@ class Circulo {
     +centroide()
     +clone()
     +scale()
+    +colliderInit()
     +rotate()
 }
 class Poligono {
     # pontos: Ponto[]
     # segmentos: Segmento[]
-
     # translatePontos(dx: double, dy: double): Ponto[]
     # pontosToString(pontos: Ponto[]): String
     + translate(dx: double, dy: double): Poligono
@@ -60,6 +59,9 @@ class Poligono {
     + clone(): FiguraGeometrica
     + scale(factor: double): FiguraGeometrica
     + rotate(angle: double, centro: Ponto): FiguraGeometrica
+    +colliderInit()
+    +getPontos(): Ponto[]
+    +getSegmentos(): Segmento[]
 }
 
 class GeometriaUtils {
@@ -106,12 +108,32 @@ class Transform {
 interface ICollider {
     +centroid()
     +toString()
+    +colide()
+    +colideComCirculo()
+    +colideComPoligono()
+    +getFigura()
 }
 
-class Collider {
-    -figuraDoCollider
+class ColliderCirculo {
+    -circuloCollider
     +centroid()
     +toString()
+    +colide()
+    +colideComCirculo()
+    +colideComPoligono()
+    +getFigura
+}
+
+class ColliderPoligono {
+    -poligonoCollider
+    +centroid()
+    +toString()
+    +colide()
+    +colideComCirculo()
+    +colideComPoligono()
+    +rayInterssetaSegmento()
+    +pontoEstaDentrodoPoligono()
+    +getFigura()
 }
 
 interface IGameObject {
@@ -131,9 +153,11 @@ class GameObject {
 }
 
 ITransform <|.. Transform
-ICollider <|.. Collider
+ICollider <|.. ColliderCirculo
+ICollider <|.. ColliderPoligono
 IGameObject <|.. GameObject
 Transform <-- GameObject
-Collider <-- GameObject
+ColliderCirculo <-- GameObject
+ColliderPoligono <-- GameObject
 }
 @enduml

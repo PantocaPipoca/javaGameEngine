@@ -32,7 +32,7 @@ public class ColliderCirculo implements ICollider{
 
     /**
      * Verifica se um circulo colide com uma figura geometrica
-     * @param f figura geometrica a ser verificada
+     * @param other figura geometrica a ser verificada
      * @return true se colidem, false caso contrario
      */
     @Override
@@ -41,9 +41,9 @@ public class ColliderCirculo implements ICollider{
     }
 
     /**
-     * Verifica se um circulo colide com um poligono verificando se o circulo esta dentro do poligono ou se algum segmento do poligono interseta o circulo ou se algum ponto do poligono esta dentro do circulo.
-     * @param p Poligono a ser verificado
-     * @return true se colidem, false caso contrario
+    * Verifica se um poligono colide com um circulo
+    * @param cp circulo a ser verificado
+    * @return true se colidem, false caso contrario
      */
      @Override
      public boolean colideComPoligono(ColliderPoligono cp) {
@@ -51,8 +51,8 @@ public class ColliderCirculo implements ICollider{
      }
 
     /**
-     * Verifica se um circulo colide com um outro circulo verificando se a distancia entre os centros dos circulos e menor ou igual a soma dos raios dos circulos.
-     * @param c
+     * Verifica se um circulo colide com outro circulo
+     * @param cc circulo a ser verificado
      * @return true se colidem, false caso contrario
      */
     public boolean colideComCirculo(ColliderCirculo cc) {
@@ -78,6 +78,10 @@ public class ColliderCirculo implements ICollider{
         return circuloCollider.toString();
     }
 
+    /**
+     * Devolve o circulo do collider
+     * @return circulo do collider
+     */
     public Circulo getFigura() {
         return circuloCollider;
     }

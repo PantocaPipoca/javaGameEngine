@@ -111,6 +111,11 @@ public class Circulo extends FiguraGeometrica {
         return this;
     }
 
+    /**
+     * Verifica se o circulo colide com uma figura geometrica
+     * @param t figura geometrica a ser verificada
+     * @return true se colidem, false caso contrario
+     */
     public ICollider colliderInit(ITransform t) {
         return new ColliderCirculo(this, t);
     }

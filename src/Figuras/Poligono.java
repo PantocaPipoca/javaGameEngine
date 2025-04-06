@@ -200,6 +200,11 @@ public class Poligono extends FiguraGeometrica {
         return new Poligono(n + " " + pontosToString(newPontos));
     }
 
+    /**
+     * Verifica se o poligono colide com outro poligono
+     * @param t figura a ser verificada
+     * @return true se colide, false caso contrario
+     */
     public ICollider colliderInit(ITransform t) {
         return new ColliderPoligono(this, t);
     }
@@ -208,6 +213,10 @@ public class Poligono extends FiguraGeometrica {
         return pontos;
     }
 
+    /**
+     * Devolve os segmentos do poligono
+     * @return segmentos do poligono
+     */
     public Segmento[] getSegmentos() {
         return segmentos;
     }
