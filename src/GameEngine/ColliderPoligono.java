@@ -56,15 +56,19 @@ public class ColliderPoligono implements ICollider{
      */
     @Override
     public boolean colideComPoligono(ColliderPoligono cp) {
-        for (Segmento s1 : this.segmentos) {
-            for (Segmento s2 : cp.segmentos) {
+        Segmento[] segmentos1 = this.poligonoCollider.getSegmentos();
+        Segmento[] segmentos2 = cp.poligonoCollider.getSegmentos();
+        Ponto[] pontos1 = this.poligonoCollider.getPontos();
+        Ponto[] pontos2 = cp.poligonoCollider.getPontos();
+        for (Segmento s1 : segmentos1) {
+            for (Segmento s2 : segmentos2) {
                 if (s1.intersects(s2))
                     return true;
             }
         }
-        if (pontoEstaDentroDoPoligono(this.pontos[0], p))
+        if (pontoEstaDentroDoPoligono(pontos1[0], cp.getFigura()))
             return true;
-        if (pontoEstaDentroDoPoligono(p.pontos[0], this))
+        if (pontoEstaDentroDoPoligono(pontos2[0], poligonoCollider))
             return true;
         return false;
     }
@@ -77,11 +81,12 @@ public class ColliderPoligono implements ICollider{
      */
     public static boolean pontoEstaDentroDoPoligono(Ponto point, Poligono poly) {
         int count = 0;
-        int n = poly.pontos.length;
+        Ponto[] pontos = poly.getPontos();
+        int n = pontos.length;
 
         for (int i = 0; i < n; i++) {
-            Ponto a = poly.pontos[i];
-            Ponto b = poly.pontos[(i + 1) % n];
+            Ponto a = pontos[i];
+            Ponto b = pontos[(i + 1) % n];
             if (rayInterssetaSegmento(point, a, b)) {
                 count++;
             }
@@ -130,6 +135,10 @@ public class ColliderPoligono implements ICollider{
      */
     public String toString() {
         return poligonoCollider.toString();
+    }
+
+    public Poligono getFigura() {
+        return poligonoCollider;
     }
 
 }

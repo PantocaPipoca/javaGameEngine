@@ -14,8 +14,8 @@ import GameEngine.ColliderPoligono;
 
 public class Poligono extends FiguraGeometrica {
     
-    protected Ponto[] pontos;
-    protected Segmento[] segmentos;
+    private Ponto[] pontos;
+    private Segmento[] segmentos;
 
     /**
      * Construtor para um poligono
@@ -202,5 +202,13 @@ public class Poligono extends FiguraGeometrica {
 
     public ICollider colliderInit(ITransform t) {
         return new ColliderPoligono(this, t);
+    }
+
+    public Ponto[] getPontos() {
+        return pontos;
+    }
+
+    public Segmento[] getSegmentos() {
+        return segmentos;
     }
 }
