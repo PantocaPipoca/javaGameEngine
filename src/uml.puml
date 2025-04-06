@@ -1,0 +1,139 @@
+@startuml
+package Figuras {
+class Ponto {
+    +distancia()
+    +translate()
+    +toString()
+    +r()
+    +theta()
+    +x()
+    +y()
+}
+class Segmento {
+
+    -p1
+    -p2
+    +intersects()
+    +interseta()
+    +p1()
+    +p2()
+}
+abstract class FiguraGeometrica {
+    +translate()
+    +toString()
+    +colide()
+    +colideComCirculo()
+    +colideComPoligono()
+    +centroide()
+    +clone()
+    +scale()
+    +rotate()
+}
+class Circulo {
+    -centro
+    -raio
+    +translate()
+    +perimetro()
+    +centro()
+    +raio()
+    +toString()
+    +colide()
+    +colideComPoligono()
+    +colideComCirculo()
+    +centroide()
+    +clone()
+    +scale()
+    +rotate()
+}
+class Poligono {
+    # pontos: Ponto[]
+    # segmentos: Segmento[]
+
+    # translatePontos(dx: double, dy: double): Ponto[]
+    # pontosToString(pontos: Ponto[]): String
+    + translate(dx: double, dy: double): Poligono
+    + toString(): String
+    + colide(f: FiguraGeometrica): boolean
+    + colideComCirculo(c: Circulo): boolean
+    + colideComPoligono(p: Poligono): boolean
+    + centroide(): Ponto
+    + clone(): FiguraGeometrica
+    + scale(factor: double): FiguraGeometrica
+    + rotate(angle: double, centro: Ponto): FiguraGeometrica
+}
+
+class GeometriaUtils {
+    +orientation() <<static>>
+    +onSegment() <<static>>
+}
+
+FiguraGeometrica <|-- Circulo
+FiguraGeometrica <|-- Poligono
+Segmento --> Ponto
+Poligono --> Segmento
+Poligono --> Ponto
+Circulo --> Ponto
+GeometriaUtils ..> Segmento
+GeometriaUtils ..> Poligono
+}
+
+package GameEngine {
+interface ITransform {
+    +move()
+    +rotate()
+    +scale()
+    +position()
+    +layer()
+    +angle()
+    +scale()
+}
+
+class Transform {
+    -pos
+    -layer
+    -angle
+    -scale
+    +move()
+    +rotate()
+    +scale()
+    +position()
+    +layer()
+    +angle()
+    +scale()
+    +toString()
+}
+
+interface ICollider {
+    +centroid()
+    +toString()
+}
+
+class Collider {
+    -figuraDoCollider
+    +centroid()
+    +toString()
+}
+
+interface IGameObject {
+    +name()
+    +transform()
+    +collider()
+}
+
+class GameObject {
+    -name
+    -transform
+    -collider
+    +name()
+    +transform()
+    +collider()
+    +toString()
+}
+
+ITransform <|.. Transform
+ICollider <|.. Collider
+IGameObject <|.. GameObject
+Transform <-- GameObject
+Collider <-- GameObject
+}
+@enduml

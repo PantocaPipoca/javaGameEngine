@@ -1,7 +1,6 @@
 package GameEngine;
 
-import Figuras.Poligono;
-import Figuras.Ponto;
+import Figuras.*;
 
 /**
  * Classe que representa um collider de um objeto.
@@ -28,6 +27,93 @@ public class ColliderPoligono implements ICollider{
         // Temos uma copia do nosso preset de acordo com o modelo gui
         poligonoCollider = preset;
 
+    }
+
+    /**
+     * Verifica se um circulo colide com uma figura geometrica
+     * @param f figura geometrica a ser verificada
+     * @return true se colidem, false caso contrario
+     */
+    @Override
+    public boolean colide(ICollider other) {
+        return other.colideComPoligono(this);
+    }
+
+    /**
+     * Verifica se um poligono colide com um circulo
+     * @param c circulo a ser verificado
+     * @return true se colidem, false caso contrario
+     */
+    @Override
+    public boolean colideComCirculo(ColliderCirculo cc) {
+        return cc.colideComPoligono(this);
+    }
+
+    /**
+     * Verifica se um poligono colide com outro poligono
+     * @param p poligono a ser verificado
+     * @return true se colidem, false caso contrario
+     */
+    @Override
+    public boolean colideComPoligono(ColliderPoligono cp) {
+        for (Segmento s1 : this.segmentos) {
+            for (Segmento s2 : cp.segmentos) {
+                if (s1.intersects(s2))
+                    return true;
+            }
+        }
+        if (pontoEstaDentroDoPoligono(this.pontos[0], p))
+            return true;
+        if (pontoEstaDentroDoPoligono(p.pontos[0], this))
+            return true;
+        return false;
+    }
+
+    /**
+     * Verifica se um ponto esta dentro de um poligono
+     * @param point ponto a ser verificado
+     * @param poly poligono a ser verificado
+     * @return true se o ponto esta dentro do poligono, false caso contrario
+     */
+    public static boolean pontoEstaDentroDoPoligono(Ponto point, Poligono poly) {
+        int count = 0;
+        int n = poly.pontos.length;
+
+        for (int i = 0; i < n; i++) {
+            Ponto a = poly.pontos[i];
+            Ponto b = poly.pontos[(i + 1) % n];
+            if (rayInterssetaSegmento(point, a, b)) {
+                count++;
+            }
+        }
+        return (count % 2 == 1);
+    }
+
+    /**
+     * Verifica se um ponto interseta um segmento de reta
+     * @param p ponto a ser verificado
+     * @param a ponto inicial do segmento
+     * @param b ponto final do segmento
+     * @return true se o ponto interseta o segmento, false caso contrario
+     */
+    public static boolean rayInterssetaSegmento(Ponto p, Ponto a, Ponto b) {
+        if(a.y() > b.y()){
+            Ponto temp = a;
+            a = b;
+            b = temp;
+        }
+        if(p.y() < a.y() || p.y() > b.y()){
+            return false;
+        }
+        if(a.x() >= p.x() && b.x() >= p.x()){
+            return true;
+        }
+        if(a.x() < p.x() && b.x() < p.x()){
+            return false;
+        }
+        double m = (b.y() - a.y()) / (b.x() - a.x());
+        double xi = a.x() + (p.y() - a.y()) / m;
+        return p.x() <= xi;
     }
 
     /**

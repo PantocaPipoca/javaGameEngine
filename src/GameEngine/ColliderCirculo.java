@@ -49,6 +49,7 @@ public class ColliderCirculo implements ICollider{
      public boolean colideComPoligono(ColliderPoligono cp) {
          return cp.colideComCirculo(this);
      }
+
     /**
      * Verifica se um circulo colide com um outro circulo verificando se a distancia entre os centros dos circulos e menor ou igual a soma dos raios dos circulos.
      * @param c
