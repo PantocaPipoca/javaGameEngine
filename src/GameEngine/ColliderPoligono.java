@@ -46,7 +46,26 @@ public class ColliderPoligono implements ICollider{
      */
     @Override
     public boolean colideComCirculo(ColliderCirculo cc) {
-        return cc.colideComPoligono(this);
+        Ponto[] pontos = poligonoCollider.getPontos();
+        // Verifica se o centro do círculo está dentro do polígono
+        if (pontoEstaDentroDoPoligono(cc.getFigura().centroide(), poligonoCollider))
+            return true;
+        
+        // Para cada segmento do polígono, verifica se interseta o círculo
+        for (Segmento s : poligonoCollider.getSegmentos()) {
+            if (s.interseta(cc.getFigura()))
+                return true;
+        }
+        
+        // Verifica se algum vértice do polígono está dentro do círculo
+        for (Ponto p : pontos) {
+            double dx = cc.getFigura().centroide().x() - p.x();
+            double dy = cc.getFigura().centroide().y() - p.y();
+            double distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance <= cc.getFigura().raio() + 1e-9)
+                return true;
+        }
+        return false;
     }
 
     /**
