@@ -1,6 +1,6 @@
 package GameEngine;
 
-import Figuras.FiguraGeometrica;
+import Figuras.Poligono;
 import Figuras.Ponto;
 
 /**
@@ -8,25 +8,25 @@ import Figuras.Ponto;
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (23/03/25)
  **/
-public class Collider implements ICollider{
+public class ColliderPoligono implements ICollider{
     
-    private FiguraGeometrica figuraDoCollider;
-    public Collider(FiguraGeometrica f, ITransform t) {
+    private Poligono poligonoCollider;
+    public ColliderPoligono(Poligono p, ITransform t) {
         
         // Cria uma copia do preset da figura do collider para reuso futuro (Tambem pq e imutavel ne)
-        FiguraGeometrica preset = f.clone();
+        Poligono preset = (Poligono) p.clone();
 
         // Pega o centroide do preset para sabermos o ponto partida
         Ponto presetPos = preset.centroide();
 
         // Aplica as transformacoes no preset
-        preset = preset.scale(t.scale());
+        preset = (Poligono) preset.scale(t.scale());
         // Move o preset de maneira a que o centroide fique na posicao do centroide do transform
         preset = preset.translate(t.position().x() - presetPos.x(), t.position().y() - presetPos.y());
-        preset = preset.rotate(t.angle(), t.position());
+        preset = (Poligono) preset.rotate(t.angle(), t.position());
 
         // Temos uma copia do nosso preset de acordo com o modelo gui
-        figuraDoCollider = preset;
+        poligonoCollider = preset;
 
     }
 
@@ -35,7 +35,7 @@ public class Collider implements ICollider{
      * @return centroide do collider
      */
     public Ponto centroid() {
-        return figuraDoCollider.centroide();
+        return poligonoCollider.centroide();
     }
 
     /**
@@ -43,7 +43,7 @@ public class Collider implements ICollider{
      * @return string com a informacao de colisao
      */
     public String toString() {
-        return figuraDoCollider.toString();
+        return poligonoCollider.toString();
     }
 
 }

@@ -7,6 +7,11 @@ package Figuras;
  *      Tres pontos consecutivos nao podem ser colineares
  *      Nenhma aresta pode intersectar outra
  * **/
+
+import GameEngine.ICollider;
+import GameEngine.ITransform;
+import GameEngine.ColliderPoligono;
+
 public class Poligono extends FiguraGeometrica {
     
     protected Ponto[] pontos;
@@ -279,5 +284,9 @@ public class Poligono extends FiguraGeometrica {
             newPontos[i] = new Ponto(x, y);
         }
         return new Poligono(n + " " + pontosToString(newPontos));
+    }
+
+    public ICollider colliderInit(ITransform t) {
+        return new ColliderPoligono(this, t);
     }
 }
