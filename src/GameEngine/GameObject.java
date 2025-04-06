@@ -15,7 +15,7 @@ public class GameObject implements IGameObject {
     public GameObject(String name, ITransform transform, FiguraGeometrica figura) {
         this.name = name;
         this.transform = transform;
-        this.collider = new Collider(figura, transform);
+        this.collider = figura.colliderInit(transform);
     }
     
     public String name() {

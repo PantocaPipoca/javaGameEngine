@@ -1,5 +1,9 @@
 package Figuras;
 
+import GameEngine.ITransform;
+import GameEngine.ICollider;
+import GameEngine.ColliderCirculo;
+
 /**
  * Classe que representa um círculo.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
@@ -71,48 +75,7 @@ public class Circulo extends FiguraGeometrica {
     public String toString() {
         return String.format("%s %.2f", centro.toString(), raio);
     }
-
-    /**
-     * Verifica se um circulo colide com uma figura geometrica
-     * @param f figura geometrica a ser verificada
-     * @return true se colidem, false caso contrario
-     */
-    @Override
-    public boolean colide(FiguraGeometrica f) {
-        return f.colideComCirculo(this);
-    }
-
-    /**
-     * Verifica se um circulo colide com um poligono verificando se o circulo esta dentro do poligono ou se algum segmento do poligono interseta o circulo ou se algum ponto do poligono esta dentro do circulo.
-     * @param p Poligono a ser verificado
-     * @return true se colidem, false caso contrario
-     */
-     @Override
-     public boolean colideComPoligono(Poligono p) {
-         if (Poligono.pontoEstaDentroDoPoligono(this.centro, p))
-             return true;
-         for (Segmento s : p.segmentos) {
-             if (s.interseta(this))
-                 return true;
-         }
-         for (Ponto pnt : p.pontos) {
-             double dx = this.centro.x() - pnt.x();
-             double dy = this.centro.y() - pnt.y();
-             if (Math.sqrt(dx * dx + dy * dy) <= this.raio)
-                 return true;
-         }
-         return false;
-     }
-    /**
-     * Verifica se um circulo colide com um outro circulo verificando se a distancia entre os centros dos circulos e menor ou igual a soma dos raios dos circulos.
-     * @param c
-     * @return true se colidem, false caso contrario
-     */
-    public boolean colideComCirculo(Circulo c) {
-        double distancia = this.centro.distancia(c.centro());
-        return distancia <= this.raio + c.raio();
-    }
-
+    
     /**
      * Devolve o ponto que representa o centroide do circulo (o centro do circulo)
      * @return ponto que representa o centroide do circulo
@@ -146,5 +109,9 @@ public class Circulo extends FiguraGeometrica {
      */
     public Circulo rotate(double angle, Ponto centro) {
         return this;
+    }
+
+    public ICollider colliderInit(ITransform t) {
+        return new ColliderCirculo(this, t);
     }
 }
