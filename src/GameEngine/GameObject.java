@@ -9,15 +9,24 @@ import Figuras.Ponto;
  * @version 1.0 (23/03/25)
  **/
 public class GameObject implements IGameObject {
+    private final FiguraGeometrica originalFigura;
     private String name;
     private ITransform transform;
     private ICollider collider;
     private Movement movement;
     
+    /**
+     * Construtor para um objeto de jogo
+     * @param name nome do objeto
+     * @param transform transformacao do objeto
+     * @param figura figura geometrica do objeto
+     * @param movement movimento do objeto
+     */
     public GameObject(String name, ITransform transform, FiguraGeometrica figura, Movement movement) {
         this.movement = movement;
         this.name = name;
         this.transform = transform;
+        this.originalFigura = figura;
         this.collider = figura.colliderInit(transform);
     }
     
@@ -45,7 +54,7 @@ public class GameObject implements IGameObject {
     }
 
     public void updateCollider() {
-        collider = collider.getFigura().colliderInit(transform);
+        collider = originalFigura.colliderInit(transform);
     }
 
 }

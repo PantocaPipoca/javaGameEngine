@@ -1,4 +1,8 @@
 package Figuras;
+import GameEngine.ICollider;
+import GameEngine.ITransform;
+import GameEngine.ColliderPoligono;
+
 /** 
  * Classe que representa um poligono
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
@@ -7,11 +11,6 @@ package Figuras;
  *      Tres pontos consecutivos nao podem ser colineares
  *      Nenhma aresta pode intersectar outra
  * **/
-
-import GameEngine.ICollider;
-import GameEngine.ITransform;
-import GameEngine.ColliderPoligono;
-
 public class Poligono extends FiguraGeometrica {
     
     private Ponto[] pontos;
@@ -130,6 +129,10 @@ public class Poligono extends FiguraGeometrica {
         return sb.toString().trim();
     }
 
+    /**
+     * Calcula o centroide do poligono
+     * @return centroide do poligono
+     */
     public Ponto centroide() {
         double x = 0;
         double y = 0;

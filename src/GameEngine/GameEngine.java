@@ -3,15 +3,27 @@ package GameEngine;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe que representa um collider de um objeto.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (23/03/25)
+ **/
 public class GameEngine {
     private List<IGameObject> gameObjects;
     private List<LayerGroup> layerGroups;
 
+    /**
+     * Construtor para o GameEngine
+     */
     public GameEngine() {
         gameObjects = new ArrayList<>();
         layerGroups = new ArrayList<>();
     }
 
+    /**
+     * Adiciona um objeto ao GameEngine
+     * @param go objeto a ser adicionado
+     */
     public void add(GameObject go) {
         gameObjects.add(go);
         int layer = go.transform().layer();
@@ -19,6 +31,10 @@ public class GameEngine {
         group.add(go);
     }
 
+    /**
+     * Remove um objeto do GameEngine
+     * @param go objeto a ser removido
+     */
     public void destroy(GameObject go) {
         gameObjects.remove(go);
         LayerGroup group = getLayerGroup(go.transform().layer());
@@ -27,6 +43,10 @@ public class GameEngine {
         }
     }
 
+    /**
+     * Simula o GameEngine por um numero de frames
+     * @param frames
+     */
     public void simulateFrames(int frames) {
         for (int i = 0; i < frames; i++) {
             for (IGameObject go : gameObjects) {
@@ -40,6 +60,12 @@ public class GameEngine {
         }
     }
 
+    /**
+     * Atualiza a camada de um objeto
+     * @param go objeto a ser atualizado
+     * @param oldLayer o layer antigo
+     * @param newLayer o novo layer
+     */
     private void updateObjectLayer(IGameObject go, int oldLayer, int newLayer) {
         LayerGroup oldGroup = getLayerGroup(oldLayer);
         if (oldGroup != null) {
@@ -49,6 +75,11 @@ public class GameEngine {
         newGroup.add(go);
     }
 
+    /**
+     * Retorna o grupo de camadas correspondente a um layer
+     * @param layer layer a ser verificado
+     * @return o grupo de camadas correspondente
+     */
     private LayerGroup getLayerGroup(int layer) {
         for (LayerGroup group : layerGroups) {
             if (group.getLayer() == layer) {
@@ -58,6 +89,11 @@ public class GameEngine {
         return null;
     }
 
+    /**
+     * Cria um grupo de camadas caso ele não exista
+     * @param layer layer a ser verificado
+     * @return o grupo de camadas correspondente
+     */
     private LayerGroup getOrCreateLayerGroup(int layer) {
         LayerGroup group = getLayerGroup(layer);
         if (group == null) {
@@ -67,6 +103,10 @@ public class GameEngine {
         return group;
     }
 
+    /**
+     * Verifica as colisões entre os objetos do GameEngine
+     * @return uma lista de strings com os resultados das colisões
+     */
     public List<String> getColisoes() {
         List<String> resultados = new ArrayList<>();
         for (LayerGroup group : layerGroups) {
@@ -75,6 +115,11 @@ public class GameEngine {
         return resultados;
     }
 
+    /**
+     * Verifica as colisões entre os objetos de um grupo
+     * @param grupo grupo de objetos a ser verificado
+     * @return uma lista de strings com os resultados das colisões
+     */
     private List<String> verificarColisoesEmGrupo(List<IGameObject> grupo) {
         List<String> resultadosGrupo = new ArrayList<>();
         int size = grupo.size();

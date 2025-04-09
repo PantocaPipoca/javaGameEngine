@@ -80,7 +80,7 @@ public class Segmento {
         double dq = (cx - px) * (cx - px) + (cy - py) * (cy - py);
         double rq = r * r;
 
-        return dq <= rq;
+        return dq < rq;
 
     }
     
