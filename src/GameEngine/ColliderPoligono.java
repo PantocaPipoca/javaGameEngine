@@ -62,7 +62,7 @@ public class ColliderPoligono implements ICollider{
             double dx = cc.getFigura().centroide().x() - p.x();
             double dy = cc.getFigura().centroide().y() - p.y();
             double distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance <= cc.getFigura().raio() + 1e-9)
+            if (distance < cc.getFigura().raio())
                 return true;
         }
         return false;

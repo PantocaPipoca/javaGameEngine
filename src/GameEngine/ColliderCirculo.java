@@ -59,7 +59,7 @@ public class ColliderCirculo implements ICollider{
         double distance = this.centroid().distancia(cc.centroid());
         double r1 = this.circuloCollider.raio();
         double r2 = cc.circuloCollider.raio();
-        return distance <= (r1 + r2 + 1e-9);
+        return distance < r1 + r2;
     }
 
     /**
