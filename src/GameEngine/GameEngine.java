@@ -139,4 +139,12 @@ public class GameEngine {
         }
         return resultadosGrupo;
     }
+
+    /**
+     * Retorna a lista de objetos do GameEngine
+     * @return lista de objetos do GameEngine
+     */
+    public List<IGameObject> getGameObjects() {
+        return gameObjects;
+    }
 }
