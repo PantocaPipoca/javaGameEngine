@@ -7,7 +7,7 @@ import GameEngine.ColliderCirculo;
 /**
  * Classe que representa um círculo.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version 1.1 (18/03/25)
+ * @version 1.1 (12/04/25)
  **/
 public class Circulo extends FiguraGeometrica {
     private Ponto centro;

@@ -6,7 +6,7 @@ import Figuras.Ponto;
 /**
  * Classe que representa um collider de um objeto.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version 1.0 (23/03/25)
+ * @version 1.0 (12/04/25)
  **/
 public class ColliderCirculo implements ICollider{
     
@@ -27,7 +27,6 @@ public class ColliderCirculo implements ICollider{
 
         // Temos uma copia do nosso preset de acordo com o modelo gui
         circuloCollider = preset;
-
     }
 
     /**
