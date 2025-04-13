@@ -6,7 +6,7 @@ import Figuras.Ponto;
 /**
  * Classe que representa um objeto de jogo.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version 1.0 (23/03/25)
+ * @version 1.0 (12/04/25)
  **/
 public class GameObject implements IGameObject {
     private final FiguraGeometrica originalFigura;
@@ -46,6 +46,9 @@ public class GameObject implements IGameObject {
         return name + "\n" + transform.toString() + "\n" + collider.toString();
     }
 
+    /**
+     * Atualiza o objeto de jogo
+     */
     public void update() {
         transform.move(new Ponto(movement.dx(), movement.dy()), movement.dLayer());
         transform.rotate(movement.dAngle());
@@ -53,6 +56,9 @@ public class GameObject implements IGameObject {
         updateCollider();
     }
 
+    /**
+     * Atualiza o collider do objeto de jogo
+     */
     public void updateCollider() {
         collider = originalFigura.colliderInit(transform);
     }
