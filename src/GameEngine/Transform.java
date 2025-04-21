@@ -1,19 +1,19 @@
 package GameEngine;
 
-import Figuras.Ponto;
+import Figures.Point;
 
 /**
- * Classe que representa um transformer de um objeto.
- * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version 1.0 (23/03/25)
+ * Class that represents a transformer for an object.
+ * Author: Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * Version: 1.0 (23/03/25)
  **/
 public class Transform implements ITransform {
-    private Ponto pos;
+    private Point pos;
     private int layer;
     private double angle;
     private double scale;
     
-    public Transform(Ponto pos, int layer, double angle, double scale) {
+    public Transform(Point pos, int layer, double angle, double scale) {
         this.pos = pos;
         this.layer = layer;
         this.angle = angle;
@@ -21,18 +21,18 @@ public class Transform implements ITransform {
     }
     
     /**
-     * Move o objeto de acordo com o vetor dPos e a camada dlayer
-     * @param dPos vetor de deslocamento
-     * @param dlayer deslocamento de camada
+     * Moves the object according to the vector dPos and the layer dLayer
+     * @param dPos displacement vector
+     * @param dLayer layer displacement
      */
-    public void move(Ponto dPos, int dlayer) {
+    public void move(Point dPos, int dLayer) {
         pos = pos.translate(dPos.x(), dPos.y());
-        layer += dlayer;
+        layer += dLayer;
     }
     
     /**
-     * Rotaciona o objeto de acordo com dTheta
-     * @param dTheta angulo de rotacao
+     * Rotates the object according to dTheta
+     * @param dTheta rotation angle
      */
     public void rotate(double dTheta) {
         angle = (angle + dTheta) % 360;
@@ -40,15 +40,15 @@ public class Transform implements ITransform {
     }
     
     /**
-     * Escala o objeto de acordo com dScale
-     * @param dScale escala
+     * Scales the object according to dScale
+     * @param dScale scale factor
      */
     public void scale(double dScale) {
         scale += dScale;
         if (scale < 0) scale = 0;
     }
     
-    public Ponto position() {
+    public Point position() {
         return pos;
     }
     
@@ -67,5 +67,4 @@ public class Transform implements ITransform {
     public String toString() {
         return String.format("%s %d %.2f %.2f", pos.toString(), layer, angle, scale);
     }
-    
 }

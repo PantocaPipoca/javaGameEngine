@@ -1,12 +1,12 @@
 package GameEngine;
 
-import Figuras.Ponto;
+import Figures.Point;
 
 public interface ITransform {
-    void move(Ponto dPos, int dlayer);
+    void move(Point dPos, int dlayer);
     void rotate(double dTheta);
     void scale(double dScale);
-    Ponto position();
+    Point position();
     int layer();
     double angle();
     double scale();

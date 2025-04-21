@@ -1,9 +1,9 @@
 package GameEngine;
 
 /**
- * Classe que representa um collider de um objeto.
- * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version 1.0 (12/04/25)
+ * Class that represents the movement of an object.
+ * Author: Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * Version: 1.0 (12/04/25)
  **/
 public class Movement {
     private double dx, dy;
@@ -11,12 +11,12 @@ public class Movement {
     private double dAngle, dScale;
 
     /**
-     * Construtor para o movimento
-     * @param dx quantidade de movimento no eixo x
-     * @param dy quantidade de movimento no eixo y
-     * @param dLayer quantidade de movimento na camada
-     * @param dAngle angulo de movimento
-     * @param dScale escala de movimento
+     * Constructor for the movement
+     * @param dx amount of movement on the x-axis
+     * @param dy amount of movement on the y-axis
+     * @param dLayer amount of movement in the layer
+     * @param dAngle angle of movement
+     * @param dScale scale of movement
      */
     public Movement(double dx, double dy, int dLayer, double dAngle, double dScale) {
         this.dx = dx;

@@ -1,13 +1,13 @@
 import java.util.List;
 import java.util.Scanner;
 
-import Figuras.*;
+import Figures.*;
 import GameEngine.*;
 
 /**
- * Classe principal que apenas le os dados de entrada e cria os objetos necessarios neste caso le os dados para criar uma figura geometrica e imprime a sua representacao
- * @author Daniel Pantyukhov a83896
- * @version 1.0 (18/03/25)
+ * Main class that only reads input data and creates the necessary objects. In this case, it reads the data to create a geometric figure and prints its representation.
+ * Author: Daniel Pantyukhov a83896
+ * Version: 1.0 (18/03/25)
  **/
 public class Main {
     public static void main(String[] args) {
@@ -28,17 +28,17 @@ public class Main {
             int layer = Integer.parseInt(tTokens[2]);
             double angle = Double.parseDouble(tTokens[3]);
             double scale = Double.parseDouble(tTokens[4]);
-            ITransform transform = new Transform(new Ponto(x, y), layer, angle, scale);
+            ITransform transform = new Transform(new Point(x, y), layer, angle, scale);
             
             String colliderLine = sc.nextLine().trim();
             String[] cTokens = colliderLine.split("\\s+");
-            FiguraGeometrica figura;
+            GeometricFigure figure;
             if (cTokens.length == 3) {
-                figura = new Circulo(colliderLine);
+                figure = new Circle(colliderLine);
             } else {
                 int j = cTokens.length / 2;
                 String polyStr = j + " " + colliderLine;
-                figura = new Poligono(polyStr);
+                figure = new Polygon(polyStr);
             }
             
             String[] mTokens = sc.nextLine().trim().split("\\s+");
@@ -49,17 +49,17 @@ public class Main {
             double dScale = Double.parseDouble(mTokens[4]);
             Movement movement = new Movement(dx, dy, dLayer, dAngle, dScale);
             
-            // Cria o GameObject e adiciona-o à engine (a engine já gerencia a organização por layer)
-            GameObject go = new GameObject(name, transform, figura, movement);
+            // Creates the GameObject and adds it to the engine (the engine already manages the organization by layer)
+            GameObject go = new GameObject(name, transform, figure, movement);
             engine.add(go);
         }
         
-        // Simula os frames (o update dos GameObjects já atualiza os grupos caso haja mudança de layer)
+        // Simulates the frames (the update of GameObjects already updates the groups if there is a layer change)
         engine.simulateFrames(frames);
         
-        // Obtém e imprime os resultados de colisões (apenas o main realiza os prints)
-        List<String> colisoes = engine.getColisoes();
-        for (String res : colisoes) {
+        // Gets and prints the collision results (only the main performs the prints)
+        List<String> collisions = engine.getCollisions();
+        for (String res : collisions) {
             System.out.println(res);
         }
         

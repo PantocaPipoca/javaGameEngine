@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe que representa um collider de um objeto.
- * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version 1.0 (12/04/25)
+ * Class that represents a collider for an object.
+ * Author: Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * Version: 1.0 (12/04/25)
  **/
 public class LayerGroup {
     private int layer;
     private List<IGameObject> objects;
 
     /**
-     * Construtor para o LayerGroup
-     * @param layer camada do grupo
+     * Constructor for the LayerGroup
+     * @param layer layer of the group
      */
     public LayerGroup(int layer) {
         this.layer = layer;
@@ -22,24 +22,24 @@ public class LayerGroup {
     }
 
     /**
-     * Retorna a camada do grupo
-     * @return camada do grupo
+     * Returns the layer of the group
+     * @return layer of the group
      */
     public int getLayer() {
         return layer;
     }
 
     /**
-     * Retorna a lista de objetos do grupo
-     * @return lista de objetos do grupo
+     * Returns the list of objects in the group
+     * @return list of objects in the group
      */
     public List<IGameObject> getObjects() {
         return objects;
     }
 
     /**
-     * Adiciona um objeto ao grupo
-     * @param go objeto a ser adicionado
+     * Adds an object to the group
+     * @param go object to be added
      */
     public void add(IGameObject go) {
         if (!objects.contains(go)) {
@@ -48,17 +48,17 @@ public class LayerGroup {
     }
 
     /**
-     * Remove um objeto do grupo
-     * @param go objeto a ser removido
+     * Removes an object from the group
+     * @param go object to be removed
      */
     public void remove(IGameObject go) {
         objects.remove(go);
     }
 
     /**
-     * Verifica se o grupo contém um objeto
-     * @param go objeto a ser verificado
-     * @return true se o grupo contém o objeto, false caso contrário
+     * Checks if the group contains an object
+     * @param go object to be checked
+     * @return true if the group contains the object, false otherwise
      */
     public boolean contains(IGameObject go) {
         return objects.contains(go);

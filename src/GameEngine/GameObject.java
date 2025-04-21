@@ -1,33 +1,33 @@
 package GameEngine;
 
-import Figuras.FiguraGeometrica;
-import Figuras.Ponto;
+import Figures.GeometricFigure;
+import Figures.Point;
 
 /**
- * Classe que representa um objeto de jogo.
- * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version 1.0 (12/04/25)
+ * Class that represents a game object.
+ * Author: Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * Version: 1.0 (12/04/25)
  **/
 public class GameObject implements IGameObject {
-    private final FiguraGeometrica originalFigura;
+    private final GeometricFigure originalFigure;
     private String name;
     private ITransform transform;
     private ICollider collider;
     private Movement movement;
     
     /**
-     * Construtor para um objeto de jogo
-     * @param name nome do objeto
-     * @param transform transformacao do objeto
-     * @param figura figura geometrica do objeto
-     * @param movement movimento do objeto
+     * Constructor for a game object
+     * @param name name of the object
+     * @param transform transformation of the object
+     * @param figure geometric figure of the object
+     * @param movement movement of the object
      */
-    public GameObject(String name, ITransform transform, FiguraGeometrica figura, Movement movement) {
+    public GameObject(String name, ITransform transform, GeometricFigure figure, Movement movement) {
         this.movement = movement;
         this.name = name;
         this.transform = transform;
-        this.originalFigura = figura;
-        this.collider = figura.colliderInit(transform);
+        this.originalFigure = figure;
+        this.collider = figure.colliderInit(transform);
     }
     
     public String name() {
@@ -47,20 +47,20 @@ public class GameObject implements IGameObject {
     }
 
     /**
-     * Atualiza o objeto de jogo
+     * Updates the game object
      */
     public void update() {
-        transform.move(new Ponto(movement.dx(), movement.dy()), movement.dLayer());
+        transform.move(new Point(movement.dx(), movement.dy()), movement.dLayer());
         transform.rotate(movement.dAngle());
         transform.scale(movement.dScale());
         updateCollider();
     }
 
     /**
-     * Atualiza o collider do objeto de jogo
+     * Updates the collider of the game object
      */
     public void updateCollider() {
-        collider = originalFigura.colliderInit(transform);
+        collider = originalFigure.colliderInit(transform);
     }
 
 }
