@@ -31,15 +31,15 @@ public class GameObject implements IGameObject {
         this.collider = figure.colliderInit(transform);
         this.behaviour = behaviour;
     }
-    
+
     public String name() {
         return name;
     }
-    
+
     public ITransform transform() {
         return transform;
     }
-    
+
     public ICollider collider() {
         return collider;
     }
@@ -60,6 +60,7 @@ public class GameObject implements IGameObject {
      * Updates the game object
      */
     public void update() {
+        System.out.println(transform.position());
         transform.move(new Point(movement.dx(), movement.dy()), movement.dLayer());
         transform.rotate(movement.dAngle());
         transform.scale(movement.dScale());

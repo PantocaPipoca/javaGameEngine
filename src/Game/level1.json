@@ -1,0 +1,312 @@
+{
+    "player": {
+      "name": "Player1",
+      "startPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "layer": 1,
+      "angle": 0.0,
+      "scale": 1.0,
+
+      "initialState": "Idle",
+
+      "figure": {
+        "type": "circle",
+        "x": 0,
+        "y": 0,
+        "radius": 20
+      },
+
+      "movement": {
+        "dx": 0.0,
+        "dy": 0.0,
+        "dLayer": 0,
+        "dAngle": 0.0,
+        "dScale": 0.0
+      },
+
+      "maxHealth": 100,
+      "weaponId": "starter_gun",
+      "megazineSize": 5
+    },
+    "spawnPoints": [
+      {
+        "x": 837,
+        "y": 151
+      },
+      {
+        "x": 228,
+        "y": 122
+      },
+      {
+        "x": 204,
+        "y": 432
+      },
+      {
+        "x": 829,
+        "y": 484
+      },
+      {
+        "x": 838,
+        "y": 654
+      },
+      {
+        "x": 534,
+        "y": 345
+      },
+      {
+        "x": 193,
+        "y": 569
+      },
+      {
+        "x": 331,
+        "y": 659
+      },
+      {
+        "x": 967,
+        "y": 655
+      },
+      {
+        "x": 479,
+        "y": 690
+      },
+      {
+        "x": 597,
+        "y": 586
+      },
+      {
+        "x": 962,
+        "y": 232
+      },
+      {
+        "x": 92,
+        "y": 294
+      },
+      {
+        "x": 733,
+        "y": 160
+      },
+      {
+        "x": 171,
+        "y": 361
+      },
+      {
+        "x": 722,
+        "y": 428
+      },
+      {
+        "x": 476,
+        "y": 437
+      },
+      {
+        "x": 739,
+        "y": 685
+      },
+      {
+        "x": 387,
+        "y": 473
+      },
+      {
+        "x": 970,
+        "y": 548
+      }
+    ],
+    "enemies": [
+      {
+        "id": "e1",
+        "type": "terrestre_atirador",
+        "layer": 1,
+        "angle": 0.0,
+        "scale": 1.0,
+  
+        "figure": {
+          "type": "circle",
+          "x": 0,
+          "y": 0,
+          "radius": 20
+        },
+  
+        "movement": {
+          "dx": 0.0,
+          "dy": 0.0,
+          "dLayer": 0,
+          "dAngle": 0.0,
+          "dScale": 0.0
+        },
+  
+        "maxHealth": 30,
+        "spawnIndex": 0,
+        "weaponId": "enemy_gun",
+        "path": [
+          {
+            "x": 110,
+            "y": 100
+          },
+          {
+            "x": 150,
+            "y": 120
+          },
+          {
+            "x": 130,
+            "y": 140
+          }
+        ],
+        "followsPlayer": false,
+        "detectionZone": {
+          "type": "circle",
+          "radius": 80
+        },
+        "explodesOnTouch": true,
+        "dropChance": {
+          "health": 0.2,
+          "powerup": 0.2,
+          "ammo": {
+            "type": "normal",
+            "chance": 0.5,
+            "minAmount": 2,
+            "maxAmount": 5
+          }
+        }
+      },
+      {
+        "id": "e2",
+        "type": "terrestre_explosivo",
+        "layer": 1,
+        "angle": 0.0,
+        "scale": 1.0,
+  
+        "figure": {
+          "type": "circle",
+          "x": 0,
+          "y": 0,
+          "radius": 20
+        },
+  
+        "movement": {
+          "dx": 0.0,
+          "dy": 0.0,
+          "dLayer": 0,
+          "dAngle": 0.0,
+          "dScale": 0.0
+        },
+  
+        "maxHealth": 30,
+        "spawnIndex": 5,
+        "followsPlayer": false,
+        "detectionZone": {
+          "type": "circle",
+          "radius": 90
+        },
+        "explodesOnTouch": true,
+        "dropChance": {
+          "health": 0.2,
+          "powerup": 0.2,
+          "ammo": {
+            "type": "special",
+            "chance": 0.5,
+            "minAmount": 2,
+            "maxAmount": 5
+          }
+        }
+      },
+      {
+        "id": "e3",
+        "type": "voador_explosivo",
+        "layer": 2,
+        "angle": 0.0,
+        "scale": 1.0,
+  
+        "figure": {
+          "type": "circle",
+          "x": 0,
+          "y": 0,
+          "radius": 20
+        },
+  
+        "movement": {
+          "dx": 0.0,
+          "dy": 0.0,
+          "dLayer": 0,
+          "dAngle": 0.0,
+          "dScale": 0.0
+        },
+  
+        "maxHealth": 30,
+        "spawnIndex": 10,
+        "followsPlayer": false,
+        "detectionZone": {
+          "type": "circle",
+          "radius": 70
+        },
+        "explodesOnTouch": true,
+        "requiresSpecialWeaponToDestroy": true,
+        "dropChance": {
+          "health": 0.2,
+          "powerup": 0.2,
+          "ammo": {
+            "type": "special",
+            "chance": 0.5,
+            "minAmount": 2,
+            "maxAmount": 5
+          }
+        }
+      },
+      {
+        "id": "e4",
+        "type": "terrestre_passivo",
+        "layer": 1,
+        "angle": 0.0,
+        "scale": 1.0,
+  
+        "figure": {
+          "type": "circle",
+          "x": 0,
+          "y": 0,
+          "radius": 20
+        },
+  
+        "movement": {
+          "dx": 0.0,
+          "dy": 0.0,
+          "dLayer": 0,
+          "dAngle": 0.0,
+          "dScale": 0.0
+        },
+  
+        "maxHealth": 30,
+        "spawnIndex": 1,
+        "retreatAfterHit": true,
+        "detectionZone": {
+          "type": "circle",
+          "radius": 90
+        },
+        "explodesOnTouch": false,
+        "dropChance": {
+          "health": 0.2,
+          "powerup": 0.2,
+          "ammo": {
+            "type": "special",
+            "chance": 0.5,
+            "minAmount": 2,
+            "maxAmount": 5
+          }
+        }
+      }
+    ],
+    "camera": {
+      "followTarget": "player"
+    },
+    "map": {
+      "backgroundImage": "",
+      "bounds": {
+        "width": 1024,
+        "height": 768
+      }
+    },
+    "metadata": {
+      "levelName": "First Mission",
+      "difficulty": "Normal",
+      "enemyCount": 5
+    }
+  }

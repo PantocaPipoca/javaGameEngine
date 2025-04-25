@@ -9,7 +9,6 @@ public class Room {
     List<Enemy> enemies;
     List<GameObject> figures;
     List<Point> spawnPoints;
-    Player player;
 
     public Room(List<Enemy> enemies, List<GameObject> figures, List<Point> spawnPoints, GameObject player) {
         this.enemies = enemies;
@@ -25,8 +24,5 @@ public class Room {
     }
     public List<Point> getSpawnPoints() {
         return spawnPoints;
-    }
-    public Player getPlayer() {
-        return player;
     }
 }
