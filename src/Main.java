@@ -1,7 +1,8 @@
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import Figures.*;
+import Game.*;
 import GameEngine.*;
 
 /**
@@ -11,58 +12,34 @@ import GameEngine.*;
  **/
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        
-        int frames = Integer.parseInt(sc.nextLine().trim());
-        int n = Integer.parseInt(sc.nextLine().trim());
-        
-        GameEngine engine = new GameEngine();
-        
-        for (int i = 0; i < n; i++) {
-            String name = sc.nextLine().trim();
-            
-            String line = sc.nextLine().trim();
-            String[] tTokens = line.split("\\s+");
-            double x = Double.parseDouble(tTokens[0]);
-            double y = Double.parseDouble(tTokens[1]);
-            int layer = Integer.parseInt(tTokens[2]);
-            double angle = Double.parseDouble(tTokens[3]);
-            double scale = Double.parseDouble(tTokens[4]);
-            ITransform transform = new Transform(new Point(x, y), layer, angle, scale);
-            
-            String colliderLine = sc.nextLine().trim();
-            String[] cTokens = colliderLine.split("\\s+");
-            GeometricFigure figure;
-            if (cTokens.length == 3) {
-                figure = new Circle(colliderLine);
-            } else {
-                int j = cTokens.length / 2;
-                String polyStr = j + " " + colliderLine;
-                figure = new Polygon(polyStr);
-            }
-            
-            String[] mTokens = sc.nextLine().trim().split("\\s+");
-            double dx = Double.parseDouble(mTokens[0]);
-            double dy = Double.parseDouble(mTokens[1]);
-            int dLayer = Integer.parseInt(mTokens[2]);
-            double dAngle = Double.parseDouble(mTokens[3]);
-            double dScale = Double.parseDouble(mTokens[4]);
-            Movement movement = new Movement(dx, dy, dLayer, dAngle, dScale);
-            
-            // Creates the GameObject and adds it to the engine (the engine already manages the organization by layer)
-            GameObject go = new GameObject(name, transform, figure, movement);
-            engine.add(go);
-        }
-        
-        // Simulates the frames (the update of GameObjects already updates the groups if there is a layer change)
-        engine.simulateFrames(frames);
-        
-        // Gets and prints the collision results (only the main performs the prints)
-        List<String> collisions = engine.getCollisions();
-        for (String res : collisions) {
-            System.out.println(res);
-        }
-        
-        sc.close();
+
+        Health playerHealth = new Health(100);
+        IEntity playerBehaviour = new Player(playerHealth);
+        ITransform playerTransform = new Transform(new Point(0, 0), 0, 0, 1);
+        GeometricFigure playerFigure = new Circle("0 0 1");
+        Movement playerMovement = new Movement(1, 1, 0, 0, 0);
+        GameObject player = new GameObject("Player", playerTransform, playerFigure, playerMovement, playerBehaviour);
+        player.behaviour().gameObject(player);
+        playerBehaviour.getStateMachine().setOwner(player);
+
+        Health enemyHealth = new Health(100);
+        List<Point> patrolPoints = new ArrayList<>();
+        patrolPoints.add(new Point(0, 0));
+        patrolPoints.add(new Point(1, 1));
+        patrolPoints.add(new Point(2, 2));
+        IEntity enemyBehaviour = new Enemy(patrolPoints, enemyHealth);
+        ITransform enemyTransform = new Transform(new Point(0, 0), 0, 0, 1);
+        GeometricFigure enemyFigure = new Circle("0 0 1");
+        Movement enemyMovement = new Movement(1, 1, 0, 0, 0);
+        GameObject enemy = new GameObject("Enemy", enemyTransform, enemyFigure, enemyMovement, enemyBehaviour);
+        enemy.behaviour().gameObject(enemy);
+        enemyBehaviour.getStateMachine().setOwner(enemy);
+
+
+        GameEngine gameEngine = new GameEngine();
+        gameEngine.addEnabled(player);
+        gameEngine.addEnabled(enemy);
+        gameEngine.run();
+
     }
 }

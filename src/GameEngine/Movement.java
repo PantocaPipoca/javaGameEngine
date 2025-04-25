@@ -26,6 +26,17 @@ public class Movement {
         this.dScale = dScale;
     }
 
+    /**
+     * Default constructor for the movement
+     */
+    public Movement() {
+        this.dx = 0;
+        this.dy = 0;
+        this.dLayer = 0;
+        this.dAngle = 0;
+        this.dScale = 0;
+    }
+
     public double dx() {
         return dx;
     }
@@ -44,5 +55,21 @@ public class Movement {
 
     public double dScale() {
         return dScale;
+    }
+
+    public void setDx(double dx) {
+        this.dx = dx;
+    }
+    public void setDy(double dy) {
+        this.dy = dy;
+    }
+    public void setDLayer(int dLayer) {
+        this.dLayer = dLayer;
+    }
+    public void setDAngle(double dAngle) {
+        this.dAngle = dAngle;
+    }
+    public void setDScale(double dScale) {
+        this.dScale = dScale;
     }
 }

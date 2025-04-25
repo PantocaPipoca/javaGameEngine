@@ -24,7 +24,7 @@ public class GameEngine {
      * Adds an object to the GameEngine
      * @param go object to be added
      */
-    public void add(GameObject go) {
+    public void add(IGameObject go) {
         gameObjects.add(go);
         int layer = go.transform().layer();
         LayerGroup group = getOrCreateLayerGroup(layer);
@@ -35,7 +35,7 @@ public class GameEngine {
      * Removes an object from the GameEngine
      * @param go object to be removed
      */
-    public void destroy(GameObject go) {
+    public void destroy(IGameObject go) {
         gameObjects.remove(go);
         LayerGroup group = getLayerGroup(go.transform().layer());
         if (group != null) { // This check doesn't matter much
@@ -147,4 +147,87 @@ public class GameEngine {
     public List<IGameObject> getGameObjects() {
         return gameObjects;
     }
+
+    public void run() {
+        long lastTime = System.nanoTime();
+        InputEvent ie = new InputEvent();
+
+        for (int i = 0; i < 10; i++) {
+            long currentTime = System.nanoTime();
+            float dt = (currentTime - lastTime) / 1_000_000_000.0f;
+            lastTime = currentTime;
+            for (IGameObject go : enabled) {
+                go.behaviour().onUpdate(dt, ie);
+            }
+        }
+    }
+
+    private List<IGameObject> enabled = new ArrayList<>();
+    private List<IGameObject> disabled = new ArrayList<>();
+
+    public void addEnabled(IGameObject go) {
+        if (!isDisabled(go) && !isEnabled(go)) {
+            enabled.add(go);
+            this.add(go);
+            go.behaviour().onInit();
+            go.behaviour().onEnabled();
+        }
+    }
+
+    public void addDisabled(IGameObject go) {
+        if (!isDisabled(go) && !isEnabled(go)) {
+            disabled.add(go);
+            this.add(go);
+            go.behaviour().onInit();
+            go.behaviour().onDisabled();
+        }
+    }
+
+    public void enable(IGameObject go) {
+        if (disabled.contains(go)) {
+            disabled.remove(go);
+            addEnabled(go);
+        }
+    }
+
+    public void disable(IGameObject go) {
+        if (enabled.contains(go)) {
+            enabled.remove(go);
+            addDisabled(go);
+        }
+    }
+
+    public boolean isEnabled(IGameObject go) {
+        return enabled.contains(go);
+    }
+
+    public boolean isDisabled(IGameObject go) {
+        return disabled.contains(go);
+    }
+
+    public List<IGameObject> getEnabled() {
+        return new ArrayList<>(enabled);
+    }
+
+    public List<IGameObject> getDisabled() {
+        return new ArrayList<>(disabled);
+    }
 }
+
+//...GameEngine.java
+// no addEnabled precisamos de correr on enabled ou so init? e no disabled? precisamos de verificar se existe noutra lista tambem?
+// o mm pro addDisabled
+// no run de onde sacamos os deltas e os inputs
+// o get Collisions esta no sitio certo ou devia estar no colider?
+
+//...Main.java
+// Corro o run ja como esta? Se sim quando adiciono os objetos e como faco a porra das salas?
+
+//...StateMachine.java
+// isso esta fixe? Especialmente a parte da inicializacao e sera que preciso de passar como argumento a referencia pro player,
+// ou posso fazer tipo super().owner.
+
+//...Tests.java
+// Como testar sem inputs?
+
+// Posso usar instance of quando o player e o inimigo colidem?

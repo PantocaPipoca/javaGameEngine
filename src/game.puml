@@ -1,0 +1,210 @@
+@startuml Game
+' Layout e estilo
+left to right direction
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+
+'=== Pacote Game ===
+package "Game" <<Rectangle>> {
+  
+  class Camera {
+    - GameObject target
+    + setTarget(GameObject)
+  }
+
+  class Game {
+    - List<Room> rooms
+    - Room currentRoom
+    - Camera camera
+    - GameEngine engine
+    + Game(List<Room>)
+    + loadRoom(int)
+    + start()
+  }
+
+  class Health {
+    - int maxHealth
+    - int currentHealth
+    - boolean isAlive
+    - StateMachine stateMachine
+    + Health(StateMachine)
+    + takeDamage(int)
+    + heal(int)
+    + getMaxHealth(): int
+    + getCurrentHealth(): int
+    + isAlive(): boolean
+  }
+
+  class ObjectFactory {
+    + createPlayer(Player, Camera): GameObject
+  }
+
+  class Player {
+    - Health healthManager
+    - StateMachine stateMachine
+    - Movement movement
+    - float score
+    - IGameObject go
+    - Transform spawnPoint
+    + Player()
+    + onUpdate(double,InputEvent)
+    + gameObject(): IGameObject
+    + gameObject(IGameObject)
+    + onCollision(List<IGameObject>)
+    + onInit()
+    + onEnabled()
+    + onDisabled()
+    + onDestroy()
+    + addScore(float)
+    + getScore(): float
+    + getHealthManager(): Health
+    + getStateMachine(): StateMachine
+    + getMovement(): Movement
+    + getSpawnPoint(): Transform
+  }
+
+  class Room {
+    - List<Enemy> enemies
+    - List<GameObject> figures
+    - List<Point> spawnPoints
+    - Player player
+    + Room(List<Enemy>,List<GameObject>,List<Point>,Player)
+    + getEnemies(): List<Enemy>
+    + getFigures(): List<GameObject>
+    + getSpawnPoints(): List<Point>
+    + getPlayer(): Player
+  }
+
+  class RoomLoader {
+    + loadAll(): List<Room>
+  }
+
+  abstract class State {
+    + onUpdate(double,InputEvent)
+    + onEnter()
+    + onExit()
+    + onCollision(IGameObject)
+  }
+  class IdleState
+  class MovingState
+  class RollingState
+  class StunnedState
+  class DeadState
+
+}
+
+'=== Pacote GameEngine ===
+package "GameEngine" <<Rectangle>> {
+
+  interface IGameObject <<I>>
+  interface IBehaviour  <<I>>
+  interface ITransform  <<I>>
+  interface ICollider   <<I>>
+
+  class InputEvent
+
+  class GameEngine {
+    - List<IGameObject> gameObjects
+    - List<LayerGroup> layerGroups
+    - List<IGameObject> enabled
+    - List<IGameObject> disabled
+    + GameEngine()
+    + getGameObjects(): List<IGameObject>
+    + destroy(IGameObject)
+    + addEnabled(IGameObject)
+    + run()
+  }
+
+  class GameObject {
+    - GeometricFigure originalFigure
+    - String name
+    - ITransform transform
+    - ICollider collider
+    - Movement movement
+    - IBehaviour behaviour
+    + GameObject(String,ITransform,GeometricFigure,Movement,IBehaviour)
+    + name(): String
+    + transform(): ITransform
+    + collider(): ICollider
+    + movement(): Movement
+    + behaviour(): IBehaviour
+    + update()
+    + updateCollider()
+  }
+
+  class ColliderCircle
+  class ColliderPolygon
+
+  class LayerGroup {
+    - int layer
+    - List<IGameObject> objects
+    + LayerGroup(int)
+    + getLayer(): int
+    + getObjects(): List<IGameObject>
+    + add(IGameObject)
+    + remove(IGameObject)
+    + contains(IGameObject): boolean
+  }
+
+  class Movement {
+    - double dx, dy
+    - int dLayer
+    - double dAngle, dScale
+    + Movement()
+    + dx(): double
+    + dy(): double
+    + dLayer(): int
+    + dAngle(): double
+    + dScale(): double
+    + setDx(double)
+    + setDy(double)
+    + setDLayer(int)
+    + setDAngle(double)
+    + setDScale(double)
+  }
+
+  class Transform {
+    - Point pos
+    - int layer
+    - double angle
+    - double scale
+    + Transform(Point,int,double,double)
+    + move(Point,int)
+    + rotate(double)
+    + scale(double)
+    + position(): Point
+    + layer(): int
+    + angle(): double
+    + scale(): double
+  }
+}
+
+'=== Relacionamentos ===
+Game --> Camera
+Game --> GameEngine
+Game --> Room
+Game --> ObjectFactory
+Game --> StateMachine
+Game o-- Room : rooms
+Camera --> GameObject       : target
+ObjectFactory --> Camera    : setTarget()
+ObjectFactory --> GameObject
+Player --> Health
+Player --> StateMachine
+Player --> Movement
+Player --> Transform        : spawnPoint
+Room --> Player             : player
+Room --> GameObject         : figures
+StateMachine *-- State
+
+GameEngine *-- IGameObject
+GameEngine --> GameObject
+GameEngine --> LayerGroup
+LayerGroup o-- IGameObject
+GameObject --> ITransform
+GameObject --> ICollider
+GameObject --> Movement
+GameObject --> IBehaviour
+
+@enduml

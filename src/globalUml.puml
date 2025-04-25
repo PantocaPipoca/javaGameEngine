@@ -1,0 +1,319 @@
+@startuml UML
+'=== Layout & Estilo ===
+left to right direction
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+
+'=== Pacote Game.Core ===
+package "Game.Core" <<Rectangle>> {
+  class Camera {
+    - GameObject target
+    + setTarget(GameObject)
+  }
+
+  class Game {
+    - List<Room> rooms
+    - Room currentRoom
+    - Camera camera
+    - GameEngine engine
+    + Game(List<Room>)
+    + loadRoom(int)
+    + start()
+  }
+
+  class StateMachine {
+    - State currentState
+    - State defaultState
+    - IGameObject owner
+    - Map<String,State> states
+    + StateMachine(String,IGameObject)
+    + onUpdate(double,InputEvent)
+    + setState(String)
+    + getOwner():IGameObject
+  }
+
+  abstract class State {
+    + onUpdate(double,InputEvent)
+    + onEnter()
+    + onExit()
+    + onCollision(IGameObject)
+  }
+
+  ' Estados concretos
+  class IdleState
+  class MovingState
+  class RollingState
+  class StunnedState
+  class DeadState
+}
+
+'=== Pacote Game.Entities ===
+package "Game.Entities" <<Rectangle>> {
+  class Player {
+    - Health healthManager
+    - StateMachine stateMachine
+    - Movement movement
+    - float score
+    - IGameObject go
+    - Transform spawnPoint
+    + Player()
+    + gameObject():IGameObject
+    + gameObject(IGameObject)
+    + onUpdate(double,InputEvent)
+    + onCollision(List<IGameObject>)
+    + onInit()
+    + onEnabled()
+    + onDisabled()
+    + onDestroy()
+    + addScore(float)
+    + getScore():float
+    + getHealthManager():Health
+    + getStateMachine():StateMachine
+    + getMovement():Movement
+    + getSpawnPoint():Transform
+  }
+
+  class Health {
+    - int maxHealth
+    - int currentHealth
+    - boolean isAlive
+    - StateMachine stateMachine
+    + Health(StateMachine)
+    + takeDamage(int)
+    + heal(int)
+    + getMaxHealth():int
+    + getCurrentHealth():int
+    + isAlive():boolean
+  }
+
+  class Room {
+    - List<Enemy> enemies
+    - List<GameObject> figures
+    - List<Point> spawnPoints
+    - Player player
+    + Room(List<Enemy>,List<GameObject>,List<Point>,Player)
+    + getEnemies():List<Enemy>
+    + getFigures():List<GameObject>
+    + getSpawnPoints():List<Point>
+    + getPlayer():Player
+  }
+
+  class ObjectFactory {
+    + createPlayer(Player,Camera):GameObject
+  }
+
+  class RoomLoader {
+    + loadAll():List<Room>
+  }
+}
+
+'=== Pacote GameEngine ===
+package "GameEngine" <<Rectangle>> {
+  interface IGameObject <<I>>
+  interface ICollider   <<I>>
+  interface IBehaviour  <<I>>
+  interface ITransform  <<I>>
+
+  class InputEvent
+
+  class GameEngine {
+    - List<IGameObject> gameObjects
+    - List<LayerGroup> layerGroups
+    - List<IGameObject> enabled
+    - List<IGameObject> disabled
+    + GameEngine()
+    + add(IGameObject)
+    + destroy(IGameObject)
+    + simulateFrames(int)
+    + getCollisions():List<String>
+    + getGameObjects():List<IGameObject>
+    + run()
+    + addEnabled(IGameObject)
+    + addDisabled(IGameObject)
+    + enable(IGameObject)
+    + disable(IGameObject)
+    + isEnabled(IGameObject):boolean
+    + isDisabled(IGameObject):boolean
+    + getEnabled():List<IGameObject>
+    + getDisabled():List<IGameObject>
+  }
+
+  class GameObject {
+    - GeometricFigure originalFigure
+    - String name
+    - ITransform transform
+    - ICollider collider
+    - Movement movement
+    - IBehaviour behaviour
+    + GameObject(String,ITransform,GeometricFigure,Movement,IBehaviour)
+    + name():String
+    + transform():ITransform
+    + collider():ICollider
+    + movement():Movement
+    + behaviour():IBehaviour
+    + update()
+    + updateCollider()
+    + toString():String
+  }
+
+  class ColliderCircle
+  class ColliderPolygon
+
+  class LayerGroup {
+    - int layer
+    - List<IGameObject> objects
+    + LayerGroup(int)
+    + getLayer():int
+    + getObjects():List<IGameObject>
+    + add(IGameObject)
+    + remove(IGameObject)
+    + contains(IGameObject):boolean
+  }
+
+  class Movement {
+    - double dx,dy
+    - int dLayer
+    - double dAngle,dScale
+    + Movement()
+    + Movement(double,double,int,double,double)
+    + dx():double
+    + dy():double
+    + dLayer():int
+    + dAngle():double
+    + dScale():double
+    + setDx(double)
+    + setDy(double)
+    + setDLayer(int)
+    + setDAngle(double)
+    + setDScale(double)
+  }
+
+  class Transform {
+    - Point pos
+    - int layer
+    - double angle
+    - double scale
+    + Transform(Point,int,double,double)
+    + move(Point,int)
+    + rotate(double)
+    + scale(double)
+    + position():Point
+    + layer():int
+    + angle():double
+    + scale():double
+    + toString():String
+  }
+}
+
+'=== Pacote Figures ===
+package "Figures" <<Rectangle>> {
+  abstract class GeometricFigure {
+    + translate(double,double):GeometricFigure
+    + scale(double):GeometricFigure
+    + rotate(double,Point):GeometricFigure
+    + colliderInit(ITransform):ICollider
+    + toString():String
+  }
+
+  class Circle {
+    - Point center
+    - double radius
+    + Circle(String)
+    + translate(double,double):Circle
+    + perimeter():double
+    + scale(double):Circle
+    + rotate(double,Point):Circle
+    + colliderInit(ITransform):ICollider
+    + clone():Circle
+    + toString():String
+  }
+
+  class Polygon {
+    - Point[] points
+    - Segment[] segments
+    + Polygon(String)
+    + translate(double,double):Polygon
+    + centroid():Point
+    + scale(double):GeometricFigure
+    + rotate(double,Point):GeometricFigure
+    + colliderInit(ITransform):ICollider
+    + clone():Polygon
+    + toString():String
+    + getPoints():Point[]
+    + getSegments():Segment[]
+  }
+
+  class Segment {
+    - Point p1
+    - Point p2
+    + Segment(Point,Point)
+    + intersects(Segment):boolean
+    + intersects(Circle):boolean
+    + p1():Point
+    + p2():Point
+  }
+
+  class Point {
+    - double r,theta
+    - double x,y
+    + Point(double,double)
+    + distance(Point):double
+    + translate(double,double):Point
+    + toString():String
+    + r():double
+    + theta():double
+    + x():double
+    + y():double
+  }
+
+  class GeometryUtils {
+    + orientation(Point,Point,Point):int
+    + onSegment(Point,Point,Point):boolean
+  }
+}
+
+'=== Relacionamentos ===
+Camera          --> GameObject       : target
+Game            o-- Room             : rooms
+Game            --> Room             : currentRoom
+Game            --> Camera
+Game            --> GameEngine
+GameEngine      o-- "0..*" IGameObject : gameObjects
+GameEngine      o-- LayerGroup      : layerGroups
+LayerGroup      o-- IGameObject     : objects
+GameObject      *-- ITransform
+GameObject      *-- ICollider
+GameObject      *-- Movement
+GameObject      *-- IBehaviour
+ColliderCircle  ..> Circle
+ColliderCircle  ..> ITransform
+ColliderPolygon ..> Polygon
+ColliderPolygon ..> ITransform
+Circle          -|> GeometricFigure
+Polygon         -|> GeometricFigure
+GameObject      ..|> IGameObject
+ColliderCircle  ..|> ICollider
+ColliderPolygon ..|> ICollider
+Transform       ..|> ITransform
+Player          ..|> IBehaviour
+StateMachine    *-- State
+IdleState       -|> State
+MovingState     -|> State
+RollingState    -|> State
+StunnedState    -|> State
+DeadState       -|> State
+Player          --> Health
+Health          --> StateMachine
+ObjectFactory   ..> Player
+ObjectFactory   --> GameObject
+Player          --> Transform    : spawnPoint
+Player          --> Movement
+Player          --> StateMachine
+Player          --> Health
+Room            --> Enemy
+Room            --> GameObject    : figures
+Room            --> Point         : spawnPoints
+StateMachine    --> IGameObject
+ObjectFactory   --> Camera        : setTarget()
+@enduml

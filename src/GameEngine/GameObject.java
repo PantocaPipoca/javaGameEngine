@@ -14,6 +14,7 @@ public class GameObject implements IGameObject {
     private ITransform transform;
     private ICollider collider;
     private Movement movement;
+    private IBehaviour behaviour;
     
     /**
      * Constructor for a game object
@@ -22,12 +23,13 @@ public class GameObject implements IGameObject {
      * @param figure geometric figure of the object
      * @param movement movement of the object
      */
-    public GameObject(String name, ITransform transform, GeometricFigure figure, Movement movement) {
+    public GameObject(String name, ITransform transform, GeometricFigure figure, Movement movement, IBehaviour behaviour) {
         this.movement = movement;
         this.name = name;
         this.transform = transform;
         this.originalFigure = figure;
         this.collider = figure.colliderInit(transform);
+        this.behaviour = behaviour;
     }
     
     public String name() {
@@ -40,6 +42,14 @@ public class GameObject implements IGameObject {
     
     public ICollider collider() {
         return collider;
+    }
+
+    public Movement movement() {
+        return movement;
+    }
+
+    public IBehaviour behaviour() {
+        return behaviour;
     }
     
     public String toString() {
