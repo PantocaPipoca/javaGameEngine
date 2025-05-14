@@ -1,0 +1,266 @@
+@startuml
+' Definir estilos para interfaces e classes abstratas
+skinparam class {
+    BackgroundColor<<interface>> LightBlue
+    BackgroundColor<<abstract>> LightGray
+}
+
+' Pacote GameEngine
+package GameEngine {
+
+    ' Interfaces
+    interface IGameObject {
+        + String name()
+        + ITransform transform()
+        + ICollider collider()
+        + void update()
+        + IBehaviour behaviour()
+    }
+
+    interface IBehaviour {
+        + void onUpdate(double dT, InputEvent ie)
+        + void onInit()
+        + void onEnabled()
+        + void onDisabled()
+        + void onDestroy()
+        + void onCollision(List<IGameObject> gol)
+        + IGameObject gameObject()
+        + void gameObject(IGameObject go)
+    }
+
+    interface ICollider {
+        + boolean colidesWithCircle(ColliderCircle cc)
+        + boolean colidesWithPolygon(ColliderPolygon cp)
+        + boolean colides(ICollider other)
+        + GeometricFigure getFigure()
+    }
+
+    interface ITransform {
+        + void move(Point dPos, int dLayer)
+        + Point position()
+        + int layer()
+        + double angle()
+        + double scale()
+    }
+
+    ' Classes concretas
+    class GameEngine {
+        - static GameEngine instance
+        - List<IGameObject> gameObjects
+        - List<LayerGroup> layerGroups
+        - List<IGameObject> enabled
+        - List<IGameObject> disabled
+    
+        + static GameEngine getInstance(GUI gui)
+        + static GameEngine getInstance()
+        + void run()
+        + void addEnabled(IGameObject go)
+        + void addDisabled(IGameObject go)
+        + void enable(IGameObject go)
+        + void disable(IGameObject go)
+        + void destroy(IGameObject go)
+        + void simulateFrames(int frames)
+        + List<IGameObject> getGameObjects()
+        + List<IGameObject> getEnabled()
+        + List<IGameObject> getDisabled()
+        + boolean isEnabled(IGameObject go)
+        + boolean isDisabled(IGameObject go)
+    
+        - void checkCollisions()
+        - void updateObjectLayer(IGameObject go, int oldLayer, int newLayer)
+        - LayerGroup getLayerGroup(int layer)
+        - LayerGroup getOrCreateLayerGroup(int layer)
+        - void checkCollisionsInGroup(List<IGameObject> group)
+        - void add(IGameObject go)
+    }
+
+    class GameObject {
+        - String name
+        - ITransform transform
+        - ICollider collider
+        - IBehaviour behaviour
+        - GeometricFigure originalFigure
+
+        + GameObject(String name, ITransform transform, GeometricFigure figure, IBehaviour behaviour)
+        + void update()
+        + void updateCollider()
+        + String name()
+        + ITransform transform()
+        + ICollider collider()
+        + IBehaviour behaviour()
+    }
+
+    class GUI {
+        - List<InputEvent> inputQueue
+        - List<IGameObject> gameObjects
+        + GUI()
+        + InputEvent getNextInputEvent()
+        + void renderGameObjects(List<IGameObject> gameObjects)
+    }
+
+    class LayerGroup {
+        - int layer
+        - List<IGameObject> objects
+
+        + LayerGroup(int layer)
+        + void add(IGameObject go)
+        + void remove(IGameObject go)
+        + List<IGameObject> getObjects()
+        + int getLayer()
+    }
+
+    class Transform {
+        - Point pos
+        - int layer
+        - double angle
+        - double scale
+
+        + Transform(Point pos, int layer, double angle, double scale)
+        + void move(Point dPos, int dLayer)
+        + Point position()
+        + int layer()
+        + double angle()
+        + double scale()
+    }
+
+    class ColliderCircle {
+        - Circle circleCollider
+
+        + ColliderCircle(Circle c, ITransform t)
+        + boolean colidesWithCircle(ColliderCircle cc)
+        + boolean colidesWithPolygon(ColliderPolygon cp)
+        + boolean colides(ICollider other)
+        + Point centroid()
+        + String toString()
+        + Circle getFigure()
+    }
+
+    class ColliderPolygon {
+        - Polygon polygonCollider
+
+        + ColliderPolygon(Polygon p, ITransform t)
+        + boolean colidesWithCircle(ColliderCircle cc)
+        + boolean colidesWithPolygon(ColliderPolygon cp)
+        + boolean colides(ICollider other)
+        + String toString()
+        + Polygon getFigure()
+    }
+
+    class InputEvent {
+        - int keyCodeOrButton
+
+        + InputEvent(int keyCodeOrButton)
+        + int getKeyCodeOrButton()
+    }
+}
+
+' Pacote Figures
+package Figures {
+
+    ' Classe abstrata GeometricFigure
+    abstract class GeometricFigure {
+        + GeometricFigure translate(double dx, double dy)
+        + GeometricFigure scale(double factor)
+        + GeometricFigure rotate(double angle, Point center)
+        + ICollider colliderInit(ITransform t)
+        + String toString()
+    }
+
+    ' Classe Point
+    class Point {
+        - double x
+        - double y
+
+        + Point(double x, double y)
+        + double x()
+        + double y()
+        + Point translate(double dx, double dy)
+        + double distance(Point other)
+        + String toString()
+    }
+
+    ' Classe Circle
+    class Circle extends GeometricFigure {
+        - Point center
+        - double radius
+
+        + Circle(String s)
+        + Circle translate(double dx, double dy)
+        + Circle scale(double factor)
+        + Circle rotate(double angle, Point center)
+        + double perimeter()
+        + double radius()
+        + Point centroid()
+        + Circle clone()
+        + String toString()
+    }
+
+    ' Classe Polygon
+    class Polygon extends GeometricFigure {
+        - Point[] points
+        - Segment[] segments
+
+        + Polygon(String s)
+        + Polygon translate(double dx, double dy)
+        + Polygon scale(double factor)
+        + Point centroid()
+        + Point[] getPoints()
+        + Segment[] getSegments()
+        + Polygon clone()
+        + String toString()
+    }
+
+    ' Classe Segment
+    class Segment {
+        - Point p1
+        - Point p2
+
+        + Segment(Point p1, Point p2)
+        + Point p1()
+        + Point p2()
+        + double length()
+        + boolean intersects(Segment other)
+        + String toString()
+    }
+
+    ' Classe GeometryUtils
+    class GeometryUtils {
+        + static int orientation(Point p, Point q, Point r)
+        + static boolean doIntersect(Segment s1, Segment s2)
+    }
+}
+
+' Relações entre os pacotes
+
+' Relações entre as classes
+GameEngine --> GUI : "1"
+GameEngine --> LayerGroup : "1 *"
+GameEngine --> IGameObject : "1 *"
+GameObject --> ITransform : "1"
+GameObject --> ICollider : "1"
+GameObject --> IBehaviour : "1"
+LayerGroup --> IGameObject : "1 *"
+ColliderCircle --> ITransform : "1"
+ColliderCircle --> Circle : "1"
+ColliderPolygon --> ITransform : "1"
+ColliderPolygon --> Polygon : "1"
+GUI --> InputEvent : "1 *"
+GUI --> IGameObject : "1 *"
+Transform --> Point : "1"
+
+' Interfaces implementadas
+GameObject ..|> IGameObject
+Transform ..|> ITransform
+ColliderCircle ..|> ICollider
+ColliderPolygon ..|> ICollider
+
+Circle --> Point : "1"
+Polygon --> Point : "1 *"
+Polygon --> Segment : "1 *"
+Segment --> Point : "1"
+GeometryUtils --> Point : "1 *"
+GeometryUtils --> Segment : "1 *"
+
+
+
+@enduml

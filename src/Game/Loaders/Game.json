@@ -1,0 +1,254 @@
+{
+    "levels": [
+      {
+        "levelName": "First Mission",
+        "difficulty": "Normal",
+        "player": {
+          "startPosition": { "x": 400, "y": 300 },
+          "layer": 1,
+          "angle": 0.0,
+          "scale": 1.0,
+          "maxHealth": 100,
+          "movingSpeed": 500.0,
+          "rollingSpeed": 8.0
+        },
+        "enemyBlueprints": [
+          {
+            "type": "gunner",
+            "maxHealth": 30,
+            "patrolSpeed": 3.0,
+            "chaseSpeed": 6.0,
+            "dropChance": {
+              "health": 0.2,
+              "powerup": 0.2,
+              "ammo": {
+                "type": "normal",
+                "chance": 0.5,
+                "minAmount": 2,
+                "maxAmount": 5
+              }
+            }
+          },
+          {
+            "type": "bomber_striker",
+            "maxHealth": 25,
+            "patrolSpeed": 2.5,
+            "chaseSpeed": 5.5,
+            "dropChance": {
+              "health": 0.15,
+              "powerup": 0.25,
+              "ammo": {
+                "type": "special",
+                "chance": 0.4,
+                "minAmount": 1,
+                "maxAmount": 3
+              }
+            }
+          },
+          {
+            "type": "bomber_ghost",
+            "maxHealth": 20,
+            "patrolSpeed": 2.0,
+            "chaseSpeed": 4.5,
+            "dropChance": {
+              "health": 0.1,
+              "powerup": 0.3,
+              "ammo": {
+                "type": "special",
+                "chance": 0.3,
+                "minAmount": 1,
+                "maxAmount": 2
+              }
+            }
+          },
+          {
+            "type": "striker",
+            "maxHealth": 35,
+            "patrolSpeed": 3.5,
+            "chaseSpeed": 7.0,
+            "dropChance": {
+              "health": 0.25,
+              "powerup": 0.15,
+              "ammo": {
+                "type": "normal",
+                "chance": 0.6,
+                "minAmount": 3,
+                "maxAmount": 6
+              }
+            }
+          }
+        ],
+        "enemySpawns": [
+          {
+            "spawnPoint": { "x": 100, "y": 100 },
+            "patrolPoints": [
+              { "x": 110, "y": 100 },
+              { "x": 120, "y": 130 },
+              { "x": 90,  "y": 120 }
+            ]
+          },
+          {
+            "spawnPoint": { "x": 200, "y": 150 },
+            "patrolPoints": [
+              { "x": 210, "y": 160 },
+              { "x": 230, "y": 140 }
+            ]
+          },
+          {
+            "spawnPoint": { "x": 300, "y": 400 },
+            "patrolPoints": [
+              { "x": 320, "y": 380 },
+              { "x": 310, "y": 420 },
+              { "x": 290, "y": 390 }
+            ]
+          },
+          {
+            "spawnPoint": { "x": 700, "y": 500 },
+            "patrolPoints": [
+              { "x": 720, "y": 480 },
+              { "x": 680, "y": 520 }
+            ]
+          },
+          {
+            "spawnPoint": { "x": 600, "y": 300 },
+            "patrolPoints": [
+              { "x": 630, "y": 310 },
+              { "x": 590, "y": 290 }
+            ]
+          }
+        ],
+        "enemyCount": 5,
+        "enemyChances": {
+          "gunner": 0.3,
+          "bomber_striker": 0.25,
+          "bomber_ghost": 0.15,
+          "striker": 0.30
+        }
+      },
+  
+      {
+        "levelName": "Night Raid",
+        "difficulty": "Hard",
+        "player": {
+          "startPosition": { "x": 512, "y": 384 },
+          "layer": 1,
+          "angle": 0.0,
+          "scale": 1.0,
+          "maxHealth": 80,
+          "movingSpeed": 450.0,
+          "rollingSpeed": 7.0
+        },
+        "enemyBlueprints": [
+          {
+            "type": "gunner",
+            "maxHealth": 35,
+            "patrolSpeed": 3.5,
+            "chaseSpeed": 6.5,
+            "dropChance": {
+              "health": 0.15,
+              "powerup": 0.1,
+              "ammo": {
+                "type": "normal",
+                "chance": 0.4,
+                "minAmount": 1,
+                "maxAmount": 4
+              }
+            }
+          },
+          {
+            "type": "bomber_striker",
+            "maxHealth": 30,
+            "patrolSpeed": 2.0,
+            "chaseSpeed": 5.0,
+            "dropChance": {
+              "health": 0.1,
+              "powerup": 0.2,
+              "ammo": {
+                "type": "special",
+                "chance": 0.5,
+                "minAmount": 2,
+                "maxAmount": 5
+              }
+            }
+          },
+          {
+            "type": "bomber_ghost",
+            "maxHealth": 25,
+            "patrolSpeed": 1.8,
+            "chaseSpeed": 4.0,
+            "dropChance": {
+              "health": 0.05,
+              "powerup": 0.25,
+              "ammo": {
+                "type": "special",
+                "chance": 0.3,
+                "minAmount": 1,
+                "maxAmount": 3
+              }
+            }
+          },
+          {
+            "type": "striker",
+            "maxHealth": 40,
+            "patrolSpeed": 4.0,
+            "chaseSpeed": 8.0,
+            "dropChance": {
+              "health": 0.2,
+              "powerup": 0.2,
+              "ammo": {
+                "type": "normal",
+                "chance": 0.7,
+                "minAmount": 2,
+                "maxAmount": 6
+              }
+            }
+          }
+        ],
+        "enemySpawns": [
+          {
+            "spawnPoint": { "x": 150, "y": 200 },
+            "patrolPoints": [
+              { "x": 170, "y": 220 },
+              { "x": 140, "y": 230 }
+            ]
+          },
+          {
+            "spawnPoint": { "x": 400, "y": 100 },
+            "patrolPoints": [
+              { "x": 420, "y": 120 },
+              { "x": 380, "y": 90 }
+            ]
+          },
+          {
+            "spawnPoint": { "x": 650, "y": 450 },
+            "patrolPoints": [
+              { "x": 670, "y": 470 },
+              { "x": 630, "y": 430 }
+            ]
+          },
+          {
+            "spawnPoint": { "x": 300, "y": 500 },
+            "patrolPoints": [
+              { "x": 320, "y": 480 },
+              { "x": 280, "y": 520 }
+            ]
+          },
+          {
+            "spawnPoint": { "x": 800, "y": 350 },
+            "patrolPoints": [
+              { "x": 820, "y": 370 },
+              { "x": 780, "y": 330 }
+            ]
+          }
+        ],
+        "enemyCount": 8,
+        "enemyChances": {
+          "gunner": 0.25,
+          "bomber_striker": 0.25,
+          "bomber_ghost": 0.25,
+          "striker": 0.25
+        }
+      }
+    ]
+  }
+  

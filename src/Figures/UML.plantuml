@@ -1,0 +1,90 @@
+@startuml Figures
+' Definir estilos para interfaces e classes abstratas
+skinparam class {
+    BackgroundColor<<abstract>> LightGray
+}
+
+' Pacote Figures
+package Figures {
+
+    ' Classe abstrata GeometricFigure
+    abstract class GeometricFigure {
+        + GeometricFigure translate(double dx, double dy)
+        + GeometricFigure scale(double factor)
+        + GeometricFigure rotate(double angle, Point center)
+        + ICollider colliderInit(ITransform t)
+        + String toString()
+    }
+
+    ' Classe Point
+    class Point {
+        - double x
+        - double y
+
+        + Point(double x, double y)
+        + double x()
+        + double y()
+        + Point translate(double dx, double dy)
+        + double distance(Point other)
+        + String toString()
+    }
+
+    ' Classe Circle
+    class Circle extends GeometricFigure {
+        - Point center
+        - double radius
+
+        + Circle(String s)
+        + Circle translate(double dx, double dy)
+        + Circle scale(double factor)
+        + Circle rotate(double angle, Point center)
+        + double perimeter()
+        + double radius()
+        + Point centroid()
+        + Circle clone()
+        + String toString()
+    }
+
+    ' Classe Polygon
+    class Polygon extends GeometricFigure {
+        - Point[] points
+        - Segment[] segments
+
+        + Polygon(String s)
+        + Polygon translate(double dx, double dy)
+        + Polygon scale(double factor)
+        + Point centroid()
+        + Point[] getPoints()
+        + Segment[] getSegments()
+        + Polygon clone()
+        + String toString()
+    }
+
+    ' Classe Segment
+    class Segment {
+        - Point start
+        - Point end
+
+        + Segment(Point start, Point end)
+        + Point start()
+        + Point end()
+        + double length()
+        + boolean intersects(Segment other)
+        + String toString()
+    }
+
+    ' Classe GeometryUtils
+    class GeometryUtils {
+        + static int orientation(Point p, Point q, Point r)
+        + static boolean doIntersect(Segment s1, Segment s2)
+    }
+
+    ' Relações entre as classes
+    Circle --> Point : "1"
+    Polygon --> Point : "1 *"
+    Polygon --> Segment : "1 *"
+    Segment --> Point : "1"
+    GeometryUtils --> Point : "1 *"
+    GeometryUtils --> Segment : "1 *"
+}
+@enduml
