@@ -4,7 +4,6 @@ import java.util.List;
 
 import Figures.Circle;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import Game.Entities.Health;
@@ -47,10 +46,6 @@ public class Player implements IEntity {
         go.update(); // Updates position and colliders essencially
         stateMachine.onUpdate(dT, ie); // Updates what the player does
 
-        if (ie.isKeyPressed(KeyEvent.VK_1)) {
-            setCurrentGun(currentGun);
-        }
-
     }
 
     public void addGun(Gun gun) {
@@ -70,17 +65,28 @@ public class Player implements IEntity {
             
             this.currentGun = gun;
 
+            if(gun.gameObject() != null) {
+                GameEngine.getInstance().destroy(gun.gameObject());
+            }
+
             // Create the GameObject for the gun
             IGameObject gunObject = new GameObject(
-                "gun",
-                new Transform(go.transform().position(), go.transform().layer(), 0, 1),
-                new Circle("0 0 1"),
+                gun.name() + "_0",
+                new Transform(go.transform().position(), go.transform().layer() + 1, 0, 1),
+                new Circle("0 0 20"),
                 gun
             );
 
             // Set the gun's GameObject and add it to the engine
             gun.gameObject(gunObject);
             GameEngine.getInstance().addEnabled(gunObject);
+        }
+    }
+
+    public void equipGun(int index) {
+        if (index >= 0 && index < guns.size()) {
+            currentGun = guns.get(index);
+            setCurrentGun(currentGun);
         }
     }
 
@@ -126,7 +132,7 @@ public class Player implements IEntity {
     @Override
     public void gameObject(IGameObject go) {
         this.go = go;
-        this.stateMachine.setOwner(go);
+        this.stateMachine.setOwner((IEntity) go.behaviour());
     }
     public List<Gun> getGuns() {
         return guns;

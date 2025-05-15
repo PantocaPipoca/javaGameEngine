@@ -5,6 +5,7 @@ import java.util.List;
 import Game.Entities.Health;
 import Game.Entities.IEntity;
 import Game.Entities.StateMachine;
+import Game.Gun.Gun;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 
@@ -13,10 +14,28 @@ public abstract class Enemy implements IEntity {
     protected StateMachine stateMachine;
     private final Health healthManager;
     private IGameObject go;
+    private List<Gun> guns;
+    private Gun currentGun;
 
     public Enemy(Health health) {
         this.healthManager = health;
         this.stateMachine = new StateMachine();
+
+        currentGun = null;
+    }
+
+    public void setCurrentGun(Gun gun) {
+        if (gun != null) {
+            this.currentGun = gun;
+        }
+    }
+
+    public void equipGun(int index) {
+        if (index >= 0 && index < guns.size()) {
+            currentGun = guns.get(index);
+        } else {
+            throw new IndexOutOfBoundsException("Invalid gun index: " + index);
+        }
     }
 
     @Override
@@ -65,7 +84,11 @@ public abstract class Enemy implements IEntity {
     @Override
     public void gameObject(IGameObject go) {
         this.go = go;
-        this.stateMachine.setOwner(go);
+        this.stateMachine.setOwner((IEntity) go.behaviour());
+    }
+
+    public Gun getCurrentGun() {
+        return currentGun;
     }
 
 }

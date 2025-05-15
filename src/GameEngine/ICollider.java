@@ -8,5 +8,5 @@ public interface ICollider {
     public boolean colidesWithCircle(ColliderCircle cc);
     public boolean colidesWithPolygon(ColliderPolygon cp);
     public boolean colides(ICollider other);
-    public GeometricFigure getFigure();
+    public GeometricFigure figure();
 }

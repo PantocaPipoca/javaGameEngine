@@ -10,20 +10,23 @@ import GameEngine.InputEvent;
 public class ChaseState extends State {
 
     private final IGameObject player;
-    private final double chaseSpeed = 200;
-    private final double attackRadius = 10.0;
-    private final double forgetfullRadius = 300.0;
+    private double chaseSpeed;
+    private double attackRadius;
+    private double forgetfullRadius;
     
-    public ChaseState(IGameObject player) {
+    public ChaseState(IGameObject player, double chaseSpeed, double attackRadius, double forgetfullRadius) {
         if (player == null) {
             throw new IllegalArgumentException("Player cannot be null.");
         }
         this.player = player;
+        this.chaseSpeed = chaseSpeed;
+        this.attackRadius = attackRadius;
+        this.forgetfullRadius = forgetfullRadius;
     }
 
     @Override
     public void onUpdate(double dT, InputEvent ie) {
-        Point enemyPosition = owner.transform().position();
+        Point enemyPosition = owner.gameObject().transform().position();
         Point playerPosition = player.transform().position();
 
         // Calculate the direction vector towards the player
@@ -34,7 +37,7 @@ public class ChaseState extends State {
         double distance = Math.sqrt(dx * dx + dy * dy);
 
         // If within attack radius, switch to AttackState
-        if (distance <= attackRadius && !owner.name().startsWith("striker")) {
+        if (distance <= attackRadius && !owner.gameObject().name().startsWith("striker")) {
             stateMachine.setState("Attack");
             return;
         }
@@ -47,7 +50,7 @@ public class ChaseState extends State {
         Point direction = GeometryUtils.normalize(new Point(dx, dy));
 
         // Move the enemy towards the player
-        owner.transform().move(new Point(direction.x() * chaseSpeed * dT, direction.y() * chaseSpeed * dT), 0);
+        owner.gameObject().transform().move(new Point(direction.x() * chaseSpeed * dT, direction.y() * chaseSpeed * dT), 0);
     }
 
     @Override

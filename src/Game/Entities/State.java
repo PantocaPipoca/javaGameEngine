@@ -6,9 +6,9 @@ import GameEngine.InputEvent;
 public abstract class State {
 
     public StateMachine stateMachine;
-    public IGameObject owner;
+    public IEntity owner;
 
-    public void onInit(StateMachine stateMachine, IGameObject owner) {
+    public void onInit(StateMachine stateMachine, IEntity owner) {
         this.stateMachine = stateMachine;
         this.owner = owner;
     }

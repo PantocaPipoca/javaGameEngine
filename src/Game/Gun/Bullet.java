@@ -25,16 +25,18 @@ public class Bullet implements IBehaviour {
         double dx = Math.cos(rotation) * speed * dT;
         double dy = Math.sin(rotation) * speed * dT;
         go.transform().move(new Point(dx, dy), 0);
+        go.update();
     }
 
     @Override
     public void onCollision(List<IGameObject> gol) {
         // Destroy the bullet on collision
         for (IGameObject other : gol) {
-            System.out.println("Bullet collided with: " + other.name());
+            if (!other.name().equals(go.name()) && !other.name().equals("player")) {
+                gameEngine.destroy(go);
+                break;
+            }
         }
-        // Destroy the bullet (remove it from the game engine)
-        gameEngine.destroy(go);
     }
 
     @Override

@@ -7,14 +7,18 @@ import GameEngine.IGameObject;
 import GameEngine.Transform;
 
 public class Pistol extends Gun {
-    private double bulletSpeed = 10.0; // Speed of the bullets
+    private double bulletSpeed = 500.0; // Speed of the bullets
 
     public Pistol(IGameObject owner) {
-        super(owner);
+        super(owner, "Pistol");
     }
 
     @Override
     public void shoot() {
+        if (go == null) {
+            System.out.println("Gun is not initialized.");
+            return;
+        }
         // Calculate the bullet's initial position (at the tip of the gun)
         Point ownerPosition = owner.transform().position();
         double rotation = Math.toRadians(go.transform().angle());
@@ -24,7 +28,7 @@ public class Pistol extends Gun {
         // Create a new bullet object
         Bullet bullet = new Bullet(rotation, bulletSpeed);
 
-        GameObject bulletObject = new GameObject("bullet", new Transform(new Point(bulletX, bulletY), 0, 0, 1), new Circle("0 0 0.1"), bullet);
+        GameObject bulletObject = new GameObject("bullet", new Transform(new Point(bulletX, bulletY), 1, 0, 1), new Circle("0 0 10"), bullet);
         bullet.gameObject(bulletObject);
         gameEngine.addEnabled(bulletObject);
 

@@ -211,11 +211,11 @@ public class Polygon extends GeometricFigure {
         return sb.toString().trim();
     }
 
-    public Point[] getPoints() {
+    public Point[] points() {
         return points;
     }
 
-    public Segment[] getSegments() {
+    public Segment[] segments() {
         return segments;
     }
 }

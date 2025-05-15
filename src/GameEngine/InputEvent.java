@@ -4,73 +4,102 @@ import java.awt.Point;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.JFrame;
+
+import Game.Camera;
+
 public class InputEvent {
-    private Set<Integer> pressedKeys = new HashSet<>(); // Teclas atualmente pressionadas
-    private Set<Integer> pressedMouseButtons = new HashSet<>(); // Botões do mouse pressionados
-    private Point mousePosition = new Point(0, 0); // Posição atual do mouse
+    private Set<Integer> pressedKeys = new HashSet<>(); // Currently pressed keys
+    private Set<Integer> pressedMouseButtons = new HashSet<>(); // Pressed mouse buttons
+    private Point mousePosition = new Point(0, 0); // Current mouse position
 
     /**
-     * Atualiza o estado das teclas pressionadas.
-     * @param keyCode código da tecla pressionada
+     * Updates the state of pressed keys.
+     * @param keyCode code of the pressed key
      */
     public void keyPressed(int keyCode) {
         pressedKeys.add(keyCode);
     }
 
     /**
-     * Atualiza o estado das teclas liberadas.
-     * @param keyCode código da tecla liberada
+     * Updates the state of released keys.
+     * @param keyCode code of the released key
      */
     public void keyReleased(int keyCode) {
         pressedKeys.remove(keyCode);
     }
 
     /**
-     * Atualiza o estado dos botões do mouse pressionados.
-     * @param button código do botão do mouse pressionado
+     * Updates the state of pressed mouse buttons.
+     * @param button code of the pressed mouse button
      */
     public void mouseButtonPressed(int button) {
         pressedMouseButtons.add(button);
     }
 
     /**
-     * Atualiza o estado dos botões do mouse liberados.
-     * @param button código do botão do mouse liberado
+     * Updates the state of released mouse buttons.
+     * @param button code of the released mouse button
      */
     public void mouseButtonReleased(int button) {
         pressedMouseButtons.remove(button);
     }
 
     /**
-     * Atualiza a posição atual do mouse.
-     * @param x posição X do mouse
-     * @param y posição Y do mouse
+     * Updates the current mouse position on the screen.
+     * @param x X position of the mouse
+     * @param y Y position of the mouse
      */
     public void updateMousePosition(int x, int y) {
         mousePosition.setLocation(x, y);
     }
 
     /**
-     * Verifica se uma tecla está pressionada.
-     * @param keyCode código da tecla
-     * @return true se a tecla estiver pressionada, false caso contrário
+     * Converts the current mouse position into WORLD-COORDS
+     * @return mouse position in world coordinates as a Point object
+     */
+    public Point getMouseWorldPosition() {
+        // 1) raw screen-pixels
+        int sx = mousePosition.x;
+        int sy = mousePosition.y;
+
+        // 2) camera world-center
+        double camX = Camera.getInstance().getPosition().x();
+        double camY = Camera.getInstance().getPosition().y();
+
+        // 3) screen center in pixels
+        JFrame gui = GameEngine.getInstance().getGui();
+        int screenCX = gui.getWidth() / 2;
+        int screenCY = gui.getHeight() / 2;
+
+        // 4) unproject
+        double worldX = camX + (sx - screenCX);
+        double worldY = camY + (sy - screenCY);
+
+        return new Point((int)worldX, (int)worldY);
+    }
+
+    /**
+     * Checks if a key is pressed.
+     * @param keyCode code of the key
+     * @return true if the key is pressed, false otherwise
      */
     public boolean isKeyPressed(int keyCode) {
         return pressedKeys.contains(keyCode);
     }
 
     /**
-     * Verifica se um botão do mouse está pressionado.
-     * @param button código do botão do mouse
-     * @return true se o botão estiver pressionado, false caso contrário
+     * Checks if a mouse button is pressed.
+     * @param button code of the mouse button
+     * @return true if the button is pressed, false otherwise
      */
     public boolean isMouseButtonPressed(int button) {
         return pressedMouseButtons.contains(button);
     }
 
     /**
-     * Retorna a posição atual do mouse.
-     * @return posição do mouse como um objeto Point
+     * Returns the current mouse position.
+     * @return mouse position as a Point object
      */
     public Point getMousePosition() {
         return mousePosition;

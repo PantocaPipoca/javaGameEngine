@@ -4,26 +4,28 @@ import java.util.List;
 
 import Game.Entities.Enemies.Enemy;
 import GameEngine.IGameObject;
+import GameEngine.GameObject;
 import GameEngine.GameEngine;
-import GameEngine.GUI;
+import GameEngine.Transform;
+import Figures.Circle;
+import Figures.Point;
 
 public class Game {
     private final List<Room> rooms;
     private Room currentRoom;
-    @SuppressWarnings("unused")
     private final Camera camera;
     private final GameEngine engine;
 
     public Game(List<Room> rooms) {
         this.rooms = rooms;
         engine = GameEngine.getInstance();
-        camera = new Camera();
+        camera = Camera.getInstance(engine.getGui());
     }
 
     public void loadRoom(int roomIndex) {
 
         // Clear out any old unecessary objects
-        for (IGameObject go : engine.getGameObjects()) {
+        for (IGameObject go : engine.gameObjects()) {
             engine.destroy(go);
         }
         
@@ -42,7 +44,17 @@ public class Game {
 
         engine.addEnabled(currentRoom.getPlayer().gameObject());
 
-        // TO-DO camera.setTarget(player.gameObject());
+        // Load Camera
+        GameObject cameraObject = new GameObject(
+            "camera",
+            new Transform(new Point(0, 0), 0, 0, 1),
+            new Circle("0 0 1"),
+            camera
+        );
+        camera.gameObject(cameraObject);
+        camera.setTarget(currentRoom.getPlayer().gameObject().transform());
+        engine.addEnabled(cameraObject);
+        engine.getGui().setCamera(camera);
     }
 
     public void start() {

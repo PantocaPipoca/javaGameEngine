@@ -19,7 +19,7 @@ public class MovingState extends State {
 
     @Override
     public void onUpdate(double dT, InputEvent ie) {
-        ITransform transform = owner.transform();
+        ITransform transform = owner.gameObject().transform();
         double distance = speed * dT;
 
         double dx = 0;
@@ -48,6 +48,19 @@ public class MovingState extends State {
         else {
             // If no keys are pressed, switch to IdleState
             stateMachine.setState("Idle");
+        }
+
+
+        if (ie.isKeyPressed(KeyEvent.VK_SPACE)) {
+            stateMachine.setState("Rolling");
+        }
+        if (ie.isMouseButtonPressed(1)) {
+            if(owner.getCurrentGun() != null) {
+                owner.getCurrentGun().shoot();
+            }
+        }
+        if (ie.isKeyPressed(KeyEvent.VK_1)) {
+            owner.equipGun(0);
         }
     }
 

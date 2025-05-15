@@ -15,22 +15,24 @@ public class PatrolState extends State {
     private List<Point> patrolPoints;
     private int currentPointIndex = 0;
     private static final double finishThreshold = 10;
-    private double speed = 100.0;
-    private double detectionRadius = 150.0;
+    private double patrolSpeed;
+    private double detectionRadius;
     
-    public PatrolState(List<Point> patrolPoints, IGameObject player) {
+    public PatrolState(List<Point> patrolPoints, IGameObject player, double patrolSpeed, double detectionRadius) {
         if (patrolPoints == null || patrolPoints.isEmpty()) {
             throw new IllegalArgumentException("Patrol points cannot be null or empty.");
         }
         this.player = player;
         this.patrolPoints = patrolPoints;
+        this.patrolSpeed = patrolSpeed;
+        this.detectionRadius = detectionRadius;
     }
 
     @Override
     public void onUpdate(double dT, InputEvent ie) {
         if (player != null) {
-            double dx = player.transform().position().x() - owner.transform().position().x();
-            double dy = player.transform().position().y() - owner.transform().position().y();
+            double dx = player.transform().position().x() - owner.gameObject().transform().position().x();
+            double dy = player.transform().position().y() - owner.gameObject().transform().position().y();
             double distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < detectionRadius) {
@@ -40,13 +42,13 @@ public class PatrolState extends State {
         }
         Point currentPoint = patrolPoints.get(currentPointIndex);
 
-        Point position = owner.transform().position();
+        Point position = owner.gameObject().transform().position();
         double dx = currentPoint.x() - position.x();
         double dy = currentPoint.y() - position.y();
 
         Point direction = GeometryUtils.normalize(new Point(dx, dy));
 
-        owner.transform().move(new Point(direction.x() * dT * speed, direction.y() * dT * speed), 0);
+        owner.gameObject().transform().move(new Point(direction.x() * dT * patrolSpeed, direction.y() * dT * patrolSpeed), 0);
 
         double distance = Math.sqrt(dx * dx + dy * dy);
         if (distance < finishThreshold) {

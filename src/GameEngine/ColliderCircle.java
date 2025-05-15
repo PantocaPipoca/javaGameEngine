@@ -3,6 +3,9 @@ package GameEngine;
 import Figures.Circle;
 import Figures.Point;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 /**
  * Class that represents a collider for a circle object.
  * Provides the logic to check for collisions with other colliders and centers the figure according to the transform.
@@ -109,7 +112,15 @@ public class ColliderCircle implements ICollider {
      * Returns the circle of the collider
      * @return circle of the collider
      */
-    public Circle getFigure() {
+    public Circle figure() {
         return circleCollider;
     }
+
+    public void drawOutline(Graphics g) {
+    g.setColor(Color.ORANGE);
+    int x = (int) (circleCollider.centroid().x() - circleCollider.radius());
+    int y = (int) (circleCollider.centroid().y() - circleCollider.radius());
+    int diameter = (int) (2 * circleCollider.radius());
+    g.drawOval(x, y, diameter, diameter);
+}
 }

@@ -13,7 +13,7 @@ import GameEngine.GUI;
 public class Main {
     
     public static void main(String[] args) throws Exception {
-        GameEngine engine = GameEngine.getInstance(new GUI());
+        GameEngine.getInstance(new GUI());
         List<LevelConfig> levels = GameConfigLoader.load("src/Game/Loaders/Game.json");
         List<Room> rooms = new ArrayList<>();
         rooms.add(RoomFactory.make(levels.get(0)));

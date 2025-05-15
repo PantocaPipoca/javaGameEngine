@@ -45,7 +45,7 @@ public class ColliderCircleTest {
         ITransform t = new Transform(new Point(3, 3), 0, 0, 2); // scale ×2
 
         ColliderCircle collider = new ColliderCircle(original, t);
-        Circle result = collider.getFigure();
+        Circle result = collider.figure();
 
         assertEquals(2, result.radius(), 0.0001);
     }

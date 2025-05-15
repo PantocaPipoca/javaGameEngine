@@ -3,7 +3,6 @@ package Game.Entities.Player.PlayerStates;
 import Game.Entities.State;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
-import Game.Gun.Gun;
 
 import java.awt.event.KeyEvent;
 
@@ -19,19 +18,15 @@ public class IdleState extends State {
             ie.isKeyPressed(KeyEvent.VK_A) || ie.isKeyPressed(KeyEvent.VK_D)) {
             stateMachine.setState("Moving");
         }
-        if (ie.isKeyPressed(KeyEvent.VK_SPACE)) {
-            stateMachine.setState("Rolling");
-        }
         if (ie.isMouseButtonPressed(1)) {
             if(owner.getCurrentGun() != null) {
-                currentGun.shoot();
+                owner.getCurrentGun().shoot();
             }
         }
+        if (ie.isKeyPressed(KeyEvent.VK_1)) {
+            owner.equipGun(0);
+        }
 
-    }
-
-    public void setGun(Gun gun) {
-        currentGun = gun;
     }
 
     @Override

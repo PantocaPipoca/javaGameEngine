@@ -15,6 +15,7 @@ public class ConfigModels {
         public String type; public int health;
         public double patrol, chase;
         public Map<String,Object> drops;
+        public double detectionRadius, attackRadius, forgetfulRadius;
     }
     public static class EnemySpawn {
         public Point spawn; public List<Point> patrols;
@@ -26,10 +27,16 @@ public class ConfigModels {
         public List<EnemySpawn> spawns;
         public int count;
         public Map<String,Double> chances;
-        public List<WeaponBlueprint> weapons;
+        public List<WeaponBlueprint> globalWeapons;
+        public List<WeaponBlueprint> playerWeapons;
     }
     public static class WeaponBlueprint {
         public String type;
         public double bulletSpeed;
+        public double damage;
+        public double fireRate;
+        public double reloadTime;
+        public int magazineSize;
+        public int maxAmmo;
       }
 }

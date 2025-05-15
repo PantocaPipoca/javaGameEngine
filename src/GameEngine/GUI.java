@@ -3,12 +3,15 @@ package GameEngine;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import Game.Camera;
 
 public class GUI extends JFrame {
     private List<IGameObject> gameObjects = new CopyOnWriteArrayList<>(); // Objetos para renderizar
     private InputEvent ie = new InputEvent(); // Evento de entrada atual
+    private Camera camera;
 
     public GUI() {
         setTitle("Game Engine GUI");
@@ -24,39 +27,48 @@ public class GUI extends JFrame {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                ie.keyPressed(e.getKeyCode()); // Atualizar estado no InputManager
+                ie.keyPressed(e.getKeyCode());
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                ie.keyReleased(e.getKeyCode()); // Atualizar estado no InputManager
+                ie.keyReleased(e.getKeyCode());
             }
         });
 
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                ie.mouseButtonPressed(e.getButton()); // Atualizar estado no InputManager
+                ie.mouseButtonPressed(e.getButton());
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                ie.mouseButtonReleased(e.getButton()); // Atualizar estado no InputManager
+                ie.mouseButtonReleased(e.getButton());
             }
         });
 
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                ie.updateMousePosition(e.getX(), e.getY()); // Atualizar posição do mouse
+                ie.updateMousePosition(e.getX(), e.getY());
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                ie.updateMousePosition(e.getX(), e.getY());
             }
         });
 
         setVisible(true);
     }
 
-    public InputEvent getIe() {
-        return ie; // Retornar o evento de entrada atual
+    public InputEvent ie() {
+        return ie;
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
 
     /**
@@ -64,8 +76,8 @@ public class GUI extends JFrame {
      * @param gameObjects lista de objetos habilitados
      */
     public void renderGameObjects(List<IGameObject> gameObjects) {
-        this.gameObjects = new CopyOnWriteArrayList<>(gameObjects); // Atualizar a lista de objetos
-        repaint(); // Solicitar a renderização
+        this.gameObjects = new CopyOnWriteArrayList<>(gameObjects);
+        repaint();
     }
 
     /**
@@ -80,17 +92,51 @@ public class GUI extends JFrame {
             g.setColor(Color.WHITE);
             g.fillRect(0, 0, getWidth(), getHeight());
 
-            // Renderização de cada GameObject
+            // Camera
+            double camX = 0, camY = 0;
+            if (camera != null) {
+                camX = camera.getPosition().x();
+                camY = camera.getPosition().y();
+            }
+            int screenCX = getWidth() / 2;
+            int screenCY = getHeight() / 2;
+
+            Graphics2D g2 = (Graphics2D) g;
             for (IGameObject go : gameObjects) {
                 if (go.transform() == null || go.shape() == null) continue;
 
-                int x = (int) go.transform().position().x();
-                int y = (int) go.transform().position().y();
+                // world coords
+                double wx = go.transform().position().x();
+                double wy = go.transform().position().y();
 
-                // Renderiza apenas se estiver visível
-                if (x + 100 > 0 && x < getWidth() && y + 100 > 0 && y < getHeight()) {
-                    go.shape().render(g, go.transform());
+                // desired screen coords
+                int drawX = (int) ((wx - camX) + screenCX);
+                int drawY = (int) ((wy - camY) + screenCY);
+
+                // quick cull
+                if (drawX + 100 < 0 || drawX - 100 > getWidth() ||
+                    drawY + 100 < 0 || drawY - 100 > getHeight()) {
+                    continue;
                 }
+
+                // 1) save original transform
+                AffineTransform old = g2.getTransform();
+
+                // 2) translate so world(wx,wy) → screen(drawX,drawY)
+                g2.translate(drawX - wx, drawY - wy);
+
+                // 3) draw sprite
+                go.shape().render(g2, go.transform());
+
+                // 4) debug outline (always on)
+                if (go.collider() instanceof ColliderCircle) {
+                    ((ColliderCircle) go.collider()).drawOutline(g2);
+                } else if (go.collider() instanceof ColliderPolygon) {
+                    ((ColliderPolygon) go.collider()).drawOutline(g2);
+                }
+
+                // 5) restore
+                g2.setTransform(old);
             }
         }
     }

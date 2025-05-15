@@ -7,7 +7,6 @@ import Game.Entities.Player.Player;
 import Game.Room;
 import Figures.Point;
 import Figures.Circle;
-import Game.Gun.*;
 import GameEngine.*;
 import java.util.*;
 
@@ -57,10 +56,10 @@ public class RoomFactory {
     }
     private static Enemy makeEnemy(EnemyBlueprint bp, Player pl, List<Point> patrols) {
         switch (bp.type) {
-            case "gunner":         return new Gunner(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.chase);
-            case "bomber_striker": return new BomberStriker(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.chase);
-            case "bomber_ghost":   return new BomberGhost(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.chase);
-            case "striker":        return new Striker(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.chase);
+            case "gunner":         return new Gunner(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
+            case "bomber_striker": return new BomberStriker(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
+            case "bomber_ghost":   return new BomberGhost(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
+            case "striker":        return new Striker(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
             default:                throw new RuntimeException("Unknown: " + bp.type);
         }
     }

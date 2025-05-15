@@ -55,7 +55,7 @@ public class LayerGroup {
      * Returns the layer of the group
      * @return layer of the group
      */
-    public int getLayer() {
+    public int layer() {
         return layer;
     }
 
@@ -63,7 +63,7 @@ public class LayerGroup {
      * Returns the list of objects in the group
      * @return list of objects in the group
      */
-    public List<IGameObject> getObjects() {
+    public List<IGameObject> objects() {
         return objects;
     }
 

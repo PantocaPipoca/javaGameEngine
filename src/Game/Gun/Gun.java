@@ -13,9 +13,11 @@ public abstract class Gun implements IBehaviour{
     protected GameEngine gameEngine;
     protected IGameObject go;
     private double distanceFromOwner = 50;
+    private String name;
 
-    public Gun(IGameObject owner) {
+    public Gun(IGameObject owner, String name) {
         this.owner = owner;
+        this.name = name;
         this.gameEngine = GameEngine.getInstance();
 
     }
@@ -32,7 +34,7 @@ public abstract class Gun implements IBehaviour{
         double targetRotation = Math.atan2(dy, dx); // Angle in radians
 
         // Update the gun's rotation
-        go.transform().rotate(Math.toDegrees(targetRotation)); // Rotate the gun to face the target
+        go.transform().setAngle(Math.toDegrees(targetRotation)); // Rotate the gun to face the target
 
         // Update the gun's position to rotate around the owner
         double gunX = ownerPosition.x() + Math.cos(targetRotation) * distanceFromOwner;
@@ -61,10 +63,14 @@ public abstract class Gun implements IBehaviour{
 
     }
     public void onUpdate(double dT, InputEvent ie) { 
-        Point target = new Point(ie.getMousePosition().getX(), ie.getMousePosition().getY()); //To-do seguir o mouse ou algo assim
+        Point target = new Point(ie.getMouseWorldPosition().getX(), ie.getMouseWorldPosition().getY()); //To-do seguir o mouse ou algo assim
         updateRotation(target);
+        go.update();
     }
     public void onCollision(List<IGameObject> gol) {
 
+    }
+    public String name() {
+        return name;
     }
 }

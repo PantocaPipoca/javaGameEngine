@@ -8,8 +8,10 @@ import GameEngine.IGameObject;
 
 public class BomberStriker extends Bomber {
     
-    public BomberStriker(Health health, IGameObject player, List<Point> patrolPoints, double patrolSpeed, double chaseSpeed) {
-        super(health, player, patrolPoints);
+    public BomberStriker(Health health, IGameObject player, List<Point> patrolPoints,
+                  double patrolSpeed, double detectionRadius, double attackRadius,
+                  double chaseSpeed, double forgetfullRadius) {
+        super(health, player, patrolPoints, patrolSpeed, detectionRadius, attackRadius, chaseSpeed, forgetfullRadius);
     }
 
 }

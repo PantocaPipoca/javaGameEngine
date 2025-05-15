@@ -50,7 +50,7 @@ public class GameEngine {
             float dt = elapsedTime / 1_000_000_000.0f; // Delta time in seconds
             lastTime = currentTime;
     
-            InputEvent ie = gui.getIe();
+            InputEvent ie = gui.ie();
     
             // Update enabled objects
             for (IGameObject go : new ArrayList<>(enabled)) { // Avoid concurrent modification
@@ -162,7 +162,7 @@ public class GameEngine {
      */
     private void checkCollisions() {
         for (LayerGroup group : layerGroups) {
-            checkCollisionsInGroup(group.getObjects());
+            checkCollisionsInGroup(group.objects());
         }
     }
 
@@ -188,7 +188,7 @@ public class GameEngine {
      */
     private LayerGroup getLayerGroup(int layer) {
         for (LayerGroup group : layerGroups) {
-            if (group.getLayer() == layer) {
+            if (group.layer() == layer) {
                 return group;
             }
         }
@@ -215,19 +215,22 @@ public class GameEngine {
      * @return a list of strings with the collision results
      */
     private void checkCollisionsInGroup(List<IGameObject> group) {
-        int size = group.size();
+        List<IGameObject> groupCopy = new ArrayList<>(group);
+        int size = groupCopy.size();
         for (int i = 0; i < size; i++) {
-            IGameObject go1 = group.get(i);
-            List<IGameObject> collidingObjects = new ArrayList<>();
-            for (int j = 0; j < size; j++) {
-                if (i == j) continue;
-                IGameObject go2 = group.get(j);
+            IGameObject go1 = groupCopy.get(i);
+            for (int j = i + 1; j < size; j++) {
+                IGameObject go2 = groupCopy.get(j);
                 if (go1.collider().colides(go2.collider())) {
-                    collidingObjects.add(go2);
+                    // Each object is notified of the other
+                    List<IGameObject> go2List = new ArrayList<>();
+                    go2List.add(go2);
+                    go1.behaviour().onCollision(go2List);
+
+                    List<IGameObject> go1List = new ArrayList<>();
+                    go1List.add(go1);
+                    go2.behaviour().onCollision(go1List);
                 }
-            }
-            if (!collidingObjects.isEmpty()) {
-                go1.behaviour().onCollision(collidingObjects);
             }
         }
     }
@@ -257,7 +260,7 @@ public class GameEngine {
             float dt = (currentTime - lastTime) / 1_000_000_000.0f;
             lastTime = currentTime;
 
-            InputEvent ie = gui.getIe();
+            InputEvent ie = gui.ie();
     
             // Update enabled objects
             for (IGameObject go : new ArrayList<>(enabled)) { // Avoid concurrent modification
@@ -284,7 +287,7 @@ public class GameEngine {
      * Returns the list of objects in the GameEngine
      * @return list of objects in the GameEngine
      */
-    public List<IGameObject> getGameObjects() {
+    public List<IGameObject> gameObjects() {
         return gameObjects;
     }
 
@@ -296,11 +299,11 @@ public class GameEngine {
         return disabled.contains(go);
     }
 
-    public List<IGameObject> getEnabled() {
+    public List<IGameObject> enabled() {
         return new ArrayList<>(enabled);
     }
 
-    public List<IGameObject> getDisabled() {
+    public List<IGameObject> disabled() {
         return new ArrayList<>(disabled);
     }
 
@@ -326,5 +329,9 @@ public class GameEngine {
             throw new IllegalStateException("GameEngine has not been initialized. Call getInstance(GUI) first.");
         }
         return instance;
+    }
+
+    public GUI getGui() {
+        return gui;
     }
 }

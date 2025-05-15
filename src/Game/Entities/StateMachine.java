@@ -32,10 +32,10 @@ public class StateMachine {
         this.states = new HashMap<String, State>();
     }
 
-    public void setOwner(IGameObject go) {
-        this.owner = (IEntity) go.behaviour();
+    public void setOwner(IEntity owner) {
+        this.owner = owner;
         for (State s : states.values()) {
-            s.onInit(this, go);
+            s.onInit(this, owner);
         }
     }
 

@@ -51,8 +51,16 @@ public class Transform implements ITransform {
      * @param dTheta rotation angle
      */
     public void rotate(double dTheta) {
-        angle = (angle + dTheta) % 360;
-        if (angle < 0) angle += 360;
+        setAngle(dTheta + angle);
+    }
+
+    /**
+     * Sets the angle of the object
+     * @param angle angle to set
+     */
+    public void setAngle(double angle) {
+        this.angle = angle % 360;
+        if (this.angle < 0) this.angle += 360;
     }
     
     /**

@@ -2,6 +2,9 @@ package GameEngine;
 
 import Figures.*;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 /**
  * Class that represents a collider for a polygon object.
  * Provides the logic to check for collisions with other colliders and centers the figure according to the transform.
@@ -61,23 +64,23 @@ public class ColliderPolygon implements ICollider {
         if (cc == null) {
             throw new IllegalArgumentException("Collider cannot be null");
         }
-        Point[] points = polygonCollider.getPoints();
+        Point[] points = polygonCollider.points();
         // Checks if the center of the circle is inside the polygon
-        if (pointIsInsidePolygon(cc.getFigure().centroid(), polygonCollider))
+        if (pointIsInsidePolygon(cc.figure().centroid(), polygonCollider))
             return true;
         
         // For each segment of the polygon, checks if it intersects the circle
-        for (Segment s : polygonCollider.getSegments()) {
-            if (s.intersects(cc.getFigure()))
+        for (Segment s : polygonCollider.segments()) {
+            if (s.intersects(cc.figure()))
                 return true;
         }
         
         // Checks if any vertex of the polygon is inside the circle
         for (Point p : points) {
-            double dx = cc.getFigure().centroid().x() - p.x();
-            double dy = cc.getFigure().centroid().y() - p.y();
+            double dx = cc.figure().centroid().x() - p.x();
+            double dy = cc.figure().centroid().y() - p.y();
             double distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance < cc.getFigure().radius())
+            if (distance < cc.figure().radius())
                 return true;
         }
         return false;
@@ -94,17 +97,17 @@ public class ColliderPolygon implements ICollider {
         if (cp == null) {
             throw new IllegalArgumentException("Collider cannot be null");
         }
-        Segment[] segments1 = this.polygonCollider.getSegments();
-        Segment[] segments2 = cp.polygonCollider.getSegments();
-        Point[] points1 = this.polygonCollider.getPoints();
-        Point[] points2 = cp.polygonCollider.getPoints();
+        Segment[] segments1 = this.polygonCollider.segments();
+        Segment[] segments2 = cp.polygonCollider.segments();
+        Point[] points1 = this.polygonCollider.points();
+        Point[] points2 = cp.polygonCollider.points();
         for (Segment s1 : segments1) {
             for (Segment s2 : segments2) {
                 if (s1.intersects(s2))
                     return true;
             }
         }
-        if (pointIsInsidePolygon(points1[0], cp.getFigure()))
+        if (pointIsInsidePolygon(points1[0], cp.figure()))
             return true;
         if (pointIsInsidePolygon(points2[0], polygonCollider))
             return true;
@@ -119,7 +122,7 @@ public class ColliderPolygon implements ICollider {
      */
     public static boolean pointIsInsidePolygon(Point point, Polygon poly) {
         int count = 0;
-        Point[] points = poly.getPoints();
+        Point[] points = poly.points();
         int n = points.length;
 
         for (int i = 0; i < n; i++) {
@@ -181,8 +184,19 @@ public class ColliderPolygon implements ICollider {
      * Returns the polygon of the collider
      * @return polygon of the collider
      */
-    public Polygon getFigure() {
+    public Polygon figure() {
         return polygonCollider;
     }
 
+    public void drawOutline(Graphics g) {
+    g.setColor(Color.ORANGE);
+    Point[] pts = polygonCollider.points();
+    int[] xs = new int[pts.length];
+    int[] ys = new int[pts.length];
+    for (int i = 0; i < pts.length; i++) {
+        xs[i] = (int) pts[i].x();
+        ys[i] = (int) pts[i].y();
+    }
+    g.drawPolygon(xs, ys, pts.length);
+}
 }

@@ -1,5 +1,94 @@
 {
-    "levels": [
+  "enemyBlueprints": [
+      {
+        "type": "gunner",
+        "maxHealth": 30,
+        "patrolSpeed": 100.0,
+        "chaseSpeed": 150.0,
+        "detectionRadius": 300,
+        "attackRadius": 50,
+        "forgetfullRadius": 500,
+        "dropChance": {
+          "health": 0.2,
+          "powerup": 0.2,
+          "ammo": {
+            "type": "normal",
+            "chance": 0.5,
+            "minAmount": 2,
+            "maxAmount": 5
+          }
+        }
+      },
+      {
+        "type": "bomber_striker",
+        "maxHealth": 25,
+        "patrolSpeed": 100.0,
+        "chaseSpeed": 150.0,
+        "detectionRadius": 300,
+        "attackRadius": 50,
+        "forgetfullRadius": 500,
+        "dropChance": {
+          "health": 0.15,
+          "powerup": 0.25,
+          "ammo": {
+            "type": "special",
+            "chance": 0.4,
+            "minAmount": 1,
+            "maxAmount": 3
+          }
+        }
+      },
+      {
+        "type": "bomber_ghost",
+        "maxHealth": 20,
+        "patrolSpeed": 100.0,
+        "chaseSpeed": 150.0,
+        "detectionRadius": 300,
+        "attackRadius": 50,
+        "forgetfullRadius": 500,
+        "dropChance": {
+          "health": 0.1,
+          "powerup": 0.3,
+          "ammo": {
+            "type": "special",
+            "chance": 0.3,
+            "minAmount": 1,
+            "maxAmount": 2
+          }
+        }
+      },
+      {
+        "type": "striker",
+        "maxHealth": 35,
+        "patrolSpeed": 100.0,
+        "chaseSpeed": 150.0,
+        "detectionRadius": 300,
+        "attackRadius": 50,
+        "forgetfullRadius": 500,
+        "dropChance": {
+          "health": 0.25,
+          "powerup": 0.15,
+          "ammo": {
+            "type": "normal",
+            "chance": 0.6,
+            "minAmount": 3,
+            "maxAmount": 6
+          }
+        }
+      }
+    ],
+  "weaponBlueprints": [
+    {
+      "type": "pistol",
+      "bulletSpeed": 1000.0,
+      "damage": 10,
+      "fireRate": 0.5,
+      "reloadTime": 2.0,
+      "clipSize": 15,
+      "maxAmmo": 60
+    }
+  ],
+  "levels": [
       {
         "levelName": "First Mission",
         "difficulty": "Normal",
@@ -10,74 +99,10 @@
           "scale": 1.0,
           "maxHealth": 100,
           "movingSpeed": 500.0,
-          "rollingSpeed": 8.0
+          "rollingSpeed": 8.0,
+          "playerWeapons": ["pistol", "shotgun"]
         },
-        "enemyBlueprints": [
-          {
-            "type": "gunner",
-            "maxHealth": 30,
-            "patrolSpeed": 3.0,
-            "chaseSpeed": 6.0,
-            "dropChance": {
-              "health": 0.2,
-              "powerup": 0.2,
-              "ammo": {
-                "type": "normal",
-                "chance": 0.5,
-                "minAmount": 2,
-                "maxAmount": 5
-              }
-            }
-          },
-          {
-            "type": "bomber_striker",
-            "maxHealth": 25,
-            "patrolSpeed": 2.5,
-            "chaseSpeed": 5.5,
-            "dropChance": {
-              "health": 0.15,
-              "powerup": 0.25,
-              "ammo": {
-                "type": "special",
-                "chance": 0.4,
-                "minAmount": 1,
-                "maxAmount": 3
-              }
-            }
-          },
-          {
-            "type": "bomber_ghost",
-            "maxHealth": 20,
-            "patrolSpeed": 2.0,
-            "chaseSpeed": 4.5,
-            "dropChance": {
-              "health": 0.1,
-              "powerup": 0.3,
-              "ammo": {
-                "type": "special",
-                "chance": 0.3,
-                "minAmount": 1,
-                "maxAmount": 2
-              }
-            }
-          },
-          {
-            "type": "striker",
-            "maxHealth": 35,
-            "patrolSpeed": 3.5,
-            "chaseSpeed": 7.0,
-            "dropChance": {
-              "health": 0.25,
-              "powerup": 0.15,
-              "ammo": {
-                "type": "normal",
-                "chance": 0.6,
-                "minAmount": 3,
-                "maxAmount": 6
-              }
-            }
-          }
-        ],
+        "enemyTypes": [ "gunner", "bomber_striker", "bomber_ghost", "striker" ],
         "enemySpawns": [
           {
             "spawnPoint": { "x": 100, "y": 100 },
@@ -117,6 +142,7 @@
             ]
           }
         ],
+        "globalWeapons": [ "pistol" ],
         "enemyCount": 5,
         "enemyChances": {
           "gunner": 0.3,
@@ -136,74 +162,10 @@
           "scale": 1.0,
           "maxHealth": 80,
           "movingSpeed": 450.0,
-          "rollingSpeed": 7.0
+          "rollingSpeed": 7.0,
+          "playerWeapons": ["pistol", "shotgun"]
         },
-        "enemyBlueprints": [
-          {
-            "type": "gunner",
-            "maxHealth": 35,
-            "patrolSpeed": 3.5,
-            "chaseSpeed": 6.5,
-            "dropChance": {
-              "health": 0.15,
-              "powerup": 0.1,
-              "ammo": {
-                "type": "normal",
-                "chance": 0.4,
-                "minAmount": 1,
-                "maxAmount": 4
-              }
-            }
-          },
-          {
-            "type": "bomber_striker",
-            "maxHealth": 30,
-            "patrolSpeed": 2.0,
-            "chaseSpeed": 5.0,
-            "dropChance": {
-              "health": 0.1,
-              "powerup": 0.2,
-              "ammo": {
-                "type": "special",
-                "chance": 0.5,
-                "minAmount": 2,
-                "maxAmount": 5
-              }
-            }
-          },
-          {
-            "type": "bomber_ghost",
-            "maxHealth": 25,
-            "patrolSpeed": 1.8,
-            "chaseSpeed": 4.0,
-            "dropChance": {
-              "health": 0.05,
-              "powerup": 0.25,
-              "ammo": {
-                "type": "special",
-                "chance": 0.3,
-                "minAmount": 1,
-                "maxAmount": 3
-              }
-            }
-          },
-          {
-            "type": "striker",
-            "maxHealth": 40,
-            "patrolSpeed": 4.0,
-            "chaseSpeed": 8.0,
-            "dropChance": {
-              "health": 0.2,
-              "powerup": 0.2,
-              "ammo": {
-                "type": "normal",
-                "chance": 0.7,
-                "minAmount": 2,
-                "maxAmount": 6
-              }
-            }
-          }
-        ],
+        "enemyTypes": [ "gunner", "bomber_striker", "bomber_ghost", "striker" ],
         "enemySpawns": [
           {
             "spawnPoint": { "x": 150, "y": 200 },
@@ -241,6 +203,7 @@
             ]
           }
         ],
+        "globalWeapons": [ "pistol" ],
         "enemyCount": 8,
         "enemyChances": {
           "gunner": 0.25,
