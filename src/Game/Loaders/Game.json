@@ -82,10 +82,11 @@
       "type": "pistol",
       "bulletSpeed": 1000.0,
       "damage": 10,
-      "fireRate": 0.5,
+      "fireRate": 100,
       "reloadTime": 2.0,
-      "clipSize": 15,
-      "maxAmmo": 60
+      "magazineSize": 5,
+      "maxAmmo": 60,
+      "distanceFromOwner": 20
     }
   ],
   "levels": [
@@ -100,7 +101,7 @@
           "maxHealth": 100,
           "movingSpeed": 500.0,
           "rollingSpeed": 8.0,
-          "playerWeapons": ["pistol", "shotgun"]
+          "playerWeapons": [ "pistol" ]
         },
         "enemyTypes": [ "gunner", "bomber_striker", "bomber_ghost", "striker" ],
         "enemySpawns": [
@@ -163,7 +164,7 @@
           "maxHealth": 80,
           "movingSpeed": 450.0,
           "rollingSpeed": 7.0,
-          "playerWeapons": ["pistol", "shotgun"]
+          "playerWeapons": ["pistol"]
         },
         "enemyTypes": [ "gunner", "bomber_striker", "bomber_ghost", "striker" ],
         "enemySpawns": [

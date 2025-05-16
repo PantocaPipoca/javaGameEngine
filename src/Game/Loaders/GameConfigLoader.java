@@ -45,6 +45,7 @@ public class GameConfigLoader {
             wp.reloadTime  = ((Number) m.get("reloadTime")).doubleValue();
             wp.magazineSize = ((Number) m.get("magazineSize")).intValue();
             wp.maxAmmo     = ((Number) m.get("maxAmmo")).intValue();
+            wp.distanceFromOwner = ((Number) m.get("distanceFromOwner")).doubleValue();
 
             weaponCache.put(type, wp);
         }
@@ -73,7 +74,7 @@ public class GameConfigLoader {
             L.player.health = ((Number)p.get("maxHealth")).intValue();
             L.player.speed  = ((Number)p.get("movingSpeed")).doubleValue();
             L.player.roll   = ((Number)p.get("rollingSpeed")).doubleValue();
-            L.player.startingWeapon = (String) p.get("startingWeapon");
+            L.player.playerWeapons = new ArrayList<>();
 
             // Enemy blueprints for this level
             L.blueprints = new ArrayList<>();
@@ -112,11 +113,22 @@ public class GameConfigLoader {
             }
 
             // Weapon blueprints for this level
-            L.weapons = new ArrayList<>();
-            for (String type : (List<String>) l.get("weaponTypes")) {
+            L.globalWeapons = new ArrayList<>();
+            for (String type : (List<String>) l.get("globalWeapons")) {
                 WeaponBlueprint wp = weaponCache.get(type);
                 if (wp == null) throw new RuntimeException("Missing weapon blueprint: " + type);
-                L.weapons.add(wp);
+                L.globalWeapons.add(wp);
+            }
+
+            // Player weapons
+            List<String> playerWeaponTypes = (List<String>) p.get("playerWeapons");
+            for (String type : playerWeaponTypes) {
+                WeaponBlueprint wp = weaponCache.get(type);
+                if (wp == null) throw new RuntimeException("Missing weapon blueprint: " + type);
+                if (!((List<String>) l.get("globalWeapons")).contains(type)) {
+                    System.err.println("Warning: Player weapon " + type + " is not in globalWeapons for level " + L.name);
+                }
+                L.player.playerWeapons.add(wp);
             }
 
             levels.add(L);

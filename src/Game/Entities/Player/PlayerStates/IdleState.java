@@ -1,6 +1,7 @@
 package Game.Entities.Player.PlayerStates;
 
 import Game.Entities.State;
+import Game.Gun.Gun;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 
@@ -25,6 +26,12 @@ public class IdleState extends State {
         }
         if (ie.isKeyPressed(KeyEvent.VK_1)) {
             owner.equipGun(0);
+        }
+        if(ie.isKeyPressed(KeyEvent.VK_R)) {
+            Gun gun = (Gun) owner.getCurrentGun();
+            if(gun != null) {
+                gun.reload();
+            }
         }
 
     }

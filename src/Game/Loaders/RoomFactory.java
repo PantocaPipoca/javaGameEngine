@@ -4,6 +4,7 @@ import Game.Loaders.ConfigModels.*;
 import Game.Entities.Health;
 import Game.Entities.Enemies.*;
 import Game.Entities.Player.Player;
+import Game.Gun.*;
 import Game.Room;
 import Figures.Point;
 import Figures.Circle;
@@ -19,8 +20,27 @@ public class RoomFactory {
         GameObject go = new GameObject("player", t, new Circle(pc.pos.x()+" "+pc.pos.y()+" 20"), pl);
         pl.gameObject(go);
 
-        // Build pistol
-        pl.initializePistol();
+        if (lvl.player != null && lvl.player.playerWeapons != null) {
+            for (WeaponBlueprint wp : lvl.player.playerWeapons) {
+                Weapon gun;
+                switch (wp.type) {
+                    case "pistol":
+                        gun = new Pistol(pl.gameObject(), wp.bulletSpeed, wp.damage, wp.fireRate, wp.reloadTime, wp.magazineSize, wp.maxAmmo, wp.distanceFromOwner);
+                        IGameObject pistolObject = new GameObject(
+                            gun.name() + "_0",
+                            new Transform(go.transform().position(), go.transform().layer() + 1, 0, 1),
+                            new Circle("0 0 20"),
+                            gun
+                        );
+                        gun.gameObject(pistolObject);
+                        break;
+                    
+                    default:
+                        throw new RuntimeException("Unknown weapon: " + wp.type);
+                }
+                pl.addGun(gun);
+            }
+        }
 
 
         // build enemies

@@ -10,7 +10,7 @@ import Game.Entities.Health;
 import Game.Entities.IEntity;
 import Game.Entities.StateMachine;
 import Game.Entities.Player.PlayerStates.*;
-import Game.Gun.Gun;
+import Game.Gun.Weapon;
 import Game.Gun.Pistol;
 import GameEngine.GameEngine;
 import GameEngine.GameObject;
@@ -23,8 +23,8 @@ public class Player implements IEntity {
     private final StateMachine stateMachine;
     private float score;
     private IGameObject go;
-    private List<Gun> guns;
-    private Gun currentGun;
+    private List<Weapon> guns;
+    private Weapon currentGun;
 
     public Player(Health health, double movingSpeed, double rollingSpeed) {
         this.healthManager = health;
@@ -48,19 +48,14 @@ public class Player implements IEntity {
 
     }
 
-    public void addGun(Gun gun) {
+    public void addGun(Weapon gun) {
         if (gun != null) {
             guns.add(gun);
             currentGun = gun;
         }
     }
 
-    public void initializePistol() {
-        Gun pistol = new Pistol(go);
-        addGun(pistol);
-    }
-
-    public void setCurrentGun(Gun gun) {
+    public void setCurrentGun(Weapon gun) {
         if (gun != null) {
             
             this.currentGun = gun;
@@ -69,17 +64,7 @@ public class Player implements IEntity {
                 GameEngine.getInstance().destroy(gun.gameObject());
             }
 
-            // Create the GameObject for the gun
-            IGameObject gunObject = new GameObject(
-                gun.name() + "_0",
-                new Transform(go.transform().position(), go.transform().layer() + 1, 0, 1),
-                new Circle("0 0 20"),
-                gun
-            );
-
-            // Set the gun's GameObject and add it to the engine
-            gun.gameObject(gunObject);
-            GameEngine.getInstance().addEnabled(gunObject);
+            GameEngine.getInstance().addEnabled(gun.gameObject());
         }
     }
 
@@ -134,10 +119,10 @@ public class Player implements IEntity {
         this.go = go;
         this.stateMachine.setOwner((IEntity) go.behaviour());
     }
-    public List<Gun> getGuns() {
+    public List<Weapon> getGuns() {
         return guns;
     }
-    public Gun getCurrentGun() {
+    public Weapon getCurrentGun() {
         return currentGun;
     }
 }

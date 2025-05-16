@@ -9,7 +9,7 @@ public class ConfigModels {
         public Point pos; public int layer;
         public double angle, scale;
         public int health; public double speed, roll;
-        public String startingWeapon;
+        public List<WeaponBlueprint> playerWeapons;
     }
     public static class EnemyBlueprint {
         public String type; public int health;
@@ -28,7 +28,6 @@ public class ConfigModels {
         public int count;
         public Map<String,Double> chances;
         public List<WeaponBlueprint> globalWeapons;
-        public List<WeaponBlueprint> playerWeapons;
     }
     public static class WeaponBlueprint {
         public String type;
@@ -38,5 +37,6 @@ public class ConfigModels {
         public double reloadTime;
         public int magazineSize;
         public int maxAmmo;
+        public double distanceFromOwner;
       }
 }

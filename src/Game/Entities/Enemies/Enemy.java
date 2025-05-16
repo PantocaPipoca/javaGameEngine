@@ -5,7 +5,7 @@ import java.util.List;
 import Game.Entities.Health;
 import Game.Entities.IEntity;
 import Game.Entities.StateMachine;
-import Game.Gun.Gun;
+import Game.Gun.Weapon;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 
@@ -14,8 +14,8 @@ public abstract class Enemy implements IEntity {
     protected StateMachine stateMachine;
     private final Health healthManager;
     private IGameObject go;
-    private List<Gun> guns;
-    private Gun currentGun;
+    private List<Weapon> guns;
+    private Weapon currentGun;
 
     public Enemy(Health health) {
         this.healthManager = health;
@@ -24,7 +24,7 @@ public abstract class Enemy implements IEntity {
         currentGun = null;
     }
 
-    public void setCurrentGun(Gun gun) {
+    public void setCurrentGun(Weapon gun) {
         if (gun != null) {
             this.currentGun = gun;
         }
@@ -87,7 +87,7 @@ public abstract class Enemy implements IEntity {
         this.stateMachine.setOwner((IEntity) go.behaviour());
     }
 
-    public Gun getCurrentGun() {
+    public Weapon getCurrentGun() {
         return currentGun;
     }
 

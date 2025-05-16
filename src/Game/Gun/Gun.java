@@ -1,76 +1,92 @@
 package Game.Gun;
 
-import java.util.List;
-
+import Figures.Circle;
 import Figures.Point;
-import GameEngine.GameEngine;
-import GameEngine.IBehaviour;
+import GameEngine.GameObject;
 import GameEngine.IGameObject;
+import GameEngine.Transform;
 import GameEngine.InputEvent;
 
-public abstract class Gun implements IBehaviour{
-    protected IGameObject owner;
-    protected GameEngine gameEngine;
-    protected IGameObject go;
-    private double distanceFromOwner = 50;
-    private String name;
+public class Gun extends Weapon {
+    protected double bulletSpeed;
+    protected double reloadTime;
+    protected int magazineSize;
+    protected int maxAmmo;
 
-    public Gun(IGameObject owner, String name) {
-        this.owner = owner;
-        this.name = name;
-        this.gameEngine = GameEngine.getInstance();
+    protected int currentAmmo;
+    protected int reserveAmmo;
+    protected boolean isReloading = false;
+    protected double reloadTimer = 0.0;
 
+
+    public Gun(IGameObject owner, String name, double bulletSpeed, double damage, double fireRate, double reloadTime, int magazineSize, int maxAmmo, double distanceFromOwner) {
+        super(owner, name, damage, fireRate, distanceFromOwner);
+        this.bulletSpeed = bulletSpeed;
+        this.reloadTime = reloadTime;
+        this.magazineSize = magazineSize;
+        this.maxAmmo = maxAmmo;
+        this.currentAmmo = magazineSize;
+        this.reserveAmmo = maxAmmo - magazineSize;
     }
 
-    public void updateRotation(Point mousePosition) {
-        if (go == null) {
-            throw new IllegalStateException("GameObject for the gun is not initialized.");
+    public void shoot() {
+        super.shoot();
+        if (isReloading) {
+            System.out.println("Cannot shoot while reloading.");
+            return;
         }
-
-        // Calculate the angle to the mouse position
+        if (currentAmmo <= 0) {
+            System.out.println("Out of ammo! Reloading...");
+            reload();
+            return;
+        }
+        // Calculate the bullet's initial position (at the tip of the gun)
         Point ownerPosition = owner.transform().position();
-        double dx = mousePosition.x() - ownerPosition.x();
-        double dy = mousePosition.y() - ownerPosition.y();
-        double targetRotation = Math.atan2(dy, dx); // Angle in radians
+        double rotation = Math.toRadians(go.transform().angle());
+        double bulletX = ownerPosition.x() + Math.cos(rotation);
+        double bulletY = ownerPosition.y() + Math.sin(rotation);
 
-        // Update the gun's rotation
-        go.transform().setAngle(Math.toDegrees(targetRotation)); // Rotate the gun to face the target
+        // Create a new bullet object
+        Bullet bullet = new Bullet(rotation, bulletSpeed);
 
-        // Update the gun's position to rotate around the owner
-        double gunX = ownerPosition.x() + Math.cos(targetRotation) * distanceFromOwner;
-        double gunY = ownerPosition.y() + Math.sin(targetRotation) * distanceFromOwner;
-        go.transform().move(new Point(gunX - go.transform().position().x(), gunY - go.transform().position().y()), 0);
+        GameObject bulletObject = new GameObject("bullet", new Transform(new Point(bulletX, bulletY), 1, 0, 1), new Circle("0 0 10"), bullet);
+        bullet.gameObject(bulletObject);
+        gameEngine.addEnabled(bulletObject);
+
+        currentAmmo--;
+
     }
 
-    public abstract void shoot();
+    public void onUpdate(double dT, InputEvent ie) {
+        super.onUpdate(dT, ie);
+        if (isReloading) {
+            reloadTimer -= dT;
+            if (reloadTimer <= 0) {
+                int ammoNeeded = magazineSize - currentAmmo;
+                int ammoToLoad = Math.min(ammoNeeded, reserveAmmo);
+                currentAmmo += ammoToLoad;
+                reserveAmmo -= ammoToLoad;
+                isReloading = false;
+                System.out.println("Reloaded!");
+            }
+        }
+    }
+
+    public void reload() {
+        if (!isReloading && reserveAmmo > 0 && currentAmmo < magazineSize) {
+            isReloading = true;
+            reloadTimer = reloadTime;
+            System.out.println("Started reloading...");
+        }
+    }
     
-    public IGameObject gameObject() {
-        return go;
-    }
-    public void gameObject(IGameObject go) {
-        this.go = go;
-    }
-    public void onInit() {
 
+    public void setBulletSpeed(double bulletSpeed) {
+        this.bulletSpeed = bulletSpeed;
     }
-    public void onEnabled() {
 
+    public double getBulletSpeed() {
+        return bulletSpeed;
     }
-    public void onDisabled() {
-
-    }
-    public void onDestroy() {
-
-    }
-    public void onUpdate(double dT, InputEvent ie) { 
-        Point target = new Point(ie.getMouseWorldPosition().getX(), ie.getMouseWorldPosition().getY()); //To-do seguir o mouse ou algo assim
-        updateRotation(target);
-        go.update();
-    }
-    public void onCollision(List<IGameObject> gol) {
-
-    }
-    public String name() {
-        return name;
-    }
+    
 }

@@ -1,13 +1,13 @@
 package Game.Entities;
 
 import GameEngine.IBehaviour;
-import Game.Gun.Gun;
+import Game.Gun.Weapon;
 
 public interface IEntity extends IBehaviour {
 
     public StateMachine getStateMachine();
     public Health getHealthManager();
-    public Gun getCurrentGun();
+    public Weapon getCurrentGun();
     public void equipGun(int index);
     
 }

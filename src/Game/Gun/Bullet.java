@@ -13,6 +13,9 @@ public class Bullet implements IBehaviour {
     private double speed;
     private IGameObject go;
     private GameEngine gameEngine = GameEngine.getInstance();
+    private double lifeTime = 0.7;
+
+    private double timeAlive = 0.0; //Time counter
 
     public Bullet(double rotation, double speed) {
         this.rotation = rotation;
@@ -26,6 +29,11 @@ public class Bullet implements IBehaviour {
         double dy = Math.sin(rotation) * speed * dT;
         go.transform().move(new Point(dx, dy), 0);
         go.update();
+
+        timeAlive += dT;
+        if (timeAlive >= lifeTime) {
+            gameEngine.destroy(go);
+        }
     }
 
     @Override
