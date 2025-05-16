@@ -1,18 +1,53 @@
 package Game.Loaders;
 
 import Game.Loaders.ConfigModels.*;
+import Game.Obstacles.Wall;
 import Game.Entities.Health;
 import Game.Entities.Enemies.*;
 import Game.Entities.Player.Player;
 import Game.Gun.*;
 import Game.Room;
 import Figures.Point;
+import Figures.Polygon;
 import Figures.Circle;
 import GameEngine.*;
 import java.util.*;
 
 public class RoomFactory {
     public static Room make(LevelConfig lvl) {
+        // build figures
+        List<IGameObject> figures = new ArrayList<>();
+        for (FigureBlueprint fb : lvl.figures) {
+            GameObject go;
+
+            if("polygon".equals(fb.type)) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(fb.vertices.size());
+                for (List<Number> v : fb.vertices) {
+                    sb.append(" ").append(v.get(0).doubleValue()).append(" ").append(v.get(1).doubleValue());
+                }
+                Polygon poly = new Polygon(sb.toString());
+                Point center = poly.centroid();
+                Transform t = new Transform(center, fb.layer, 0, 1);
+                go = new GameObject("wall", t, poly, new Wall());
+                go.behaviour().gameObject(go);
+            }
+            else if("circle".equals(fb.type)) {
+                double cx = fb.center.get(0).doubleValue();
+                double cy = fb.center.get(1).doubleValue();
+                double r = fb.radius;
+
+                Circle circle = new Circle(cx+" "+cy+" "+r);
+                Transform t = new Transform(new Point(cx, cy), fb.layer, 0, 1);
+                go = new GameObject("circle", t, circle, new Wall());
+                go.behaviour().gameObject(go);
+
+            } else {
+                throw new RuntimeException("Unknown figure type: " + fb.type);
+            }
+            figures.add(go);
+        }
+
         // build player
         PlayerConfig pc = lvl.player;
         Player pl = new Player(new Health(pc.health), pc.speed, pc.roll);
@@ -59,7 +94,7 @@ public class RoomFactory {
             enemies.add(e);
         }
 
-        return new Room(pl, enemies, Collections.emptyList());
+        return new Room(pl, enemies, figures);
     }
 
     private static String chooseByChance(double r, Map<String,Double> m) {

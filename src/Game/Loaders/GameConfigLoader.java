@@ -60,6 +60,28 @@ public class GameConfigLoader {
             L.name = (String) l.get("levelName");
             L.diff = (String) l.get("difficulty");
 
+            //Figures
+            L.figures = new ArrayList<>();
+            List<Object> figures = (List<Object>) l.get("figures");
+            if (figures != null) {
+                for (Object fo : figures) {
+                    Map<String,Object> m = (Map<String,Object>) fo;
+                    FigureBlueprint fb = new FigureBlueprint();
+                    fb.type = (String) m.get("type");
+
+                    if ("polygon".equals(fb.type)) {
+                        fb.vertices = (List<List<Number>>) m.get("vertices");
+                    } else if ("circle".equals(fb.type)) {
+                        fb.center = (List<Number>) m.get("center");
+                        fb.radius = ((Number) m.get("radius")).doubleValue();
+                    } else {
+                        throw new RuntimeException("Unknown figure type: " + fb.type);
+                    }
+                    fb.layer = ((Number) m.get("layer")).intValue();
+                    L.figures.add(fb);
+                }
+            }
+
             // Player
             Map<String,Object> p = (Map<String,Object>) l.get("player");
             L.player = new PlayerConfig();

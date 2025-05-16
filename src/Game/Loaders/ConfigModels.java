@@ -46,5 +46,6 @@ public class ConfigModels {
         public List<List<Number>> vertices;
         public List<Number> center;
         public double radius;
+        public int layer;
     }
 }

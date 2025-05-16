@@ -22,22 +22,11 @@ public class MovingState extends State {
         ITransform transform = owner.gameObject().transform();
         double distance = speed * dT;
 
-        double dx = 0;
-        double dy = 0;
-
-        // Check which keys are pressed and update the directional vector
-        if (ie.isKeyPressed(KeyEvent.VK_W)) { // Move up
-            dy -= 1;
-        }
-        if (ie.isKeyPressed(KeyEvent.VK_S)) { // Move down
-            dy += 1;
-        }
-        if (ie.isKeyPressed(KeyEvent.VK_A)) { // Move left
-            dx -= 1;
-        }
-        if (ie.isKeyPressed(KeyEvent.VK_D)) { // Move right
-            dx += 1;
-        }
+        double dx = 0, dy = 0;
+        if (ie.isKeyPressed(KeyEvent.VK_W)) dy -= 1;
+        if (ie.isKeyPressed(KeyEvent.VK_S)) dy += 1;
+        if (ie.isKeyPressed(KeyEvent.VK_A)) dx -= 1;
+        if (ie.isKeyPressed(KeyEvent.VK_D)) dx += 1;
 
         Point direction = GeometryUtils.normalize(new Point(dx, dy));
 

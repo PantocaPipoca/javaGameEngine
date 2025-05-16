@@ -93,6 +93,28 @@
       {
         "levelName": "First Mission",
         "difficulty": "Normal",
+        "figures": [
+        {
+          "type": "polygon",
+          "vertices": [ [0,0],[800,0],[800,20],[0,20] ],
+          "layer": 1
+        },
+        {
+          "type": "polygon",
+          "vertices": [ [-200,580],[800,580],[800,600],[-200,600] ],
+          "layer": 1
+        },
+        {
+          "type": "polygon",
+          "vertices": [ [0,0],[20,0],[20,600],[0,600] ],
+          "layer": 1
+        },
+        {
+          "type": "polygon",
+          "vertices": [ [780,0],[800,0],[800,600],[780,600] ],
+          "layer": 1
+        }
+      ],
         "player": {
           "startPosition": { "x": 400, "y": 300 },
           "layer": 1,

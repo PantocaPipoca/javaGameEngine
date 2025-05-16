@@ -21,6 +21,8 @@ public class Player implements IEntity {
     private List<Weapon> guns;
     private Weapon currentGun;
 
+    protected boolean isColidingWithWall = false;
+
     public Player(Health health, double movingSpeed, double rollingSpeed) {
         this.healthManager = health;
         this.score = 0;
@@ -72,6 +74,11 @@ public class Player implements IEntity {
 
     @Override
     public void onCollision(List<IGameObject> gol) {
+        for (IGameObject other : gol) {
+            if (other.name().equals("Wall")) {
+                isColidingWithWall = true;
+            }
+        }
     }
 
     @Override
