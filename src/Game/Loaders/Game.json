@@ -82,10 +82,10 @@
       "type": "pistol",
       "bulletSpeed": 1000.0,
       "damage": 10,
-      "fireRate": 100,
+      "fireRate": 3,
       "reloadTime": 2.0,
-      "magazineSize": 5,
-      "maxAmmo": 60,
+      "magazineSize": 8,
+      "maxAmmo": 80,
       "distanceFromOwner": 20
     }
   ],

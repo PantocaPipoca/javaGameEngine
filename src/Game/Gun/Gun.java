@@ -29,16 +29,16 @@ public class Gun extends Weapon {
         this.reserveAmmo = maxAmmo - magazineSize;
     }
 
-    public void shoot() {
-        super.shoot();
+    public boolean shoot() {
+        if(!super.shoot()) {
+            return false;
+        }
         if (isReloading) {
-            System.out.println("Cannot shoot while reloading.");
-            return;
+            return false;
         }
         if (currentAmmo <= 0) {
-            System.out.println("Out of ammo! Reloading...");
             reload();
-            return;
+            return false;
         }
         // Calculate the bullet's initial position (at the tip of the gun)
         Point ownerPosition = owner.transform().position();
@@ -54,6 +54,7 @@ public class Gun extends Weapon {
         gameEngine.addEnabled(bulletObject);
 
         currentAmmo--;
+        return true;
 
     }
 
@@ -67,7 +68,6 @@ public class Gun extends Weapon {
                 currentAmmo += ammoToLoad;
                 reserveAmmo -= ammoToLoad;
                 isReloading = false;
-                System.out.println("Reloaded!");
             }
         }
     }
@@ -76,7 +76,6 @@ public class Gun extends Weapon {
         if (!isReloading && reserveAmmo > 0 && currentAmmo < magazineSize) {
             isReloading = true;
             reloadTimer = reloadTime;
-            System.out.println("Started reloading...");
         }
     }
     

@@ -28,6 +28,7 @@ public class ConfigModels {
         public int count;
         public Map<String,Double> chances;
         public List<WeaponBlueprint> globalWeapons;
+        public List<FigureBlueprint> figures;
     }
     public static class WeaponBlueprint {
         public String type;
@@ -39,4 +40,11 @@ public class ConfigModels {
         public int maxAmmo;
         public double distanceFromOwner;
       }
+
+    public static class FigureBlueprint {
+        public String type;
+        public List<List<Number>> vertices;
+        public List<Number> center;
+        public double radius;
+    }
 }

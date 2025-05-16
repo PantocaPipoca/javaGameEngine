@@ -47,16 +47,15 @@ public abstract class Weapon implements IBehaviour{
         go.transform().move(new Point(gunX - go.transform().position().x(), gunY - go.transform().position().y()), 0);
     }
 
-    public void shoot() {
+    public boolean shoot() {
         if (go == null) {
-            System.out.println("Gun is not initialized.");
-            return;
+            return false;
         }
         if (fireCooldown > 0) {
-            System.out.println("Gun is cooling down.");
-            return;
+            return false;
         }
         fireCooldown = 1.0 / fireRate;
+        return true;
     }
     
     public IGameObject gameObject() {

@@ -2,8 +2,6 @@ package Game.Entities.Player;
 
 import java.util.List;
 
-import Figures.Circle;
-
 import java.util.ArrayList;
 
 import Game.Entities.Health;
@@ -11,12 +9,9 @@ import Game.Entities.IEntity;
 import Game.Entities.StateMachine;
 import Game.Entities.Player.PlayerStates.*;
 import Game.Gun.Weapon;
-import Game.Gun.Pistol;
 import GameEngine.GameEngine;
-import GameEngine.GameObject;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
-import GameEngine.Transform;
 
 public class Player implements IEntity {
     private final Health healthManager;
