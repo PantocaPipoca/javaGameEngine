@@ -51,6 +51,9 @@ public class GameEngine {
             lastTime = currentTime;
 
             InputEvent ie = gui.ie();
+            
+            // Check collisions
+            checkCollisions();
 
             // Update enabled objects
             for (IGameObject go : new ArrayList<>(enabled)) {
@@ -64,8 +67,7 @@ public class GameEngine {
                 }
             }
 
-            // Check collisions
-            checkCollisions();
+            
 
             // Render the game objects
             gui.renderGameObjects(enabled);

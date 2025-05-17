@@ -17,7 +17,6 @@ public class GameObject implements IGameObject {
     private IBehaviour behaviour;
     private Shape shape;
     private boolean flip = false;
-    private boolean usaAngle = false;
 
     /**
      * Constructor for a game object.
@@ -126,22 +125,6 @@ public class GameObject implements IGameObject {
      */
     public void setFlip(boolean f) {
         flip = f;
-    }
-
-    /**
-     * Checks if the object uses angle for rendering.
-     * @return true if uses angle, false otherwise
-     */
-    public boolean usaAngle() {
-        return usaAngle;
-    }
-
-    /**
-     * Sets whether the object uses angle for rendering.
-     * @param usaAngle true to use angle, false otherwise
-     */
-    public void setUsaAngle(boolean usaAngle) {
-        this.usaAngle = usaAngle;
     }
 
     /**

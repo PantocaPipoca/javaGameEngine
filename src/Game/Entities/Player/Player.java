@@ -1,16 +1,15 @@
 package Game.Entities.Player;
 
 import java.util.List;
-import java.util.ArrayList;
 
+import Game.Entities.Entity;
+import Game.Entities.EntityUtils;
 import Game.Entities.Health;
-import Game.Entities.IEntity;
-import Game.Entities.StateMachine;
+import Game.Entities.KnockbackState;
 import Game.Entities.StunnedState;
 import Game.Entities.Player.PlayerStates.*;
 import Game.Gun.Weapon;
 import GameEngine.*;
-import Figures.Point;
 
 /**
  * Class that represents the player entity in the game.
@@ -19,16 +18,9 @@ import Figures.Point;
  * @version 1.0 (17/05/25)
  * @inv Player must always have a valid health manager and state machine.
  */
-public class Player implements IEntity {
+public class Player extends Entity {
 
-    private final Health healthManager;
-    private final StateMachine stateMachine;
     private float score;
-    private IGameObject go;
-    private List<Weapon> guns;
-    private Weapon currentGun;
-    private Animator animator = new Animator(0.1f);
-    private Point lastSafePos;
 
     /**
      * Constructs a player with the specified health, movement speed, and rolling speed.
@@ -37,16 +29,15 @@ public class Player implements IEntity {
      * @param rollingSpeed the rolling speed
      */
     public Player(Health health, double movingSpeed, double rollingSpeed) {
-        this.healthManager = health;
+        super(health);
         this.score = 0;
-        this.stateMachine = new StateMachine();
-        this.guns = new ArrayList<>();
 
         stateMachine.addState("Idle", new IdleState());
         stateMachine.addState("Moving", new MovingState(movingSpeed));
         stateMachine.addState("Rolling", new RollingState());
         stateMachine.addState("Stunned", new StunnedState(0.2));
         stateMachine.addState("Dead", new DeadState());
+        stateMachine.addState("Knocked", new KnockbackState(0.2));
 
         stateMachine.setDefaultState("Idle");
     }
@@ -54,76 +45,25 @@ public class Player implements IEntity {
     /////////////////////////////////////////////////// IBehaviour Methods ///////////////////////////////////////////////////
 
     @Override
-    public void onUpdate(double dT, InputEvent ie) {
-        animator.update((float) dT);
-
-        if (go != null) {
-            go.setShape(animator.getCurrentShape());
-            go.update();
-            lastSafePos = go.transform().position();
-            stateMachine.onUpdate(dT, ie);
-            go.update();
-        }
-    }
-
-    @Override
     public void onCollision(List<IGameObject> gol) {
-        boolean stunned = false;
+        boolean knocked = false;
         for (IGameObject other : gol) {
-            // Knockback and stun on enemy collision
+            stateMachine.onCollision(other);
             if ((other.name().startsWith("gunner") ||
-                 other.name().startsWith("bomber") ||
-                 other.name().startsWith("striker")) && !stunned) {
-                // Calculate knockback direction (from other to player)
-                Point myPos = go.transform().position();
-                Point otherPos = other.transform().position();
-                double dx = myPos.x() - otherPos.x();
-                double dy = myPos.y() - otherPos.y();
-                double len = Math.sqrt(dx*dx + dy*dy);
-                if (len == 0) len = 1; // prevent div by zero
-                dx /= len;
-                dy /= len;
-
-                // Apply knockback (e.g., 50 units)
-                double knockbackStrength = 0;
-                lastSafePos = go.transform().position();
-                go.transform().move(new Point(dx * knockbackStrength, dy * knockbackStrength), 0);
-                go.update();
-
-                // After knockback, resolve against any walls collided
-                for (IGameObject wall : gol) {
-                    if (wall.name().equals("wall")) {
-                        resolveAgainst(wall);
-                    }
-                }
-
-                // Switch to stunned state
-                stateMachine.setState("Stunned");
-                System.out.println("Player stunned by enemy!");
-                stunned = true; // Only stun once per collision event
+                other.name().startsWith("bomber") ||
+                other.name().startsWith("striker")) && !knocked) {
+                EntityUtils.calculateKnockback(this, other, 20, 0.3);
+                stateMachine.setState("Knocked");
+                knocked = true;
             }
             if (other.name().equals("wall")) {
                 resolveAgainst(other);
-                System.out.println("Player collided with wall");
+                System.out.println("Player colliding with wall: " + other.name());
             }
         }
     }
 
-    @Override
-    public void onInit() {
-        stateMachine.resetToDefault();
-    }
-
-    @Override
-    public void onEnabled() {}
-
-    @Override
-    public void onDisabled() {}
-
-    @Override
-    public void onDestroy() {}
-
-    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Player Logic ///////////////////////////////////////////////////
 
     /**
      * Adds score to the player.
@@ -140,68 +80,6 @@ public class Player implements IEntity {
     public float getScore() {
         return score;
     }
-
-    /**
-     * Gets the health manager.
-     * @return the health manager
-     */
-    public Health getHealthManager() {
-        return healthManager;
-    }
-
-    /**
-     * Gets the state machine.
-     * @return the state machine
-     */
-    public StateMachine getStateMachine() {
-        return stateMachine;
-    }
-
-    /**
-     * Gets the game object.
-     * @return the game object
-     */
-    @Override
-    public IGameObject gameObject() {
-        return go;
-    }
-
-    /**
-     * Sets the game object and loads animations.
-     * @param go the game object
-     */
-    @Override
-    public void gameObject(IGameObject go) {
-        this.go = go;
-        this.stateMachine.setOwner((IEntity) go.behaviour());
-        loadAnimations();
-    }
-
-    /**
-     * Gets the list of guns.
-     * @return the list of guns
-     */
-    public List<Weapon> getGuns() {
-        return guns;
-    }
-
-    /**
-     * Gets the currently equipped gun.
-     * @return the current gun
-     */
-    public Weapon getCurrentGun() {
-        return currentGun;
-    }
-
-    /**
-     * Gets the animator.
-     * @return the animator
-     */
-    public Animator getAnimator() {
-        return animator;
-    }
-
-    /////////////////////////////////////////////////// Player Logic ///////////////////////////////////////////////////
 
     /**
      * Plays the specified animation.
@@ -255,36 +133,10 @@ public class Player implements IEntity {
         }
     }
 
-    /**
-     * Resolves the player's position against a wall after collision.
-     * @param wall the wall game object
-     */
-    private void resolveAgainst(IGameObject wall) {
-        Point from = lastSafePos;
-        Point to   = go.transform().position();
-        // movement vector
-        double vx = to.x() - from.x();
-        double vy = to.y() - from.y();
-
-        double lo = 0, hi = 1;
-        for (int i = 0; i < 5; i++) {
-            double mid = (lo + hi) / 2;
-            Point test = new Point(from.x() + vx * mid,
-                                   from.y() + vy * mid);
-            go.transform().setPosition(test);
-            go.update();  // refresh collider
-
-            if (go.collider().colides(wall.collider())) {
-                hi = mid;  // still inside go back further
-            } else {
-                lo = mid;  // clear we can go farther
-            }
-        }
-
-        // final just-outside position
-        Point finalPos = new Point(from.x() + vx * lo,
-                                   from.y() + vy * lo);
-        go.transform().setPosition(finalPos);
-        go.update();
+    @Override
+    public void gameObject(IGameObject go) {
+        this.go = go;
+        this.stateMachine.setOwner(this);
+        loadAnimations();
     }
 }

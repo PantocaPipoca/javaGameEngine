@@ -17,5 +17,4 @@ public interface IGameObject {
     IBehaviour behaviour();
     boolean isFlipped();
     void setFlip(boolean flip);
-    boolean usaAngle();
 }

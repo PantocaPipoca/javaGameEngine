@@ -50,11 +50,6 @@ public class Game {
         // Choose a room to load
         currentRoom = rooms.get(roomIndex);
 
-        // Load Figures
-        for (IGameObject figure : currentRoom.figures()) {
-            engine.addEnabled(figure);
-        }
-
         // Load Enemies
         for (Enemy enemy : currentRoom.enemies()) {
             engine.addEnabled(enemy.gameObject());
@@ -74,6 +69,11 @@ public class Game {
         camera.setTarget(currentRoom.player().gameObject().transform());
         engine.addEnabled(cameraObject);
         engine.getGui().setCamera(camera);
+
+        // Load Figures
+        for (IGameObject figure : currentRoom.figures()) {
+            engine.addEnabled(figure);
+        }
     }
 
     /**

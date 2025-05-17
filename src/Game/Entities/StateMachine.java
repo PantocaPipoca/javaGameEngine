@@ -158,4 +158,18 @@ public class StateMachine {
     public String getDefaultStateName() {
         return defaultStateName;
     }
+
+    /**
+     * Gets a state by its name.
+     * @param name the name of the state
+     * @return the State instance if found
+     * @throws IllegalArgumentException if the state does not exist
+     */
+    public State getState(String name) {
+        State state = states.get(name);
+        if (state == null) {
+            throw new IllegalArgumentException("State " + name + " not found.");
+        }
+        return state;
+    }
 }
