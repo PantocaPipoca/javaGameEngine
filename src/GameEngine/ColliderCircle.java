@@ -9,8 +9,8 @@ import java.awt.Graphics;
 /**
  * Class that represents a collider for a circle object.
  * Provides the logic to check for collisions with other colliders and centers the figure according to the transform.
- * @author: Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version: 1.4 (09/05/25)
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.4 (09/05/25)
  * @inv transform != null && circleCollider != null
  **/
 public class ColliderCircle implements ICollider {
@@ -25,7 +25,6 @@ public class ColliderCircle implements ICollider {
      * @throws IllegalArgumentException if the circle or transform is null
      */
     public ColliderCircle(Circle c, ITransform t) {
-
         if (c == null || t == null) {
             throw new IllegalArgumentException("Nor circle nor transform can be null");
         }
@@ -47,7 +46,7 @@ public class ColliderCircle implements ICollider {
     }
 
     /**
-     * Checks if a circle collides with a geometric figure by delegating the call to the appropriate method
+     * Checks if a circle collides with a geometric figure by delegating the call to the appropriate method.
      * @param other geometric figure to be checked
      * @return true if they collide, false otherwise
      * @throws IllegalArgumentException if the other collider is null
@@ -61,7 +60,7 @@ public class ColliderCircle implements ICollider {
     }
 
     /**
-     * Checks if a polygon collides with a circle
+     * Checks if a polygon collides with a circle.
      * @param cp polygon to be checked
      * @return true if they collide, false otherwise
      * @throws IllegalArgumentException if the polygon collider is null
@@ -75,7 +74,7 @@ public class ColliderCircle implements ICollider {
     }
 
     /**
-     * Checks if a circle collides with another circle
+     * Checks if a circle collides with another circle.
      * @param cc circle to be checked
      * @return true if they collide, false otherwise
      * @throws IllegalArgumentException if the circle collider is null
@@ -90,10 +89,10 @@ public class ColliderCircle implements ICollider {
         return distance < r1 + r2;
     }
 
-    ///////////////////////////////////////////////////Getters and Setters///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
 
     /**
-     * Returns the centroid of the collider
+     * Returns the centroid of the collider.
      * @return centroid of the collider
      */
     public Point centroid() {
@@ -101,7 +100,7 @@ public class ColliderCircle implements ICollider {
     }
 
     /**
-     * Converts the collision information to a string
+     * Converts the collision information to a string.
      * @return string with the collision information
      */
     public String toString() {
@@ -109,18 +108,22 @@ public class ColliderCircle implements ICollider {
     }
 
     /**
-     * Returns the circle of the collider
+     * Returns the circle of the collider.
      * @return circle of the collider
      */
     public Circle figure() {
         return circleCollider;
     }
 
+    /**
+     * Draws the outline of the circle collider.
+     * @param g the Graphics context
+     */
     public void drawOutline(Graphics g) {
-    g.setColor(Color.ORANGE);
-    int x = (int) (circleCollider.centroid().x() - circleCollider.radius());
-    int y = (int) (circleCollider.centroid().y() - circleCollider.radius());
-    int diameter = (int) (2 * circleCollider.radius());
-    g.drawOval(x, y, diameter, diameter);
-}
+        g.setColor(Color.ORANGE);
+        int x = (int) (circleCollider.centroid().x() - circleCollider.radius());
+        int y = (int) (circleCollider.centroid().y() - circleCollider.radius());
+        int diameter = (int) (2 * circleCollider.radius());
+        g.drawOval(x, y, diameter, diameter);
+    }
 }

@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * Factory for constructing Room objects from configuration models.
  * Handles creation of figures, player, and enemies for a level.
- * @author Daniel Pantyukhov
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
  */
 public class RoomFactory {
@@ -42,7 +42,8 @@ public class RoomFactory {
                 Transform t = new Transform(center, fb.layer, 0, 1);
                 go = new GameObject("wall", t, poly, new Wall());
                 go.behaviour().gameObject(go);
-            } else if ("circle".equals(fb.type)) {
+            }
+            else if ("circle".equals(fb.type)) {
                 double cx = fb.center.get(0).doubleValue();
                 double cy = fb.center.get(1).doubleValue();
                 double r = fb.radius;
@@ -50,9 +51,8 @@ public class RoomFactory {
                 Transform t = new Transform(new Point(cx, cy), fb.layer, 0, 1);
                 go = new GameObject("circle", t, circle, new Wall());
                 go.behaviour().gameObject(go);
-            } else {
-                throw new RuntimeException("Unknown figure type: " + fb.type);
             }
+            else throw new RuntimeException("Unknown figure type: " + fb.type);
             figures.add(go);
         }
 

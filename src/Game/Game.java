@@ -12,7 +12,7 @@ import Figures.Point;
 
 /**
  * Main game controller. Handles room management, entity loading, and game loop startup.
- * @author Daniel Pantyukhov
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
  * @inv The rooms list must not be null or empty.
  */
@@ -51,17 +51,17 @@ public class Game {
         currentRoom = rooms.get(roomIndex);
 
         // Load Figures
-        for (IGameObject figure : currentRoom.getFigures()) {
+        for (IGameObject figure : currentRoom.figures()) {
             engine.addEnabled(figure);
         }
 
         // Load Enemies
-        for (Enemy enemy : currentRoom.getEnemies()) {
+        for (Enemy enemy : currentRoom.enemies()) {
             engine.addEnabled(enemy.gameObject());
         }
 
         // Load Player
-        engine.addEnabled(currentRoom.getPlayer().gameObject());
+        engine.addEnabled(currentRoom.player().gameObject());
 
         // Load Camera
         GameObject cameraObject = new GameObject(
@@ -71,7 +71,7 @@ public class Game {
             camera
         );
         camera.gameObject(cameraObject);
-        camera.setTarget(currentRoom.getPlayer().gameObject().transform());
+        camera.setTarget(currentRoom.player().gameObject().transform());
         engine.addEnabled(cameraObject);
         engine.getGui().setCamera(camera);
     }

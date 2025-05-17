@@ -2,11 +2,17 @@ package GameEngine;
 
 import Figures.GeometricFigure;
 
+/**
+ * Interface for colliders in the game engine.
+ * Provides methods for collision detection and access to the underlying geometric figure.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
+ * @inv Collider must have a valid geometric figure and implement collision logic.
+ */
 public interface ICollider {
-
-    public String toString();
-    public boolean colidesWithCircle(ColliderCircle cc);
-    public boolean colidesWithPolygon(ColliderPolygon cp);
-    public boolean colides(ICollider other);
-    public GeometricFigure figure();
+    String toString();
+    boolean colidesWithCircle(ColliderCircle cc);
+    boolean colidesWithPolygon(ColliderPolygon cp);
+    boolean colides(ICollider other);
+    GeometricFigure figure();
 }

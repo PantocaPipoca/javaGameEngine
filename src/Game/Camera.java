@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Represents the main camera in the game, following a target and providing view offset based on mouse position.
- * @author Daniel Pantyukhov
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
  * @inv The camera must be initialized with a GUI before use.
  */
@@ -26,29 +26,7 @@ public class Camera implements IBehaviour {
         this.gui = gui;
     }
 
-    /**
-     * Gets the singleton instance of the camera, initializing it if necessary.
-     * @param gui the GUI instance (must not be null)
-     * @return the camera instance
-     */
-    public static Camera getInstance(GUI gui) {
-        if (instance == null) {
-            instance = new Camera(gui);
-        }
-        return instance;
-    }
-
-    /**
-     * Gets the singleton instance of the camera.
-     * @return the camera instance
-     * @throws IllegalStateException if the camera has not been initialized with a GUI
-     */
-    public static Camera getInstance() {
-        if (instance == null) {
-            throw new IllegalStateException("Camera instance not initialized. Use getInstance(GUI gui) first.");
-        }
-        return instance;
-    }
+    /////////////////////////////////////////////////// IBehaviour Methods ///////////////////////////////////////////////////
 
     /**
      * Updates the camera position based on the target and mouse offset.
@@ -86,6 +64,30 @@ public class Camera implements IBehaviour {
     @Override public void onCollision(List<IGameObject> gol) {}
 
     /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
+
+    /**
+     * Gets the singleton instance of the camera, initializing it if necessary.
+     * @param gui the GUI instance (must not be null)
+     * @return the camera instance
+     */
+    public static Camera getInstance(GUI gui) {
+        if (instance == null) {
+            instance = new Camera(gui);
+        }
+        return instance;
+    }
+
+    /**
+     * Gets the singleton instance of the camera.
+     * @return the camera instance
+     * @throws IllegalStateException if the camera has not been initialized with a GUI
+     */
+    public static Camera getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("Camera instance not initialized. Use getInstance(GUI gui) first.");
+        }
+        return instance;
+    }
 
     /**
      * Sets the transform that the camera should follow.

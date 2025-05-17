@@ -10,8 +10,9 @@ import GameEngine.InputEvent;
 /**
  * Represents a generic gun weapon with ammo, reloading, and shooting logic.
  * Extends Weapon and provides bullet firing and reload mechanics.
- * @author
- * @version 1.0
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
+ * @inv Gun always has positive magazine size and max ammo.
  */
 public class Gun extends Weapon {
     protected double bulletSpeed;
@@ -35,9 +36,13 @@ public class Gun extends Weapon {
      * @param magazineSize bullets per magazine
      * @param maxAmmo maximum ammo
      * @param distanceFromOwner distance from owner to orbit
+     * @throws IllegalArgumentException if magazineSize or maxAmmo is not positive
      */
     public Gun(IGameObject owner, String name, double bulletSpeed, double damage, double fireRate, double reloadTime, int magazineSize, int maxAmmo, double distanceFromOwner) {
         super(owner, name, damage, fireRate, distanceFromOwner);
+        if (magazineSize <= 0 || maxAmmo <= 0) {
+            throw new IllegalArgumentException("Gun: magazineSize and maxAmmo must be positive.");
+        }
         this.bulletSpeed = bulletSpeed;
         this.reloadTime = reloadTime;
         this.magazineSize = magazineSize;
@@ -108,7 +113,7 @@ public class Gun extends Weapon {
         }
     }
 
-    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
+    ///////////////////////////////////////////////////Getters and Setters///////////////////////////////////////////////////
 
     public void setBulletSpeed(double bulletSpeed) {
         this.bulletSpeed = bulletSpeed;

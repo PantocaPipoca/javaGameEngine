@@ -1,7 +1,6 @@
 package Game.Entities.Player;
 
 import java.util.List;
-
 import java.util.ArrayList;
 
 import Game.Entities.Health;
@@ -13,7 +12,15 @@ import Game.Gun.Weapon;
 import GameEngine.*;
 import Figures.Point;
 
+/**
+ * Class that represents the player entity in the game.
+ * Handles health, state, weapons, animation, and collision logic.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
+ * @inv Player must always have a valid health manager and state machine.
+ */
 public class Player implements IEntity {
+
     private final Health healthManager;
     private final StateMachine stateMachine;
     private float score;
@@ -21,9 +28,14 @@ public class Player implements IEntity {
     private List<Weapon> guns;
     private Weapon currentGun;
     private Animator animator = new Animator(0.1f);
-
     private Point lastSafePos;
 
+    /**
+     * Constructs a player with the specified health, movement speed, and rolling speed.
+     * @param health the health manager
+     * @param movingSpeed the movement speed
+     * @param rollingSpeed the rolling speed
+     */
     public Player(Health health, double movingSpeed, double rollingSpeed) {
         this.healthManager = health;
         this.score = 0;
@@ -39,6 +51,8 @@ public class Player implements IEntity {
         stateMachine.setDefaultState("Idle");
     }
 
+    /////////////////////////////////////////////////// IBehaviour Methods ///////////////////////////////////////////////////
+
     @Override
     public void onUpdate(double dT, InputEvent ie) {
         animator.update((float) dT);
@@ -52,84 +66,48 @@ public class Player implements IEntity {
         }
     }
 
-    public void playAnimation(String name) {
-        animator.play(name);
-    }
-
-    private void loadAnimations() {
-        animator.addAnimation("walk", Shape.loadAnimation("player_walk", 8, (int) go.transform().scale()));
-        animator.addAnimation("idle", Shape.loadAnimation("player_idle", 5, (int) go.transform().scale()));
-    }
-
-    public void addGun(Weapon gun) {
-        if (gun != null) {
-            guns.add(gun);
-            currentGun = gun;
-        }
-    }
-
-    public void setCurrentGun(Weapon gun) {
-        if (gun != null) {
-            
-            this.currentGun = gun;
-
-            if(gun.gameObject() != null) {
-                GameEngine.getInstance().destroy(gun.gameObject());
-            }
-
-            GameEngine.getInstance().addEnabled(gun.gameObject());
-        }
-    }
-
-    public void equipGun(int index) {
-        if (index >= 0 && index < guns.size()) {
-            currentGun = guns.get(index);
-            setCurrentGun(currentGun);
-        }
-    }
-
     @Override
-public void onCollision(List<IGameObject> gol) {
-    boolean stunned = false;
-    for (IGameObject other : gol) {
-        // Knockback and stun on enemy collision
-        if ((other.name().startsWith("gunner") ||
-             other.name().startsWith("bomber") ||
-             other.name().startsWith("striker")) && !stunned) {
-            // Calculate knockback direction (from other to player)
-            Point myPos = go.transform().position();
-            Point otherPos = other.transform().position();
-            double dx = myPos.x() - otherPos.x();
-            double dy = myPos.y() - otherPos.y();
-            double len = Math.sqrt(dx*dx + dy*dy);
-            if (len == 0) len = 1; // prevent div by zero
-            dx /= len;
-            dy /= len;
+    public void onCollision(List<IGameObject> gol) {
+        boolean stunned = false;
+        for (IGameObject other : gol) {
+            // Knockback and stun on enemy collision
+            if ((other.name().startsWith("gunner") ||
+                 other.name().startsWith("bomber") ||
+                 other.name().startsWith("striker")) && !stunned) {
+                // Calculate knockback direction (from other to player)
+                Point myPos = go.transform().position();
+                Point otherPos = other.transform().position();
+                double dx = myPos.x() - otherPos.x();
+                double dy = myPos.y() - otherPos.y();
+                double len = Math.sqrt(dx*dx + dy*dy);
+                if (len == 0) len = 1; // prevent div by zero
+                dx /= len;
+                dy /= len;
 
-            // Apply knockback (e.g., 50 units)
-            double knockbackStrength = 0;
-            lastSafePos = go.transform().position();
-            go.transform().move(new Point(dx * knockbackStrength, dy * knockbackStrength), 0);
-            go.update();
+                // Apply knockback (e.g., 50 units)
+                double knockbackStrength = 0;
+                lastSafePos = go.transform().position();
+                go.transform().move(new Point(dx * knockbackStrength, dy * knockbackStrength), 0);
+                go.update();
 
-            // After knockback, resolve against any walls collided
-            for (IGameObject wall : gol) {
-                if (wall.name().equals("wall")) {
-                    resolveAgainst(wall);
+                // After knockback, resolve against any walls collided
+                for (IGameObject wall : gol) {
+                    if (wall.name().equals("wall")) {
+                        resolveAgainst(wall);
+                    }
                 }
-            }
 
-            // Switch to stunned state
-            stateMachine.setState("Stunned");
-            System.out.println("Player stunned by enemy!");
-            stunned = true; // Only stun once per collision event
-        }
-        if (other.name().equals("wall")) {
-            resolveAgainst(other);
-            System.out.println("Player collided with wall");
+                // Switch to stunned state
+                stateMachine.setState("Stunned");
+                System.out.println("Player stunned by enemy!");
+                stunned = true; // Only stun once per collision event
+            }
+            if (other.name().equals("wall")) {
+                resolveAgainst(other);
+                System.out.println("Player collided with wall");
+            }
         }
     }
-}
 
     @Override
     public void onInit() {
@@ -137,54 +115,149 @@ public void onCollision(List<IGameObject> gol) {
     }
 
     @Override
-    public void onEnabled() {
-    }
+    public void onEnabled() {}
 
     @Override
-    public void onDisabled() {
-
-    }
+    public void onDisabled() {}
 
     @Override
-    public void onDestroy() {
+    public void onDestroy() {}
 
-    }
+    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
 
+    /**
+     * Adds score to the player.
+     * @param score the score to add
+     */
     public void addScore(float score) {
         this.score += score;
     }
+
+    /**
+     * Gets the player's score.
+     * @return the score
+     */
     public float getScore() {
         return score;
     }
+
+    /**
+     * Gets the health manager.
+     * @return the health manager
+     */
     public Health getHealthManager() {
         return healthManager;
     }
+
+    /**
+     * Gets the state machine.
+     * @return the state machine
+     */
     public StateMachine getStateMachine() {
         return stateMachine;
     }
+
+    /**
+     * Gets the game object.
+     * @return the game object
+     */
     @Override
     public IGameObject gameObject() {
         return go;
     }
+
+    /**
+     * Sets the game object and loads animations.
+     * @param go the game object
+     */
     @Override
     public void gameObject(IGameObject go) {
         this.go = go;
         this.stateMachine.setOwner((IEntity) go.behaviour());
         loadAnimations();
     }
+
+    /**
+     * Gets the list of guns.
+     * @return the list of guns
+     */
     public List<Weapon> getGuns() {
         return guns;
     }
+
+    /**
+     * Gets the currently equipped gun.
+     * @return the current gun
+     */
     public Weapon getCurrentGun() {
         return currentGun;
     }
+
+    /**
+     * Gets the animator.
+     * @return the animator
+     */
     public Animator getAnimator() {
         return animator;
     }
 
+    /////////////////////////////////////////////////// Player Logic ///////////////////////////////////////////////////
+
     /**
-     * 
-     * @param wall
+     * Plays the specified animation.
+     * @param name the animation name
+     */
+    public void playAnimation(String name) {
+        animator.play(name);
+    }
+
+    /**
+     * Loads player animations.
+     */
+    private void loadAnimations() {
+        animator.addAnimation("walk", Shape.loadAnimation("player_walk", 8, (int) go.transform().scale()));
+        animator.addAnimation("idle", Shape.loadAnimation("player_idle", 5, (int) go.transform().scale()));
+    }
+
+    /**
+     * Adds a gun to the player's inventory and equips it.
+     * @param gun the weapon to add
+     */
+    public void addGun(Weapon gun) {
+        if (gun != null) {
+            guns.add(gun);
+            currentGun = gun;
+        }
+    }
+
+    /**
+     * Sets the current gun and adds it to the game engine.
+     * @param gun the weapon to equip
+     */
+    public void setCurrentGun(Weapon gun) {
+        if (gun != null) {
+            this.currentGun = gun;
+            if (gun.gameObject() != null) {
+                GameEngine.getInstance().destroy(gun.gameObject());
+            }
+            GameEngine.getInstance().addEnabled(gun.gameObject());
+        }
+    }
+
+    /**
+     * Equips a gun by index.
+     * @param index the index of the gun in the inventory
+     */
+    public void equipGun(int index) {
+        if (index >= 0 && index < guns.size()) {
+            currentGun = guns.get(index);
+            setCurrentGun(currentGun);
+        }
+    }
+
+    /**
+     * Resolves the player's position against a wall after collision.
+     * @param wall the wall game object
      */
     private void resolveAgainst(IGameObject wall) {
         Point from = lastSafePos;
@@ -202,7 +275,7 @@ public void onCollision(List<IGameObject> gol) {
             go.update();  // refresh collider
 
             if (go.collider().colides(wall.collider())) {
-                hi = mid;  // still inside go back furgher
+                hi = mid;  // still inside go back further
             } else {
                 lo = mid;  // clear we can go farther
             }

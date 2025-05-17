@@ -7,7 +7,8 @@ import GameEngine.InputEvent;
  * Abstract base class for all entity states.
  * Provides hooks for state initialization, update, entry, exit, and collision handling.
  * @author Daniel Pantyukhov
- * @version 1.0
+ * @version 1.0 (17/05/25)
+ * @inv State must always have a valid stateMachine and owner before use.
  */
 public abstract class State {
 
@@ -34,6 +35,7 @@ public abstract class State {
     /**
      * Called when entering this state.
      * Checks that stateMachine and owner are initialized.
+     * @throws IllegalStateException if stateMachine or owner is not initialized
      */
     public void onEnter() {
         if (stateMachine == null || owner == null) {
@@ -49,6 +51,7 @@ public abstract class State {
     /**
      * Handles collision with another game object.
      * @param other the colliding game object
+     * @throws IllegalArgumentException if the colliding object is null
      */
     public void onCollision(IGameObject other) {
         if (other == null) {

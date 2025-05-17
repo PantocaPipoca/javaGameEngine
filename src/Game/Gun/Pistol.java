@@ -3,9 +3,9 @@ package Game.Gun;
 import GameEngine.IGameObject;
 
 /**
- * Represents a pistol weapon.
- * @author
- * @version 1.0
+ * Class that represents a pistol weapon.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
  */
 public class Pistol extends Gun {
 

@@ -6,8 +6,7 @@ import java.util.*;
 
 /**
  * Loads game configuration from a JSON file and builds level configuration objects.
- * Handles global caches for enemy and weapon blueprints.
- * @author Daniel Pantyukhov
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
  */
 public class GameConfigLoader {

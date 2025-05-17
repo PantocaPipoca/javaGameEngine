@@ -11,18 +11,24 @@ import java.util.List;
 /**
  * Class that represents a collider for a polygon object.
  * Provides the logic to check for collisions with other colliders and centers the figure according to the transform.
- * @author: Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version: 1.4 (09/05/25)
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.4 (09/05/25)
  * @inv transform != null && polygonCollider != null
  **/
 public class ColliderPolygon implements ICollider {
     
     private Polygon polygonCollider;
 
+    /**
+     * Constructs a ColliderPolygon with a polygon and a transform.
+     * Applies scaling, translation, and rotation to the polygon according to the transform.
+     * @param p the polygon to use as the base
+     * @param t the transform to apply
+     * @throws IllegalArgumentException if the polygon or transform is null
+     */
     public ColliderPolygon(Polygon p, ITransform t) {
-
         if (p == null || t == null) {
-            throw new IllegalArgumentException("Nor circle nor transform can be null");
+            throw new IllegalArgumentException("Polygon and transform cannot be null");
         }
 
         // Creates a copy of the preset figure of the collider for future reuse (Also because it's immutable, right?)
@@ -39,11 +45,10 @@ public class ColliderPolygon implements ICollider {
 
         // We now have a copy of our preset according to the GUI model
         polygonCollider = preset;
-
     }
 
     /**
-     * Checks if a circle collides with a geometric figure by delegating the call to the appropriate method
+     * Checks if a circle collides with a geometric figure by delegating the call to the appropriate method.
      * @param other geometric figure to be checked
      * @return true if they collide, false otherwise
      * @throws IllegalArgumentException if the other collider is null
@@ -57,7 +62,7 @@ public class ColliderPolygon implements ICollider {
     }
 
     /**
-     * Checks if a polygon collides with a circle
+     * Checks if a polygon collides with a circle.
      * @param cc circle to be checked
      * @return true if they collide, false otherwise
      * @throws IllegalArgumentException if the circle is null
@@ -90,7 +95,7 @@ public class ColliderPolygon implements ICollider {
     }
 
     /**
-     * Checks if a polygon collides with another polygon
+     * Checks if a polygon collides with another polygon.
      * @param cp polygon to be checked
      * @return true if they collide, false otherwise
      * @throws IllegalArgumentException if the polygon collider is null
@@ -118,7 +123,7 @@ public class ColliderPolygon implements ICollider {
     }
 
     /**
-     * Checks if a point is inside a polygon
+     * Checks if a point is inside a polygon.
      * @param point point to be checked
      * @param poly polygon to be checked
      * @return true if the point is inside the polygon, false otherwise
@@ -139,7 +144,7 @@ public class ColliderPolygon implements ICollider {
     }
 
     /**
-     * Checks if a ray intersects a line segment
+     * Checks if a ray intersects a line segment.
      * @param p point to be checked
      * @param a starting point of the segment
      * @param b ending point of the segment
@@ -160,15 +165,15 @@ public class ColliderPolygon implements ICollider {
         if (a.x() < p.x() && b.x() < p.x()) {
             return false;
         }
-        double m = (b.y() - a.y()) / (b.x() - a.x());
-        double xi = a.x() + (p.y() - a.y()) / m;
+        double m = (b.x() - a.x()) == 0 ? Double.POSITIVE_INFINITY : (b.y() - a.y()) / (b.x() - a.x());
+        double xi = (m == Double.POSITIVE_INFINITY) ? a.x() : a.x() + (p.y() - a.y()) / m;
         return p.x() <= xi;
     }
 
-    ///////////////////////////////////////////////////Getters and Setters///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
 
     /**
-     * Returns the centroid of the collider
+     * Returns the centroid of the collider.
      * @return centroid of the collider
      */
     public Point centroid() {
@@ -176,7 +181,7 @@ public class ColliderPolygon implements ICollider {
     }
 
     /**
-     * Converts the collision information to a string
+     * Converts the collision information to a string.
      * @return string with the collision information
      */
     public String toString() {
@@ -184,13 +189,17 @@ public class ColliderPolygon implements ICollider {
     }
 
     /**
-     * Returns the polygon of the collider
+     * Returns the polygon of the collider.
      * @return polygon of the collider
      */
     public Polygon figure() {
         return polygonCollider;
     }
 
+    /**
+     * Draws the outline of the polygon collider.
+     * @param g the Graphics context
+     */
     public void drawOutline(Graphics g) {
         g.setColor(Color.ORANGE);
         Point[] pts = polygonCollider.points();
@@ -203,6 +212,10 @@ public class ColliderPolygon implements ICollider {
         g.drawPolygon(xs, ys, pts.length);
     }
 
+    /**
+     * Returns the list of points of the polygon collider.
+     * @return list of points
+     */
     public List<Point> points() {
         Point[] array = polygonCollider.points();
         List<Point> lista = new ArrayList<>();

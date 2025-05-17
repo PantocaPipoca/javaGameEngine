@@ -3,21 +3,21 @@ import GameEngine.ICollider;
 import GameEngine.ITransform;
 import GameEngine.ColliderPolygon;
 
-/** 
+/**
  * Class that creates and manipulates polygons.
- * Author: Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * Version: 1.0 (12/04/25)
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (12/04/25)
  * @inv The polygon must have at least 3 vertices.
  *      Three consecutive points cannot be collinear.
  *      No edge can intersect another.
- **/
+ */
 public class Polygon extends GeometricFigure {
     
     private Point[] points;
     private Segment[] segments;
 
     /**
-     * Constructor for a polygon
+     * Constructor for a polygon.
      * @param s string in the format "n x1 y1 x2 y2 ... xn yn"
      * @throws IllegalArgumentException if the string is invalid or the polygon has less than 3 vertices
      */
@@ -72,11 +72,10 @@ public class Polygon extends GeometricFigure {
                 }
             }
         }
-
     }
 
     /**
-     * Moves all points of the polygon by dx units on the x-axis and dy units on the y-axis
+     * Moves all points of the polygon by dx units on the x-axis and dy units on the y-axis.
      * @param dx units to be moved on the x-axis
      * @param dy units to be moved on the y-axis
      * @return an array of all new points with the shifted positions
@@ -90,7 +89,7 @@ public class Polygon extends GeometricFigure {
     }
 
     /**
-     * Converts an array of points into a string
+     * Converts an array of points into a string.
      * @param points array of points
      * @return string with the points in the format "x1 y1 x2 y2 ... xn yn"
      */
@@ -106,7 +105,7 @@ public class Polygon extends GeometricFigure {
     }
 
     /**
-     * Moves the polygon by dx units on the x-axis and dy units on the y-axis
+     * Moves the polygon by dx units on the x-axis and dy units on the y-axis.
      * @param dx units to be moved on the x-axis
      * @param dy units to be moved on the y-axis
      * @return new moved polygon
@@ -118,7 +117,7 @@ public class Polygon extends GeometricFigure {
     }
 
     /**
-     * Calculates the centroid of the polygon
+     * Calculates the centroid of the polygon.
      * @return centroid of the polygon
      */
     public Point centroid() {
@@ -144,7 +143,7 @@ public class Polygon extends GeometricFigure {
     }
 
     /**
-     * Scales the polygon by a factor
+     * Scales the polygon by a factor.
      * @param factor scaling factor
      * @return new scaled polygon
      * @see The assignment PDF :)
@@ -162,7 +161,7 @@ public class Polygon extends GeometricFigure {
     }
 
     /**
-     * Rotates the polygon by an angle around a point
+     * Rotates the polygon by an angle around a point.
      * @param angle rotation angle
      * @param center point around which the polygon will rotate
      * @return new rotated polygon
@@ -184,7 +183,7 @@ public class Polygon extends GeometricFigure {
     }
 
     /**
-     * Checks if the polygon collides with another polygon
+     * Checks if the polygon collides with another polygon.
      * @param t figure to be checked
      * @return true if it collides, false otherwise
      */
@@ -193,14 +192,14 @@ public class Polygon extends GeometricFigure {
     }
 
     /**
-     * Creates a copy of the polygon
+     * Creates a copy of the polygon.
      * @return copy of the polygon
      */
     public GeometricFigure clone() {
         return new Polygon(points.length + " " + pointsToString(points));
     }
 
-    ///////////////////////////////////////////////////Getters and Setters///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
 
     @Override
     public String toString() {

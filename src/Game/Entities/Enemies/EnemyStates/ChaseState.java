@@ -7,13 +7,26 @@ import Game.Entities.Player.Player;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 
+/**
+ * Class that represents the chase state for an enemy.
+ * Handles chasing the player, transitions to attack or patrol based on distance.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
+ */
 public class ChaseState extends State {
 
     private final IGameObject player;
     private double chaseSpeed;
     private double attackRadius;
     private double forgetfullRadius;
-    
+
+    /**
+     * Constructs a ChaseState with player, speed, attack, and forgetful radii.
+     * @param player the player game object
+     * @param chaseSpeed the speed while chasing
+     * @param attackRadius the radius to start attacking
+     * @param forgetfullRadius the radius to forget the player
+     */
     public ChaseState(IGameObject player, double chaseSpeed, double attackRadius, double forgetfullRadius) {
         if (player == null) {
             throw new IllegalArgumentException("Player cannot be null.");
@@ -24,6 +37,13 @@ public class ChaseState extends State {
         this.forgetfullRadius = forgetfullRadius;
     }
 
+    /////////////////////////////////////////////////// State Methods ///////////////////////////////////////////////////
+
+    /**
+     * Updates the chase state, moves towards the player, and handles state transitions.
+     * @param dT delta time since last update
+     * @param ie the current input event
+     */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
         Point enemyPosition = owner.gameObject().transform().position();
@@ -41,11 +61,10 @@ public class ChaseState extends State {
             stateMachine.setState("Attack");
             return;
         }
-        if( distance > forgetfullRadius) {
+        if (distance > forgetfullRadius) {
             stateMachine.setState("Patrol");
             return;
         }
-
 
         Point direction = GeometryUtils.normalize(new Point(dx, dy));
 
@@ -53,17 +72,24 @@ public class ChaseState extends State {
         owner.gameObject().transform().move(new Point(direction.x() * chaseSpeed * dT, direction.y() * chaseSpeed * dT), 0);
     }
 
+    /**
+     * Called when entering the chase state.
+     */
     @Override
     public void onEnter() {
         super.onEnter();
-
     }
 
+    /**
+     * Called when exiting the chase state.
+     */
     @Override
-    public void onExit() {
+    public void onExit() {}
 
-    }
-
+    /**
+     * Handles collision while chasing.
+     * @param other the other game object collided with
+     */
     @Override
     public void onCollision(IGameObject other) {
         super.onCollision(other);
@@ -72,5 +98,4 @@ public class ChaseState extends State {
             player.getHealthManager().takeDamage(10);
         }
     }
-
 }

@@ -1,18 +1,19 @@
 package Figures;
 
 /**
- * Represents a line segment defined by two points.
- * Author: Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * Version: 1.1 (01/03/25)
- * @inv the points must be different
- * @see https://www.youtube.com/watch?v=bbTqI0oqL5U
+ * Class that represents a line segment defined by two points.
+ * Handles intersection logic with other segments and circles.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.1 (01/03/25)
+ * @inv The points must be different.
+ * @see <a href="https://www.youtube.com/watch?v=bbTqI0oqL5U">Segment intersection explanation</a>
  */
 public class Segment {
     private Point p1;
     private Point p2;
 
     /**
-     * Constructor for a line segment
+     * Constructor for a line segment.
      * @param p1 starting point of the segment
      * @param p2 ending point of the segment
      * @throws IllegalArgumentException if the points are the same
@@ -28,10 +29,10 @@ public class Segment {
     }
 
     /**
-     * Checks if two line segments intersect
+     * Checks if two line segments intersect.
      * @param s segment to be checked
      * @return true if the segments intersect, false otherwise
-     * @see https://www.youtube.com/watch?v=bbTqI0oqL5U
+     * @see <a href="https://www.youtube.com/watch?v=bbTqI0oqL5U">Segment intersection explanation</a>
      */
     public boolean intersects(Segment s) {
         int o1 = GeometryUtils.orientation(this.p1, this.p2, s.p1);
@@ -50,10 +51,10 @@ public class Segment {
     }
 
     /**
-     * Checks if the line segment intersects a circle
+     * Checks if the line segment intersects a circle.
      * @param c circle to be checked
      * @return true if the line segment intersects the circle, false otherwise
-     * @see https://www.youtube.com/watch?v=X0an_UEgE7Y for a detailed explanation of the logic used.
+     * @see <a href="https://www.youtube.com/watch?v=X0an_UEgE7Y">Segment-circle intersection explanation</a>
      */
     public boolean intersects(Circle c) {
         double x1 = p1.x();
@@ -84,12 +85,20 @@ public class Segment {
         return dq < rq;
     }
 
-    ///////////////////////////////////////////////////Getters and Setters///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
 
+    /**
+     * Gets the starting point of the segment.
+     * @return the starting point
+     */
     public Point p1() {
         return p1;
     }
 
+    /**
+     * Gets the ending point of the segment.
+     * @return the ending point
+     */
     public Point p2() {
         return p2;
     }

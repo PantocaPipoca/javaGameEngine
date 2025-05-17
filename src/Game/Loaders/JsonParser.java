@@ -9,9 +9,9 @@ import java.util.*;
  * A simple JSON parser that can parse JSON strings and files.
  * It supports parsing objects, arrays, strings, numbers, booleans, and null values.
  * This is a simplified version for basic JSON parsing.
- * @author
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (13/05/2025)
- * @see <a href="https://www.codeproject.com/Articles/5262223/How-to-Build-a-Recursive-Descent-Parser?pageflow=FixedWidth&utm_source=chatgpt.com">JSON Specification</a>
+ * @see <a href="https://www.codeproject.com/Articles/5262223/How-to-Build-a-Recursive-Descent-Parser?pageflow=FixedWidtht.com">JSON Specification</a>
  */
 public class JsonParser {
     private final String src;

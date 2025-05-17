@@ -1,5 +1,12 @@
 package GameEngine;
 
+/**
+ * Interface for game objects in the engine.
+ * Provides methods for accessing and modifying object properties, shape, collider, and behavior.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
+ * @inv Game object must have a valid transform, shape, and collider.
+ */
 public interface IGameObject {
     String name();
     ITransform transform();

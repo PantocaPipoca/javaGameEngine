@@ -1,12 +1,13 @@
 package Game.Entities;
 
 /**
- * Manages the health of an entity, including damage, healing, and alive status.
- * @author Daniel Pantyukhov
- * @version 1.0
+ * Class that manages the health of an entity, including damage, healing, and alive status.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
+ * @inv Health must always be positive and cannot exceed maxHealth.
  */
 public class Health {
-    
+
     private int maxHealth;
     private int currentHealth;
     private boolean isAlive;
@@ -14,6 +15,7 @@ public class Health {
     /**
      * Constructs a Health manager with the specified maximum health.
      * @param maxHealth the maximum health value (must be > 0)
+     * @throws IllegalArgumentException if maxHealth is not positive
      */
     public Health(int maxHealth) {
         if (maxHealth <= 0) {
@@ -27,6 +29,7 @@ public class Health {
     /**
      * Applies damage to the entity.
      * @param damage the amount of damage (must be >= 0)
+     * @throws IllegalArgumentException if damage is negative
      */
     public void takeDamage(int damage) {
         if (damage < 0) {
@@ -44,6 +47,7 @@ public class Health {
     /**
      * Heals the entity by the specified amount.
      * @param amount the amount to heal (must be >= 0)
+     * @throws IllegalArgumentException if amount is negative
      */
     public void heal(int amount) {
         if (amount < 0) {
@@ -57,14 +61,28 @@ public class Health {
         }
     }
 
-    /////////////////////////////////////////////////// Getters ///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
 
+    /**
+     * Gets the maximum health value.
+     * @return the maximum health
+     */
     public int getMaxHealth() {
         return maxHealth;
     }
+
+    /**
+     * Gets the current health value.
+     * @return the current health
+     */
     public int getCurrentHealth() {
         return currentHealth;
     }
+
+    /**
+     * Checks if the entity is alive.
+     * @return true if alive, false otherwise
+     */
     public boolean isAlive() {
         return isAlive;
     }

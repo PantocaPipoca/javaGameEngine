@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Contains configuration models for loading game data from JSON or other sources.
  * Each inner class represents a structure for a specific game entity or configuration.
- * @author Daniel Pantyukhov
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
  */
 public class ConfigModels {

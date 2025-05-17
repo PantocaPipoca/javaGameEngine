@@ -11,8 +11,9 @@ import GameEngine.IBehaviour;
 /**
  * Represents a bullet fired from a gun.
  * Handles movement, lifetime, and collision destruction.
- * @author
- * @version 1.0
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
+ * @inv Bullet lifetime is always positive.
  */
 public class Bullet implements IBehaviour {
     private double rotation;
@@ -32,6 +33,8 @@ public class Bullet implements IBehaviour {
         this.speed = speed;
     }
 
+    ///////////////////////////////////////////////////IBehaviour Methods///////////////////////////////////////////////////
+
     /**
      * Updates the bullet's position and destroys it after its lifetime expires.
      * @param dT delta time since last update
@@ -39,7 +42,6 @@ public class Bullet implements IBehaviour {
      */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
-        // Move the bullet in the direction it is facing
         double dx = Math.cos(rotation) * speed * dT;
         double dy = Math.sin(rotation) * speed * dT;
         go.transform().move(new Point(dx, dy), 0);
@@ -71,7 +73,7 @@ public class Bullet implements IBehaviour {
     @Override public void onDisabled() {}
     @Override public void onDestroy() {}
 
-    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
+    ///////////////////////////////////////////////////Getters and Setters///////////////////////////////////////////////////
 
     public IGameObject gameObject() {
         return go;

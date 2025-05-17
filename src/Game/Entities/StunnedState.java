@@ -7,8 +7,8 @@ import GameEngine.InputEvent;
  * Represents the stunned state for an entity.
  * When stunned, the entity cannot act until the stun duration expires.
  * Automatically resets to the default state after the timer runs out.
- * @author
- * @version 1.0
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
  */
 public class StunnedState extends State {
 
@@ -38,7 +38,7 @@ public class StunnedState extends State {
 
     /**
      * Called when entering the stunned state.
-     * Resets the timer.
+     * Resets the timer and stops the owner's animation.
      */
     @Override
     public void onEnter() {

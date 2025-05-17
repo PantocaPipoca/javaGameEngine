@@ -8,6 +8,13 @@ import javax.swing.JFrame;
 
 import Game.Camera;
 
+/**
+ * Class that encapsulates input events for keyboard and mouse.
+ * Tracks pressed keys, mouse buttons, and mouse position, and provides world-coordinate conversion.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
+ * @inv Mouse position is always valid; pressed key/button sets are never null.
+ */
 public class InputEvent {
     private Set<Integer> pressedKeys = new HashSet<>(); // Currently pressed keys
     private Set<Integer> pressedMouseButtons = new HashSet<>(); // Pressed mouse buttons
@@ -55,7 +62,7 @@ public class InputEvent {
     }
 
     /**
-     * Converts the current mouse position into WORLD-COORDS
+     * Converts the current mouse position into WORLD-COORDS.
      * @return mouse position in world coordinates as a Point object
      */
     public Point getMouseWorldPosition() {

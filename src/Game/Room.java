@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Represents a room in the game, containing the player, enemies, and static figures (walls, obstacles, etc) ready to load.
- * @author Daniel Pantyukhov
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
  * @inv The player must not be null.
  *      The enemies and figures lists must not be null (can be empty).
@@ -45,7 +45,7 @@ public class Room {
      * Gets the player in this room.
      * @return the player
      */
-    public Player getPlayer() {
+    public Player player() {
         return player;
     }
 
@@ -53,7 +53,7 @@ public class Room {
      * Gets the list of enemies in this room.
      * @return list of enemies
      */
-    public List<Enemy> getEnemies() {
+    public List<Enemy> enemies() {
         return enemies;
     }
 
@@ -61,7 +61,7 @@ public class Room {
      * Gets the list of static figures (walls, obstacles, etc.) in this room.
      * @return list of figures
      */
-    public List<IGameObject> getFigures() {
+    public List<IGameObject> figures() {
         return figures;
     }
 }

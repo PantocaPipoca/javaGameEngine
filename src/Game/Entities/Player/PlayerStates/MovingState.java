@@ -10,14 +10,31 @@ import Figures.GeometryUtils;
 
 import java.awt.event.KeyEvent;
 
+/**
+ * Class that represents the moving state for the player.
+ * Handles movement, animation, gun switching, and transitions to other states.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
+ */
 public class MovingState extends State {
 
     private double speed;
-    
+
+    /**
+     * Constructs a MovingState with the specified movement speed.
+     * @param speed the movement speed
+     */
     public MovingState(double speed) {
         this.speed = speed;
     }
 
+    /////////////////////////////////////////////////// State Methods ///////////////////////////////////////////////////
+
+    /**
+     * Updates the player's movement, handles state transitions, and input.
+     * @param dT delta time since last update
+     * @param ie the current input event
+     */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
         ITransform transform = owner.gameObject().transform();
@@ -31,7 +48,7 @@ public class MovingState extends State {
 
         Point direction = GeometryUtils.normalize(new Point(dx, dy));
 
-        // 👇 flip horizontal com base na direção
+        // Flip horizontal based on direction
         if (direction.x() < 0) {
             owner.gameObject().setFlip(true);
         } else if (direction.x() > 0) {
@@ -59,24 +76,30 @@ public class MovingState extends State {
         }
     }
 
-
+    /**
+     * Called when entering the moving state.
+     * Plays the walking animation.
+     */
     @Override
     public void onEnter() {
         super.onEnter();
-        //owner.playAnimation("walk");
         if (owner instanceof Player player) {
             player.playAnimation("walk");
         }
     }
 
+    /**
+     * Called when exiting the moving state.
+     */
     @Override
-    public void onExit() {
+    public void onExit() {}
 
-    }
-
+    /**
+     * Handles collision while moving.
+     * @param other the other game object collided with
+     */
     @Override
     public void onCollision(IGameObject other) {
         super.onCollision(other);
-
     }
 }

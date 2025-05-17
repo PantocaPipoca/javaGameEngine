@@ -5,29 +5,53 @@ import Game.Entities.Player.Player;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 
-
+/**
+ * Class that represents the attack state for an enemy.
+ * Handles logic for attacking the player and collision damage.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
+ */
 public class AttackState extends State {
-    
-    public AttackState() {
 
-    }
+    /**
+     * Constructs an AttackState.
+     */
+    public AttackState() {}
 
+    /////////////////////////////////////////////////// State Methods ///////////////////////////////////////////////////
+
+    /**
+     * Updates the attack state. (No default logic.)
+     * @param dT delta time since last update
+     * @param ie the current input event
+     */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
-
+        // No default attack update logic
     }
 
+    /**
+     * Called when entering the attack state.
+     */
     @Override
     public void onEnter() {
         super.onEnter();
-
+        // Additional logic for entering attack state can be added here
     }
 
+    /**
+     * Called when exiting the attack state.
+     */
     @Override
     public void onExit() {
-
+        // Additional logic for exiting attack state can be added here
     }
 
+    /**
+     * Handles collision while attacking.
+     * Deals damage to the player on collision.
+     * @param other the other game object collided with
+     */
     @Override
     public void onCollision(IGameObject other) {
         super.onCollision(other);
@@ -36,5 +60,4 @@ public class AttackState extends State {
             player.getHealthManager().takeDamage(10);
         }
     }
-
 }

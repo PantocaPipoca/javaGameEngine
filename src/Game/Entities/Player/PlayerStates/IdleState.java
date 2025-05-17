@@ -8,35 +8,52 @@ import GameEngine.InputEvent;
 
 import java.awt.event.KeyEvent;
 
+/**
+ * Class that represents the idle state for the player.
+ * Handles input for movement, shooting, gun switching, and reloading.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
+ */
 public class IdleState extends State {
 
-    public IdleState() {
-    }
+    /**
+     * Constructs an IdleState.
+     */
+    public IdleState() {}
 
+    /////////////////////////////////////////////////// State Methods ///////////////////////////////////////////////////
+
+    /**
+     * Updates the idle state, handles input for movement, shooting, gun switching, and reloading.
+     * @param dT delta time since last update
+     * @param ie the current input event
+     */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
-        // Verificar teclas pressionadas
         if (ie.isKeyPressed(KeyEvent.VK_W) || ie.isKeyPressed(KeyEvent.VK_S) ||
             ie.isKeyPressed(KeyEvent.VK_A) || ie.isKeyPressed(KeyEvent.VK_D)) {
             stateMachine.setState("Moving");
         }
         if (ie.isMouseButtonPressed(1)) {
-            if(owner.getCurrentGun() != null) {
+            if (owner.getCurrentGun() != null) {
                 owner.getCurrentGun().shoot();
             }
         }
         if (ie.isKeyPressed(KeyEvent.VK_1)) {
             owner.equipGun(0);
         }
-        if(ie.isKeyPressed(KeyEvent.VK_R)) {
+        if (ie.isKeyPressed(KeyEvent.VK_R)) {
             Gun gun = (Gun) owner.getCurrentGun();
-            if(gun != null) {
+            if (gun != null) {
                 gun.reload();
             }
         }
-
     }
 
+    /**
+     * Called when entering the idle state.
+     * Plays the idle animation.
+     */
     @Override
     public void onEnter() {
         super.onEnter();
@@ -45,14 +62,18 @@ public class IdleState extends State {
         }
     }
 
+    /**
+     * Called when exiting the idle state.
+     */
     @Override
-    public void onExit() {
+    public void onExit() {}
 
-    }
-
+    /**
+     * Handles collision while idle.
+     * @param other the other game object collided with
+     */
     @Override
     public void onCollision(IGameObject other) {
         super.onCollision(other);
-        
     }
 }

@@ -3,8 +3,9 @@ package Figures;
 /**
  * Class with utility methods for solving geometric problems.
  * Provides methods for vector normalization, orientation checks, and segment intersection.
- * Author: Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * Version: 1.0 (12/04/25)
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (12/04/25)
+ * @inv All methods are static and stateless.
  */
 public class GeometryUtils {
 
@@ -27,11 +28,11 @@ public class GeometryUtils {
      * @param q ending point of the segment
      * @param r point to be checked
      * @return 0 if the points are collinear, 1 if r is to the left of the segment, and 2 if r is to the right of the segment
-     * @see https://www.geeksforgeeks.org/orientation-3-ordered-points/
+     * @see <a href="https://www.geeksforgeeks.org/orientation-3-ordered-points/">Orientation explanation</a>
      */
     public static int orientation(Point p, Point q, Point r) {
-        double val = (q.y() - p.y()) * (r.x() - q.x()) - 
-            (q.x() - p.x()) * (r.y() - q.y()); 
+        double val = (q.y() - p.y()) * (r.x() - q.x()) -
+            (q.x() - p.x()) * (r.y() - q.y());
 
         if (val == 0) return 0;
         return (val > 0) ? 1 : 2;
@@ -48,5 +49,4 @@ public class GeometryUtils {
         return q.x() >= Math.min(p.x(), r.x()) && q.x() <= Math.max(p.x(), r.x()) &&
                q.y() >= Math.min(p.y(), r.y()) && q.y() <= Math.max(p.y(), r.y());
     }
-
 }

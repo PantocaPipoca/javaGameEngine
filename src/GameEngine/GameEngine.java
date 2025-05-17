@@ -5,11 +5,11 @@ import java.util.List;
 
 /**
  * Class that represents the GameEngine.
- * It is responsible for managing the game objects, layers and collisions.
- * @author: Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version: 1.4 (09/05/25)
+ * Responsible for managing game objects, layers, collisions, and the main game loop.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.4 (09/05/25)
  * @inv gui != null
- **/
+ */
 public class GameEngine {
     private static GameEngine instance;
 
@@ -20,7 +20,7 @@ public class GameEngine {
     private GUI gui;
 
     /**
-     * Constructor for the GameEngine
+     * Constructor for the GameEngine.
      * @param gui GUI to be used
      * @throws IllegalArgumentException if the GUI is null
      */
@@ -33,50 +33,50 @@ public class GameEngine {
         layerGroups = new ArrayList<>();
     }
 
-    /////////////////////////////Essential methods/////////////////////////////
+    ///////////////////////////// Essential methods /////////////////////////////
 
     /**
-     * Starts the GameEngine, receives input events and updates all game objects
+     * Starts the GameEngine, receives input events and updates all game objects.
      * @throws IllegalStateException if the GUI is not initialized
      */
     public void run() {
         long lastTime = System.nanoTime();
-        final int targetFPS = 60; // Target framerate
-        final long frameDuration = 1_000_000_000 / targetFPS; // Duration of each frame in nanoseconds
-    
-        while (true) { // Run indefinitely until stopped
+        final int targetFPS = 60;
+        final long frameDuration = 1_000_000_000 / targetFPS;
+
+        while (true) {
             long currentTime = System.nanoTime();
             long elapsedTime = currentTime - lastTime;
-            float dt = elapsedTime / 1_000_000_000.0f; // Delta time in seconds
+            float dt = elapsedTime / 1_000_000_000.0f;
             lastTime = currentTime;
-    
+
             InputEvent ie = gui.ie();
-    
+
             // Update enabled objects
-            for (IGameObject go : new ArrayList<>(enabled)) { // Avoid concurrent modification
+            for (IGameObject go : new ArrayList<>(enabled)) {
                 int oldLayer = go.transform().layer();
                 go.behaviour().onUpdate(dt, ie);
                 int newLayer = go.transform().layer();
-    
+
                 // Handle layer changes
                 if (oldLayer != newLayer) {
                     updateObjectLayer(go, oldLayer, newLayer);
                 }
             }
-    
+
             // Check collisions
             checkCollisions();
-    
+
             // Render the game objects
             gui.renderGameObjects(enabled);
-    
+
             // Calculate the time taken for the frame
             long frameTime = System.nanoTime() - currentTime;
-    
+
             // Sleep to maintain the target framerate
             if (frameTime < frameDuration) {
                 try {
-                    Thread.sleep((frameDuration - frameTime) / 1_000_000); // Convert nanoseconds to milliseconds
+                    Thread.sleep((frameDuration - frameTime) / 1_000_000);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
@@ -86,7 +86,7 @@ public class GameEngine {
     }
 
     /**
-     * Adds an object to the GameEngine consequently running the onInit and onEnabled methods
+     * Adds an object to the GameEngine, running onInit and onEnabled.
      * @param go object to be added
      */
     public void addEnabled(IGameObject go) {
@@ -99,7 +99,7 @@ public class GameEngine {
     }
 
     /**
-     * Adds an object to the GameEngine consequently running the onInit and onDisabled methods
+     * Adds an object to the GameEngine, running onInit and onDisabled.
      * @param go object to be added
      */
     public void addDisabled(IGameObject go) {
@@ -112,7 +112,7 @@ public class GameEngine {
     }
 
     /**
-     * Enables an object in the GameEngine
+     * Enables an object in the GameEngine.
      * @param go object to be enabled
      */
     public void enable(IGameObject go) {
@@ -124,7 +124,7 @@ public class GameEngine {
     }
 
     /**
-     * Disables an object in the GameEngine
+     * Disables an object in the GameEngine.
      * @param go object to be disabled
      */
     public void disable(IGameObject go) {
@@ -136,29 +136,27 @@ public class GameEngine {
     }
 
     /**
-     * Removes an object from the GameEngine
+     * Removes an object from the GameEngine.
      * @param go object to be removed
      */
     public void destroy(IGameObject go) {
         gameObjects.remove(go);
         LayerGroup group = getLayerGroup(go.transform().layer());
-        if (group != null) { // This check doesn't matter much
+        if (group != null) {
             group.remove(go);
             go.behaviour().onDestroy();
             if (enabled.contains(go)) {
                 enabled.remove(go);
-            }
-            else if (disabled.contains(go)) {
+            } else if (disabled.contains(go)) {
                 disabled.remove(go);
             }
         }
     }
 
-    ///////////////////////////////////////////////////Internaly used///////////////////////////////////////////////////
-    
+    ///////////////////////////// Internal methods /////////////////////////////
+
     /**
-     * Checks collisions between all objects in the GameEngine
-     * Using the layer groups to optimize the process
+     * Checks collisions between all objects in the GameEngine using layer groups.
      */
     private void checkCollisions() {
         for (LayerGroup group : layerGroups) {
@@ -167,7 +165,7 @@ public class GameEngine {
     }
 
     /**
-     * Updates the layer of an object
+     * Updates the layer of an object.
      * @param go object to be updated
      * @param oldLayer the old layer
      * @param newLayer the new layer
@@ -182,7 +180,7 @@ public class GameEngine {
     }
 
     /**
-     * Returns the layer group corresponding to a layer
+     * Returns the layer group corresponding to a layer.
      * @param layer layer to be checked
      * @return the corresponding layer group
      */
@@ -196,7 +194,7 @@ public class GameEngine {
     }
 
     /**
-     * Creates a layer group if it doesn't exist
+     * Creates a layer group if it doesn't exist.
      * @param layer layer to be checked
      * @return the corresponding layer group
      */
@@ -210,9 +208,8 @@ public class GameEngine {
     }
 
     /**
-     * Checks collisions between objects in a group
+     * Checks collisions between objects in a group.
      * @param group group of objects to be checked
-     * @return a list of strings with the collision results
      */
     private void checkCollisionsInGroup(List<IGameObject> group) {
         List<IGameObject> groupCopy = new ArrayList<>(group);
@@ -236,7 +233,7 @@ public class GameEngine {
     }
 
     /**
-     * Adds an object to the GameEngine
+     * Adds an object to the GameEngine.
      * @param go object to be added
      */
     public void add(IGameObject go) {
@@ -246,34 +243,34 @@ public class GameEngine {
         group.add(go);
     }
 
-    ///////////////////////////////////////////////////Debug Methods///////////////////////////////////////////////////
+    ///////////////////////////// Debug Methods /////////////////////////////
 
     /**
-     * Simulates the GameEngine for a number of frames
+     * Simulates the GameEngine for a number of frames.
      * @param frames number of frames to simulate
      */
     public void simulateFrames(int frames) {
         long lastTime = System.nanoTime();
-    
-        for (int i = 0; i < frames; i++) { // Run indefinitely until stopped
+
+        for (int i = 0; i < frames; i++) {
             long currentTime = System.nanoTime();
             float dt = (currentTime - lastTime) / 1_000_000_000.0f;
             lastTime = currentTime;
 
             InputEvent ie = gui.ie();
-    
+
             // Update enabled objects
-            for (IGameObject go : new ArrayList<>(enabled)) { // Avoid concurrent modification
+            for (IGameObject go : new ArrayList<>(enabled)) {
                 int oldLayer = go.transform().layer();
                 go.behaviour().onUpdate(dt, ie);
                 int newLayer = go.transform().layer();
-    
+
                 // Handle layer changes
                 if (oldLayer != newLayer) {
                     updateObjectLayer(go, oldLayer, newLayer);
                 }
             }
-    
+
             // Check collisions
             checkCollisions();
 
@@ -281,10 +278,10 @@ public class GameEngine {
         }
     }
 
-    ///////////////////////////////////////////////////Getters and Setters///////////////////////////////////////////////////
+    ///////////////////////////// Getters and Setters /////////////////////////////
 
     /**
-     * Returns the list of objects in the GameEngine
+     * Returns the list of objects in the GameEngine.
      * @return list of objects in the GameEngine
      */
     public List<IGameObject> gameObjects() {
@@ -308,19 +305,19 @@ public class GameEngine {
     }
 
     /**
-     * Returns the singleton instance of the GameEngine
+     * Returns the singleton instance of the GameEngine.
      * @param gui GUI to be used (only required for the first call)
      * @return the singleton instance of GameEngine
      */
     public static GameEngine getInstance(GUI gui) {
         if (instance == null) {
-            instance = new GameEngine(gui); // Create the instance if it doesn't exist
+            instance = new GameEngine(gui);
         }
         return instance;
     }
 
     /**
-     * Returns the singleton instance of the GameEngine (without GUI)
+     * Returns the singleton instance of the GameEngine (without GUI).
      * @return the singleton instance of GameEngine
      * @throws IllegalStateException if the instance has not been initialized
      */
@@ -331,6 +328,10 @@ public class GameEngine {
         return instance;
     }
 
+    /**
+     * Gets the GUI associated with the GameEngine.
+     * @return the GUI
+     */
     public GUI getGui() {
         return gui;
     }

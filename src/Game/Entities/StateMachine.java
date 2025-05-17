@@ -11,7 +11,8 @@ import java.util.Map;
  * It allows transitioning between different states and handles updates.
  * Each state can define its own behavior for entering, exiting, and updating.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version 1.0 (22/04/25)
+ * @version 1.0 (17/05/25)
+ * @inv StateMachine always has a valid default state before use.
  */
 public class StateMachine {
 
@@ -45,6 +46,7 @@ public class StateMachine {
      * This method should be called every frame for any owner logic.
      * @param dT delta time since the last frame
      * @param ie input event
+     * @throws IllegalStateException if no current state is set
      */
     public void onUpdate(double dT, InputEvent ie) {
         if (currentState == null) {
@@ -56,6 +58,7 @@ public class StateMachine {
     /**
      * Sets the current state of the state machine.
      * @param state name of the new state
+     * @throws IllegalArgumentException if the state does not exist
      */
     public void setState(String state) {
         if (!states.containsKey(state)) {
@@ -73,6 +76,7 @@ public class StateMachine {
      * Adds a new state to the state machine.
      * @param name the name of the state
      * @param state the state instance
+     * @throws IllegalArgumentException if the state already exists
      */
     public void addState(String name, State state) {
         if (states.containsKey(name)) {
@@ -84,6 +88,7 @@ public class StateMachine {
     /**
      * Removes a state from the state machine.
      * @param name the name of the state to remove
+     * @throws IllegalArgumentException if the state does not exist
      */
     public void removeState(String name) {
         if (!states.containsKey(name)) {
@@ -103,7 +108,7 @@ public class StateMachine {
         setState(defaultStateName);
     }
 
-    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
+    ///////////////////////////////////////////////////Getters and Setters///////////////////////////////////////////////////
 
     /**
      * Gets the owner game object.
@@ -116,6 +121,7 @@ public class StateMachine {
     /**
      * Sets the default state by name.
      * @param defaultState the name of the default state
+     * @throws IllegalArgumentException if the state does not exist
      */
     public void setDefaultState(String defaultState) {
         if (!states.containsKey(defaultState)) {
@@ -128,6 +134,7 @@ public class StateMachine {
     /**
      * Forwards collision events to the current state.
      * @param other the other game object collided with
+     * @throws IllegalStateException if no current state is set
      */
     public void onCollision(IGameObject other) {
         if (currentState == null) {

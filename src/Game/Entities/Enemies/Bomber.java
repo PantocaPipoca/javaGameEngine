@@ -10,8 +10,25 @@ import Game.Entities.Enemies.EnemyStates.KamikazeState;
 import Game.Entities.Enemies.EnemyStates.PatrolState;
 import GameEngine.IGameObject;
 
+/**
+ * Abstract class that represents a Bomber enemy.
+ * Handles patrol, chase, attack, and dead states for bomber-type enemies.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
+ */
 public abstract class Bomber extends Enemy {
 
+    /**
+     * Constructs a Bomber enemy with patrol, chase, attack, and dead states.
+     * @param health the health manager
+     * @param player the player game object
+     * @param patrolPoints the patrol points for the bomber
+     * @param patrolSpeed the speed while patrolling
+     * @param detectionRadius the detection radius for chasing
+     * @param attackRadius the radius to start attacking
+     * @param chaseSpeed the speed while chasing
+     * @param forgetfullRadius the radius to forget the player
+     */
     public Bomber(Health health, IGameObject player, List<Point> patrolPoints,
                   double patrolSpeed, double detectionRadius, double attackRadius,
                   double chaseSpeed, double forgetfullRadius) {
@@ -25,5 +42,4 @@ public abstract class Bomber extends Enemy {
 
         stateMachine.setDefaultState("Patrol");
     }
-    
 }
