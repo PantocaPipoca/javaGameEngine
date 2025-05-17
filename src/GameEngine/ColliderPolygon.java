@@ -4,6 +4,9 @@ import Figures.*;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Class that represents a collider for a polygon object.
@@ -189,14 +192,21 @@ public class ColliderPolygon implements ICollider {
     }
 
     public void drawOutline(Graphics g) {
-    g.setColor(Color.ORANGE);
-    Point[] pts = polygonCollider.points();
-    int[] xs = new int[pts.length];
-    int[] ys = new int[pts.length];
-    for (int i = 0; i < pts.length; i++) {
-        xs[i] = (int) pts[i].x();
-        ys[i] = (int) pts[i].y();
+        g.setColor(Color.ORANGE);
+        Point[] pts = polygonCollider.points();
+        int[] xs = new int[pts.length];
+        int[] ys = new int[pts.length];
+        for (int i = 0; i < pts.length; i++) {
+            xs[i] = (int) pts[i].x();
+            ys[i] = (int) pts[i].y();
+        }
+        g.drawPolygon(xs, ys, pts.length);
     }
-    g.drawPolygon(xs, ys, pts.length);
-}
+
+    public List<Point> points() {
+        Point[] array = polygonCollider.points();
+        List<Point> lista = new ArrayList<>();
+        Collections.addAll(lista, array);
+        return lista;
+    }
 }

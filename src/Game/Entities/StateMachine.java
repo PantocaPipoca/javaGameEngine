@@ -10,11 +10,11 @@ import java.util.Map;
  * StateMachine class that manages the states of a game object.
  * It allows transitioning between different states and handles updates.
  * Each state can define its own behavior for entering, exiting, and updating.
- * @author: Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version: 1.0 (22/04/25)
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (22/04/25)
  */
 public class StateMachine {
-    
+
     private String currentStateName;
     private State currentState;
     private State defaultState;
@@ -22,16 +22,17 @@ public class StateMachine {
     private IEntity owner;
     private Map<String, State> states = new HashMap<>();
 
-
     /**
-     * Constructor for the StateMachine
-     * @param defaultState name of the default state
-     * @param go game object that controls this state machine
+     * Constructs an empty StateMachine.
      */
     public StateMachine() {
         this.states = new HashMap<String, State>();
     }
 
+    /**
+     * Sets the owner entity for this state machine and initializes all states.
+     * @param owner the entity that owns this state machine
+     */
     public void setOwner(IEntity owner) {
         this.owner = owner;
         for (State s : states.values()) {
@@ -49,7 +50,6 @@ public class StateMachine {
         if (currentState == null) {
             throw new IllegalStateException("No current state is set.");
         }
-        //System.out.println("State: " + currentState.getClass().getSimpleName() + "From: " + owner.name());
         currentState.onUpdate(dT, ie);
     }
 
@@ -69,6 +69,11 @@ public class StateMachine {
         currentState.onEnter();
     }
 
+    /**
+     * Adds a new state to the state machine.
+     * @param name the name of the state
+     * @param state the state instance
+     */
     public void addState(String name, State state) {
         if (states.containsKey(name)) {
             throw new IllegalArgumentException("State " + name + " already exists.");
@@ -87,6 +92,10 @@ public class StateMachine {
         states.remove(name);
     }
 
+    /**
+     * Resets the state machine to the default state.
+     * @throws IllegalStateException if the default state is not set
+     */
     public void resetToDefault() {
         if (defaultState == null) {
             throw new IllegalStateException("Default state is not set.");
@@ -94,13 +103,20 @@ public class StateMachine {
         setState(defaultStateName);
     }
 
+    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
 
-    ///////////////////////////////////////////////////Getters and Setters///////////////////////////////////////////////////
-
+    /**
+     * Gets the owner game object.
+     * @return the owner game object
+     */
     public IGameObject getOwner() {
         return owner.gameObject();
     }
 
+    /**
+     * Sets the default state by name.
+     * @param defaultState the name of the default state
+     */
     public void setDefaultState(String defaultState) {
         if (!states.containsKey(defaultState)) {
             throw new IllegalArgumentException("Default state " + defaultState + " not found.");
@@ -109,6 +125,10 @@ public class StateMachine {
         this.defaultStateName = defaultState;
     }
 
+    /**
+     * Forwards collision events to the current state.
+     * @param other the other game object collided with
+     */
     public void onCollision(IGameObject other) {
         if (currentState == null) {
             throw new IllegalStateException("No current state is set.");
@@ -116,9 +136,18 @@ public class StateMachine {
         currentState.onCollision(other);
     }
 
+    /**
+     * Gets the name of the current state.
+     * @return the current state name
+     */
     public String getCurrentStateName() {
         return currentStateName;
     }
+
+    /**
+     * Gets the name of the default state.
+     * @return the default state name
+     */
     public String getDefaultStateName() {
         return defaultStateName;
     }

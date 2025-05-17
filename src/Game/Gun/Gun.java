@@ -7,6 +7,12 @@ import GameEngine.IGameObject;
 import GameEngine.Transform;
 import GameEngine.InputEvent;
 
+/**
+ * Represents a generic gun weapon with ammo, reloading, and shooting logic.
+ * Extends Weapon and provides bullet firing and reload mechanics.
+ * @author
+ * @version 1.0
+ */
 public class Gun extends Weapon {
     protected double bulletSpeed;
     protected double reloadTime;
@@ -18,7 +24,18 @@ public class Gun extends Weapon {
     protected boolean isReloading = false;
     protected double reloadTimer = 0.0;
 
-
+    /**
+     * Constructs a gun with the specified parameters.
+     * @param owner the owning game object
+     * @param name weapon name
+     * @param bulletSpeed speed of the bullet
+     * @param damage damage per shot
+     * @param fireRate shots per second
+     * @param reloadTime time to reload
+     * @param magazineSize bullets per magazine
+     * @param maxAmmo maximum ammo
+     * @param distanceFromOwner distance from owner to orbit
+     */
     public Gun(IGameObject owner, String name, double bulletSpeed, double damage, double fireRate, double reloadTime, int magazineSize, int maxAmmo, double distanceFromOwner) {
         super(owner, name, damage, fireRate, distanceFromOwner);
         this.bulletSpeed = bulletSpeed;
@@ -29,8 +46,13 @@ public class Gun extends Weapon {
         this.reserveAmmo = maxAmmo - magazineSize;
     }
 
+    /**
+     * Attempts to shoot a bullet from the gun.
+     * @return true if a bullet was fired, false otherwise
+     */
+    @Override
     public boolean shoot() {
-        if(!super.shoot()) {
+        if (!super.shoot()) {
             return false;
         }
         if (isReloading) {
@@ -48,16 +70,20 @@ public class Gun extends Weapon {
 
         // Create a new bullet object
         Bullet bullet = new Bullet(rotation, bulletSpeed);
-
         GameObject bulletObject = new GameObject("bullet", new Transform(new Point(bulletX, bulletY), 1, 0, 1), new Circle("0 0 10"), bullet);
         bullet.gameObject(bulletObject);
         gameEngine.addEnabled(bulletObject);
 
         currentAmmo--;
         return true;
-
     }
 
+    /**
+     * Updates the gun's state, including reloading logic.
+     * @param dT delta time since last update
+     * @param ie the current input event
+     */
+    @Override
     public void onUpdate(double dT, InputEvent ie) {
         super.onUpdate(dT, ie);
         if (isReloading) {
@@ -72,13 +98,17 @@ public class Gun extends Weapon {
         }
     }
 
+    /**
+     * Starts reloading the gun if possible.
+     */
     public void reload() {
         if (!isReloading && reserveAmmo > 0 && currentAmmo < magazineSize) {
             isReloading = true;
             reloadTimer = reloadTime;
         }
     }
-    
+
+    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
 
     public void setBulletSpeed(double bulletSpeed) {
         this.bulletSpeed = bulletSpeed;
@@ -87,5 +117,4 @@ public class Gun extends Weapon {
     public double getBulletSpeed() {
         return bulletSpeed;
     }
-    
 }

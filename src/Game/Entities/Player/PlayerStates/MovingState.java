@@ -1,6 +1,7 @@
 package Game.Entities.Player.PlayerStates;
 
 import Figures.Point;
+import Game.Entities.Player.Player;
 import Game.Entities.State;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
@@ -30,33 +31,42 @@ public class MovingState extends State {
 
         Point direction = GeometryUtils.normalize(new Point(dx, dy));
 
-        if (direction.x() != 0 || direction.y() != 0) {
-            // Move the player in the direction of the key pressed
-            transform.move(new Point(direction.x() * distance, direction.y() * distance), 0);
-        }
-        else {
-            // If no keys are pressed, switch to IdleState
-            stateMachine.setState("Idle");
+        // 👇 flip horizontal com base na direção
+        if (direction.x() < 0) {
+            owner.gameObject().setFlip(true);
+        } else if (direction.x() > 0) {
+            owner.gameObject().setFlip(false);
         }
 
+        if (direction.x() != 0 || direction.y() != 0) {
+            transform.move(new Point(direction.x() * distance, direction.y() * distance), 0);
+        } else {
+            stateMachine.setState("Idle");
+        }
 
         if (ie.isKeyPressed(KeyEvent.VK_SPACE)) {
             stateMachine.setState("Rolling");
         }
+
         if (ie.isMouseButtonPressed(1)) {
-            if(owner.getCurrentGun() != null) {
+            if (owner.getCurrentGun() != null) {
                 owner.getCurrentGun().shoot();
             }
         }
+
         if (ie.isKeyPressed(KeyEvent.VK_1)) {
             owner.equipGun(0);
         }
     }
 
+
     @Override
     public void onEnter() {
         super.onEnter();
-
+        //owner.playAnimation("walk");
+        if (owner instanceof Player player) {
+            player.playAnimation("walk");
+        }
     }
 
     @Override

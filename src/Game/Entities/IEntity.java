@@ -3,11 +3,14 @@ package Game.Entities;
 import GameEngine.IBehaviour;
 import Game.Gun.Weapon;
 
+/**
+ * Interface for all entity types that can have state, health, and weapons.
+ */
 public interface IEntity extends IBehaviour {
 
-    public StateMachine getStateMachine();
-    public Health getHealthManager();
-    public Weapon getCurrentGun();
-    public void equipGun(int index);
-    
+    StateMachine getStateMachine();
+    Health getHealthManager();
+    Weapon getCurrentGun();
+    void equipGun(int index);
+    // void playAnimation(String name);
 }

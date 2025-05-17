@@ -4,13 +4,26 @@ import Game.Loaders.ConfigModels.*;
 import Figures.Point;
 import java.util.*;
 
+/**
+ * Loads game configuration from a JSON file and builds level configuration objects.
+ * Handles global caches for enemy and weapon blueprints.
+ * @author Daniel Pantyukhov
+ * @version 1.0 (17/05/25)
+ */
 public class GameConfigLoader {
+
+    /**
+     * Loads all levels from the given JSON file path.
+     * @param path the path to the JSON file
+     * @return a list of LevelConfig objects
+     * @throws RuntimeException if the file or JSON is invalid
+     */
     @SuppressWarnings("unchecked")
     public static List<LevelConfig> load(String path) {
         // Parse entire JSON
         Map<String,Object> root = (Map<String,Object>) JsonParser.parseFile(path);
 
-        // 1) Build global caches
+        // Build global caches
         Map<String,EnemyBlueprint> enemyCache   = new HashMap<>();
         Map<String,WeaponBlueprint> weaponCache = new HashMap<>();
 
@@ -27,7 +40,7 @@ public class GameConfigLoader {
             bp.detectionRadius = ((Number) m.get("detectionRadius")).doubleValue();
             bp.attackRadius    = ((Number) m.get("attackRadius")).doubleValue();
             bp.forgetfulRadius = ((Number) m.get("forgetfullRadius")).doubleValue();
-            bp.drops           = (Map<String,Object>) m.get("dropChance");
+            // bp.drops is not used
 
             enemyCache.put(type, bp);
         }
@@ -50,7 +63,7 @@ public class GameConfigLoader {
             weaponCache.put(type, wp);
         }
 
-        // 2) Load each level by referencing the caches
+        // Load each level by referencing the caches
         List<LevelConfig> levels = new ArrayList<>();
         for (Object lvlObj : (List<Object>) root.get("levels")) {
             Map<String,Object> l = (Map<String,Object>) lvlObj;
@@ -60,7 +73,7 @@ public class GameConfigLoader {
             L.name = (String) l.get("levelName");
             L.diff = (String) l.get("difficulty");
 
-            //Figures
+            // Figures
             L.figures = new ArrayList<>();
             List<Object> figures = (List<Object>) l.get("figures");
             if (figures != null) {

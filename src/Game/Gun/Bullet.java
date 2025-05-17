@@ -8,20 +8,35 @@ import GameEngine.InputEvent;
 import GameEngine.GameEngine;
 import GameEngine.IBehaviour;
 
+/**
+ * Represents a bullet fired from a gun.
+ * Handles movement, lifetime, and collision destruction.
+ * @author
+ * @version 1.0
+ */
 public class Bullet implements IBehaviour {
     private double rotation;
     private double speed;
     private IGameObject go;
-    private GameEngine gameEngine = GameEngine.getInstance();
-    private double lifeTime = 0.7;
+    private final GameEngine gameEngine = GameEngine.getInstance();
+    private final double lifeTime = 0.7;
+    private double timeAlive = 0.0; // Time counter
 
-    private double timeAlive = 0.0; //Time counter
-
+    /**
+     * Constructs a bullet with the given rotation and speed.
+     * @param rotation the angle in radians
+     * @param speed the speed of the bullet
+     */
     public Bullet(double rotation, double speed) {
         this.rotation = rotation;
         this.speed = speed;
     }
 
+    /**
+     * Updates the bullet's position and destroys it after its lifetime expires.
+     * @param dT delta time since last update
+     * @param ie the current input event
+     */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
         // Move the bullet in the direction it is facing
@@ -36,9 +51,13 @@ public class Bullet implements IBehaviour {
         }
     }
 
+    /**
+     * Handles collision with other game objects.
+     * Destroys the bullet if it hits anything except itself or the player.
+     * @param gol list of game objects collided with
+     */
     @Override
     public void onCollision(List<IGameObject> gol) {
-        // Destroy the bullet on collision
         for (IGameObject other : gol) {
             if (!other.name().equals(go.name()) && !other.name().equals("player")) {
                 gameEngine.destroy(go);
@@ -47,17 +66,12 @@ public class Bullet implements IBehaviour {
         }
     }
 
-    @Override
-    public void onInit() {}
+    @Override public void onInit() {}
+    @Override public void onEnabled() {}
+    @Override public void onDisabled() {}
+    @Override public void onDestroy() {}
 
-    @Override
-    public void onEnabled() {}
-
-    @Override
-    public void onDisabled() {}
-
-    @Override
-    public void onDestroy() {}
+    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
 
     public IGameObject gameObject() {
         return go;

@@ -45,6 +45,17 @@ public class Transform implements ITransform {
         pos = pos.translate(dPos.x(), dPos.y());
         layer += dLayer;
     }
+
+    /**
+     * Sets the position of the object
+     * @param pos position to set
+     */
+    public void setPosition(Point pos) {
+        if (pos == null) {
+            throw new IllegalArgumentException("Position cannot be null.");
+        }
+        this.pos = pos;
+    }
     
     /**
      * Rotates the object according to dTheta

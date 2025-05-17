@@ -13,14 +13,25 @@ import Figures.Circle;
 import GameEngine.*;
 import java.util.*;
 
+/**
+ * Factory for constructing Room objects from configuration models.
+ * Handles creation of figures, player, and enemies for a level.
+ * @author Daniel Pantyukhov
+ * @version 1.0 (17/05/25)
+ */
 public class RoomFactory {
+
+    /**
+     * Builds a Room from the given LevelConfig.
+     * @param lvl the level configuration
+     * @return the constructed Room
+     */
     public static Room make(LevelConfig lvl) {
-        // build figures
+        // Build figures
         List<IGameObject> figures = new ArrayList<>();
         for (FigureBlueprint fb : lvl.figures) {
             GameObject go;
-
-            if("polygon".equals(fb.type)) {
+            if ("polygon".equals(fb.type)) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(fb.vertices.size());
                 for (List<Number> v : fb.vertices) {
@@ -31,32 +42,29 @@ public class RoomFactory {
                 Transform t = new Transform(center, fb.layer, 0, 1);
                 go = new GameObject("wall", t, poly, new Wall());
                 go.behaviour().gameObject(go);
-            }
-            else if("circle".equals(fb.type)) {
+            } else if ("circle".equals(fb.type)) {
                 double cx = fb.center.get(0).doubleValue();
                 double cy = fb.center.get(1).doubleValue();
                 double r = fb.radius;
-
-                Circle circle = new Circle(cx+" "+cy+" "+r);
+                Circle circle = new Circle(cx + " " + cy + " " + r);
                 Transform t = new Transform(new Point(cx, cy), fb.layer, 0, 1);
                 go = new GameObject("circle", t, circle, new Wall());
                 go.behaviour().gameObject(go);
-
             } else {
                 throw new RuntimeException("Unknown figure type: " + fb.type);
             }
             figures.add(go);
         }
 
-        // build player
+        // Build player
         PlayerConfig pc = lvl.player;
         Player pl = new Player(new Health(pc.health), pc.speed, pc.roll);
         Transform t = new Transform(pc.pos, pc.layer, pc.angle, pc.scale);
-        GameObject go = new GameObject("player", t, new Circle(pc.pos.x()+" "+pc.pos.y()+" 20"), pl);
+        GameObject go = new GameObject("player", t, new Circle(pc.pos.x() + " " + pc.pos.y() + " 20"), pl);
         pl.gameObject(go);
 
-        if (lvl.player != null && lvl.player.playerWeapons != null) {
-            for (WeaponBlueprint wp : lvl.player.playerWeapons) {
+        if (pc.playerWeapons != null) {
+            for (WeaponBlueprint wp : pc.playerWeapons) {
                 Weapon gun;
                 switch (wp.type) {
                     case "pistol":
@@ -69,7 +77,6 @@ public class RoomFactory {
                         );
                         gun.gameObject(pistolObject);
                         break;
-                    
                     default:
                         throw new RuntimeException("Unknown weapon: " + wp.type);
                 }
@@ -77,8 +84,7 @@ public class RoomFactory {
             }
         }
 
-
-        // build enemies
+        // Build enemies
         List<Enemy> enemies = new ArrayList<>();
         Collections.shuffle(lvl.spawns);
         Random rnd = new Random();
@@ -89,7 +95,7 @@ public class RoomFactory {
             EnemyBlueprint bp = findBlueprint(type, lvl.blueprints);
             Enemy e = makeEnemy(bp, pl, es.patrols);
             Transform et = new Transform(es.spawn, 1, 0, 1);
-            GameObject ego = new GameObject(type+"_"+i, et, new Circle(es.spawn.x()+" "+es.spawn.y()+" 20"), e);
+            GameObject ego = new GameObject(type + "_" + i, et, new Circle(es.spawn.x() + " " + es.spawn.y() + " 20"), e);
             e.gameObject(ego);
             enemies.add(e);
         }
@@ -97,25 +103,47 @@ public class RoomFactory {
         return new Room(pl, enemies, figures);
     }
 
-    private static String chooseByChance(double r, Map<String,Double> m) {
+    /**
+     * Chooses a key from the map based on a random value and the associated chances.
+     * @param r random value between 0 and 1
+     * @param m map of keys to their chance values
+     * @return the chosen key
+     */
+    private static String chooseByChance(double r, Map<String, Double> m) {
         double acc = 0;
-        for (Map.Entry<String,Double> e : m.entrySet()) {
+        for (Map.Entry<String, Double> e : m.entrySet()) {
             acc += e.getValue();
             if (r <= acc) return e.getKey();
         }
         return m.keySet().iterator().next();
     }
+
+    /**
+     * Finds an EnemyBlueprint by type.
+     * @param t the type string
+     * @param bs list of blueprints
+     * @return the matching blueprint
+     * @throws RuntimeException if not found
+     */
     private static EnemyBlueprint findBlueprint(String t, List<EnemyBlueprint> bs) {
         for (EnemyBlueprint b : bs) if (b.type.equals(t)) return b;
         throw new RuntimeException("No blueprint: " + t);
     }
+
+    /**
+     * Creates an Enemy instance from a blueprint.
+     * @param bp the blueprint
+     * @param pl the player
+     * @param patrols patrol points
+     * @return the created Enemy
+     */
     private static Enemy makeEnemy(EnemyBlueprint bp, Player pl, List<Point> patrols) {
         switch (bp.type) {
             case "gunner":         return new Gunner(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
             case "bomber_striker": return new BomberStriker(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
             case "bomber_ghost":   return new BomberGhost(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
             case "striker":        return new Striker(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
-            default:                throw new RuntimeException("Unknown: " + bp.type);
+            default:               throw new RuntimeException("Unknown: " + bp.type);
         }
     }
 }

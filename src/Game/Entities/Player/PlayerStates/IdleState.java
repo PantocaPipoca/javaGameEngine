@@ -1,5 +1,6 @@
 package Game.Entities.Player.PlayerStates;
 
+import Game.Camera;
 import Game.Entities.State;
 import Game.Gun.Gun;
 import GameEngine.IGameObject;

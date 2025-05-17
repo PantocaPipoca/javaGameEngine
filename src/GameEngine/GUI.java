@@ -103,6 +103,23 @@ public class GUI extends JFrame {
 
             Graphics2D g2 = (Graphics2D) g;
             for (IGameObject go : gameObjects) {
+
+                if (go.name().equals("wall")) {
+                    ColliderPolygon col = (ColliderPolygon) go.collider();
+                    List<Figures.Point> pontos = col.points();
+
+                    int[] xs = new int[pontos.size()];
+                    int[] ys = new int[pontos.size()];
+                    for (int i = 0; i < pontos.size(); i++) {
+                        Figures.Point p = pontos.get(i);
+                        xs[i] = (int) (p.x() - camX + screenCX);
+                        ys[i] = (int) (p.y() - camY + screenCY);
+                    }
+
+                    g.setColor(Color.BLACK);
+                    g.fillPolygon(xs, ys, pontos.size());
+                }
+
                 if (go.transform() == null || go.shape() == null) continue;
 
                 // world coords
@@ -123,10 +140,12 @@ public class GUI extends JFrame {
                 AffineTransform old = g2.getTransform();
 
                 // 2) translate so world(wx,wy) → screen(drawX,drawY)
-                g2.translate(drawX - wx, drawY - wy);
+                double offsetX = screenCX - camX;
+                double offsetY = screenCY - camY;
+                g2.translate(offsetX, offsetY);
 
                 // 3) draw sprite
-                go.shape().render(g2, go.transform());
+                go.shape().render(g2, go.transform(), go.isFlipped(), go.transform().angle());
 
                 // 4) debug outline (always on)
                 if (go.collider() instanceof ColliderCircle) {

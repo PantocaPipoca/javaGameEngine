@@ -24,6 +24,7 @@ public class RollingState extends State{
     public void onEnter() {
         super.onEnter();
         rollTime = 0;
+        
     }
 
     @Override

@@ -16,6 +16,8 @@ public class GameObject implements IGameObject {
     private ICollider collider;
     private IBehaviour behaviour;
     private Shape shape;
+    private boolean flip = false;
+    private boolean usaAngle = false;
 
     
     /**
@@ -44,7 +46,7 @@ public class GameObject implements IGameObject {
         this.originalFigure = figure;
         this.collider = figure.colliderInit(transform);
         this.behaviour = behaviour;
-        this.shape = new Shape(name);
+        this.shape = ShapeFactory.createShape(name);
     }
 
     /**
@@ -77,8 +79,23 @@ public class GameObject implements IGameObject {
 
     public Shape shape() { return shape; }
 
+    public void setShape(Shape shape) {
+        this.shape = shape;
+    }
+
     public IBehaviour behaviour() {
         return behaviour;
+    }
+
+    public boolean isFlipped() { return flip; }
+    public void setFlip(boolean f) { flip = f; }
+
+    public boolean usaAngle() {
+        return usaAngle;
+    }
+
+    public void setUsaAngle(boolean usaAngle) {
+        this.usaAngle = usaAngle;
     }
     
     public String toString() {

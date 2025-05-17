@@ -11,4 +11,5 @@ public interface ITransform {
     double angle();
     double scale();
     void setAngle(double angle);
+    void setPosition(Point position);
 }
