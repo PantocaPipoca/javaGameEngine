@@ -1,5 +1,6 @@
 package Game.Entities;
 
+import GameEngine.Animator;
 import GameEngine.IBehaviour;
 import Game.Gun.Weapon;
 
@@ -12,5 +13,5 @@ public interface IEntity extends IBehaviour {
     Health getHealthManager();
     Weapon getCurrentGun();
     void equipGun(int index);
-    // void playAnimation(String name);
+    Animator getAnimator();
 }

@@ -61,6 +61,12 @@ public class GUI extends JFrame {
         });
 
         setVisible(true);
+
+        // Esconder o cursor padrão
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image invisibleCursorImg = toolkit.createImage(new byte[0]); // imagem vazia
+        Cursor invisibleCursor = toolkit.createCustomCursor(invisibleCursorImg, new Point(0, 0), "invisible");
+        setCursor(invisibleCursor);
     }
 
     public InputEvent ie() {
@@ -89,7 +95,7 @@ public class GUI extends JFrame {
             super.paintComponent(g);
 
             // Fundo
-            g.setColor(Color.WHITE);
+            g.setColor(Color.GRAY);
             g.fillRect(0, 0, getWidth(), getHeight());
 
             // Camera
@@ -156,6 +162,20 @@ public class GUI extends JFrame {
 
                 // 5) restore
                 g2.setTransform(old);
+
+                // 6) Desenhar a mira na posição do rato (em coordenadas de mundo)
+                try {
+                    Image crosshair = new ImageIcon("sprites/crosshair.png").getImage();
+                    Point mouseWorld = ie.getMouseWorldPosition();
+
+                    int crossX = (int) ((mouseWorld.x - camX) + screenCX);
+                    int crossY = (int) ((mouseWorld.y - camY) + screenCY);
+
+                    int size = 32; // ou ajusta
+                    g.drawImage(crosshair, crossX - size / 2, crossY - size / 2, size, size, null);
+                } catch (Exception e) {
+                    System.err.println("Erro ao carregar a imagem da mira: " + e.getMessage());
+                }
             }
         }
     }

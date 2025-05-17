@@ -1,6 +1,6 @@
 package Game.Entities.Player.PlayerStates;
 
-import Game.Camera;
+import Game.Entities.Player.Player;
 import Game.Entities.State;
 import Game.Gun.Gun;
 import GameEngine.IGameObject;
@@ -40,6 +40,9 @@ public class IdleState extends State {
     @Override
     public void onEnter() {
         super.onEnter();
+        if (owner instanceof Player player) {
+            player.playAnimation("idle");
+        }
     }
 
     @Override

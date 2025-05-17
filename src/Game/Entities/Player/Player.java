@@ -37,8 +37,6 @@ public class Player implements IEntity {
         stateMachine.addState("Dead", new DeadState());
 
         stateMachine.setDefaultState("Idle");
-
-        loadAnimations();
     }
 
     @Override
@@ -59,7 +57,8 @@ public class Player implements IEntity {
     }
 
     private void loadAnimations() {
-        animator.addAnimation("walk", Shape.loadAnimation("player_walk", 8));
+        animator.addAnimation("walk", Shape.loadAnimation("player_walk", 8, (int) go.transform().scale()));
+        animator.addAnimation("idle", Shape.loadAnimation("player_idle", 5, (int) go.transform().scale()));
     }
 
     public void addGun(Weapon gun) {
@@ -171,6 +170,7 @@ public void onCollision(List<IGameObject> gol) {
     public void gameObject(IGameObject go) {
         this.go = go;
         this.stateMachine.setOwner((IEntity) go.behaviour());
+        loadAnimations();
     }
     public List<Weapon> getGuns() {
         return guns;

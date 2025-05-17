@@ -46,7 +46,7 @@ public class GameObject implements IGameObject {
         this.originalFigure = figure;
         this.collider = figure.colliderInit(transform);
         this.behaviour = behaviour;
-        this.shape = ShapeFactory.createShape(name);
+        this.shape = ShapeFactory.createShape(name, (int) transform.scale());
     }
 
     /**

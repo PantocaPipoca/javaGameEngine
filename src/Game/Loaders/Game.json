@@ -86,7 +86,7 @@
       "reloadTime": 2.0,
       "magazineSize": 8,
       "maxAmmo": 80,
-      "distanceFromOwner": 20
+      "distanceFromOwner": 40
     }
   ],
   "levels": [
@@ -94,32 +94,16 @@
         "levelName": "First Mission",
         "difficulty": "Normal",
         "figures": [
-        {
-          "type": "polygon",
-          "vertices": [ [0,0],[800,0],[800,40],[0,40] ],
-          "layer": 1
-        },
-        {
-          "type": "polygon",
-          "vertices": [ [-200,560],[800,560],[800,600],[-200,600] ],
-          "layer": 1
-        },
-        {
-          "type": "polygon",
-          "vertices": [ [0,0],[40,0],[40,600],[0,600] ],
-          "layer": 1
-        },
-        {
-          "type": "polygon",
-          "vertices": [ [760,0],[800,0],[800,600],[760,600] ],
-          "layer": 1
-        }
+        { "type": "polygon", "vertices": [ [0,0],[1600,0],[1600,40],[0,40] ], "layer": 1 },
+        { "type": "polygon", "vertices": [ [-200,1160],[1600,1160],[1600,1200],[-200,1200] ], "layer": 1 },
+        { "type": "polygon", "vertices": [ [0,0],[40,0],[40,1200],[0,1200] ], "layer": 1 },
+        { "type": "polygon", "vertices": [ [1560,0],[1600,0],[1600,1200],[1560,1200] ], "layer": 1 }
       ],
         "player": {
           "startPosition": { "x": 400, "y": 300 },
           "layer": 1,
           "angle": 0.0,
-          "scale": 1.0,
+          "scale": 2.0,
           "maxHealth": 100,
           "movingSpeed": 500.0,
           "rollingSpeed": 8.0,
@@ -127,44 +111,44 @@
         },
         "enemyTypes": [ "gunner", "bomber_striker", "bomber_ghost", "striker" ],
         "enemySpawns": [
-          {
-            "spawnPoint": { "x": 100, "y": 100 },
-            "patrolPoints": [
-              { "x": 110, "y": 100 },
-              { "x": 120, "y": 130 },
-              { "x": 90,  "y": 120 }
-            ]
-          },
-          {
-            "spawnPoint": { "x": 200, "y": 150 },
-            "patrolPoints": [
-              { "x": 210, "y": 160 },
-              { "x": 230, "y": 140 }
-            ]
-          },
-          {
-            "spawnPoint": { "x": 300, "y": 400 },
-            "patrolPoints": [
-              { "x": 320, "y": 380 },
-              { "x": 310, "y": 420 },
-              { "x": 290, "y": 390 }
-            ]
-          },
-          {
-            "spawnPoint": { "x": 700, "y": 500 },
-            "patrolPoints": [
-              { "x": 720, "y": 480 },
-              { "x": 680, "y": 520 }
-            ]
-          },
-          {
-            "spawnPoint": { "x": 600, "y": 300 },
-            "patrolPoints": [
-              { "x": 630, "y": 310 },
-              { "x": 590, "y": 290 }
-            ]
-          }
-        ],
+        {
+          "spawnPoint": { "x": 60, "y": 60 },
+          "patrolPoints": [
+            { "x": 100, "y": 100 },
+            { "x": 120, "y": 130 },
+            { "x": 90,  "y": 120 }
+          ]
+        },
+        {
+          "spawnPoint": { "x": 1540, "y": 60 },
+          "patrolPoints": [
+            { "x": 1500, "y": 100 },
+            { "x": 1520, "y": 140 }
+          ]
+        },
+        {
+          "spawnPoint": { "x": 60, "y": 1140 },
+          "patrolPoints": [
+            { "x": 100, "y": 1100 },
+            { "x": 120, "y": 1130 },
+            { "x": 90,  "y": 1120 }
+          ]
+        },
+        {
+          "spawnPoint": { "x": 1540, "y": 1140 },
+          "patrolPoints": [
+            { "x": 1500, "y": 1100 },
+            { "x": 1520, "y": 1130 }
+          ]
+        },
+        {
+          "spawnPoint": { "x": 800, "y": 60 },
+          "patrolPoints": [
+            { "x": 800, "y": 100 },
+            { "x": 820, "y": 120 }
+          ]
+        }
+      ],
         "globalWeapons": [ "pistol" ],
         "enemyCount": 5,
         "enemyChances": {

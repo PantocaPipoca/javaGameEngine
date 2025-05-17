@@ -71,7 +71,7 @@ public class RoomFactory {
                         gun = new Pistol(pl.gameObject(), wp.bulletSpeed, wp.damage, wp.fireRate, wp.reloadTime, wp.magazineSize, wp.maxAmmo, wp.distanceFromOwner);
                         IGameObject pistolObject = new GameObject(
                             gun.name() + "_0",
-                            new Transform(go.transform().position(), go.transform().layer() + 1, 0, 1),
+                            new Transform(go.transform().position(), go.transform().layer() + 1, 0, 2),
                             new Circle("0 0 20"),
                             gun
                         );
@@ -94,7 +94,7 @@ public class RoomFactory {
             String type = chooseByChance(r, lvl.chances);
             EnemyBlueprint bp = findBlueprint(type, lvl.blueprints);
             Enemy e = makeEnemy(bp, pl, es.patrols);
-            Transform et = new Transform(es.spawn, 1, 0, 1);
+            Transform et = new Transform(es.spawn, 1, 0, 2);
             GameObject ego = new GameObject(type + "_" + i, et, new Circle(es.spawn.x() + " " + es.spawn.y() + " 20"), e);
             e.gameObject(ego);
             enemies.add(e);

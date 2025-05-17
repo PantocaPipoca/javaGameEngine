@@ -44,6 +44,7 @@ public class StunnedState extends State {
     public void onEnter() {
         super.onEnter();
         timer = stunDuration;
+        owner.getAnimator().stopAnimation();
     }
 
     /**

@@ -33,11 +33,11 @@ public class Shape {
         return img;
     }
 
-    public static List<Shape> loadAnimation(String baseName, int frameCount) {
+    public static List<Shape> loadAnimation(String baseName, int frameCount, int scale) {
         List<Shape> frames = new ArrayList<>();
         for (int i = 0; i < frameCount; i++) {
             String name = baseName + "_" + i;
-            frames.add(new Shape(name, 100, 100, 0, 0));
+            frames.add(new Shape(name, 100 * scale, 100* scale, 0, 0));
         }
         return frames;
     }

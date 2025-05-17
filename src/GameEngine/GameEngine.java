@@ -41,7 +41,7 @@ public class GameEngine {
      */
     public void run() {
         long lastTime = System.nanoTime();
-        final int targetFPS = 30; // Target framerate
+        final int targetFPS = 60; // Target framerate
         final long frameDuration = 1_000_000_000 / targetFPS; // Duration of each frame in nanoseconds
     
         while (true) { // Run indefinitely until stopped
