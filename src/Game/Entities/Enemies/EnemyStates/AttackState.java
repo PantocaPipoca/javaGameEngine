@@ -1,6 +1,6 @@
 package Game.Entities.Enemies.EnemyStates;
 
-import Game.Entities.State;
+import Game.Entities.Commons.State;
 import Game.Entities.Player.Player;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
@@ -15,8 +15,10 @@ public class AttackState extends State {
 
     /**
      * Constructs an AttackState.
+     * @param target the target game object (e.g., player)
      */
-    public AttackState() {}
+    public AttackState() {
+    }
 
     /////////////////////////////////////////////////// State Methods ///////////////////////////////////////////////////
 
@@ -27,7 +29,7 @@ public class AttackState extends State {
      */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
-        // No default attack update logic
+        owner.getCurrentGun().shoot();
     }
 
     /**
@@ -36,7 +38,7 @@ public class AttackState extends State {
     @Override
     public void onEnter() {
         super.onEnter();
-        // Additional logic for entering attack state can be added here
+        owner.equipGun(0);
     }
 
     /**

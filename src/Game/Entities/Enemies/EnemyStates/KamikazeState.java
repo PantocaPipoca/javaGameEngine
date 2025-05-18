@@ -1,6 +1,6 @@
 package Game.Entities.Enemies.EnemyStates;
 
-import Game.Entities.State;
+import Game.Entities.Commons.State;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 

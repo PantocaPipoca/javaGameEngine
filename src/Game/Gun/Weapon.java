@@ -3,6 +3,7 @@ package Game.Gun;
 import java.util.List;
 import Figures.Point;
 import GameEngine.GameEngine;
+import GameEngine.GameObject;
 import GameEngine.IBehaviour;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
@@ -17,7 +18,7 @@ public abstract class Weapon implements IBehaviour {
 
     protected IGameObject owner;
     protected GameEngine gameEngine;
-    protected IGameObject go;
+    protected GameObject go;
     protected double fireRate;
     private double distanceFromOwner;
     private String name;
@@ -73,7 +74,7 @@ public abstract class Weapon implements IBehaviour {
     ///////////////////////////////////////////////////Getters and Setters///////////////////////////////////////////////////
 
     public IGameObject gameObject() { return go; }
-    public void gameObject(IGameObject go) { this.go = go; }
+    public void gameObject(IGameObject go) { this.go = (GameObject) go; }
     public String name() { return name; }
 
     ///////////////////////////////////////////////////IBehaviour Methods///////////////////////////////////////////////////
@@ -92,11 +93,6 @@ public abstract class Weapon implements IBehaviour {
 
     @Override
     public void onUpdate(double dT, InputEvent ie) {
-        Point target = new Point(
-            ie.getMouseWorldPosition().getX(),
-            ie.getMouseWorldPosition().getY()
-        );
-        updateRotation(target);
         go.update();
         if (fireCooldown > 0) {
             fireCooldown -= dT;

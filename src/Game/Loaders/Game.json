@@ -2,12 +2,13 @@
   "enemyBlueprints": [
       {
         "type": "gunner",
+        "weapons": [ "pistol" ],
         "maxHealth": 30,
         "patrolSpeed": 100.0,
         "chaseSpeed": 150.0,
-        "detectionRadius": 300,
-        "attackRadius": 50,
-        "forgetfullRadius": 500,
+        "detectionRadius": 500,
+        "attackRadius": 300,
+        "forgetfullRadius": 700,
         "dropChance": {
           "health": 0.2,
           "powerup": 0.2,
@@ -21,6 +22,7 @@
       },
       {
         "type": "bomber_striker",
+        "weapons": [],
         "maxHealth": 25,
         "patrolSpeed": 100.0,
         "chaseSpeed": 150.0,
@@ -40,6 +42,7 @@
       },
       {
         "type": "bomber_ghost",
+        "weapons": [],
         "maxHealth": 20,
         "patrolSpeed": 100.0,
         "chaseSpeed": 150.0,
@@ -59,6 +62,7 @@
       },
       {
         "type": "striker",
+        "weapons": [],
         "maxHealth": 35,
         "patrolSpeed": 100.0,
         "chaseSpeed": 300.0,
@@ -152,10 +156,10 @@
         "globalWeapons": [ "pistol" ],
         "enemyCount": 5,
         "enemyChances": {
-          "gunner": 0,
+          "gunner": 1,
           "bomber_striker": 0,
           "bomber_ghost": 0,
-          "striker": 1
+          "striker": 0
         }
       },
   

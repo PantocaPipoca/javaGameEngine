@@ -1,8 +1,9 @@
 package Game.Entities.Player.PlayerStates;
 
 import Figures.Point;
+import Game.Entities.Commons.State;
 import Game.Entities.Player.Player;
-import Game.Entities.State;
+import GameEngine.GameObject;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 import GameEngine.ITransform;
@@ -37,7 +38,8 @@ public class MovingState extends State {
      */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
-        ITransform transform = owner.gameObject().transform();
+        GameObject ownerGo = (GameObject) owner.gameObject();
+        ITransform transform = ownerGo.transform();
         double distance = speed * dT;
 
         double dx = 0, dy = 0;
@@ -50,9 +52,9 @@ public class MovingState extends State {
 
         // Flip horizontal based on direction
         if (direction.x() < 0) {
-            owner.gameObject().setFlip(true);
+            ownerGo.setFlip(true);
         } else if (direction.x() > 0) {
-            owner.gameObject().setFlip(false);
+            ownerGo.setFlip(false);
         }
 
         if (direction.x() != 0 || direction.y() != 0) {

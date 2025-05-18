@@ -3,7 +3,7 @@ package Game.Entities.Enemies;
 import java.util.List;
 
 import Figures.Point;
-import Game.Entities.Health;
+import Game.Entities.Commons.Health;
 import GameEngine.IGameObject;
 
 /**

@@ -2,13 +2,13 @@ package Game.Entities.Player;
 
 import java.util.List;
 
-import Game.Entities.Entity;
-import Game.Entities.EntityUtils;
-import Game.Entities.Health;
-import Game.Entities.KnockbackState;
-import Game.Entities.StunnedState;
+import Figures.Point;
+import Game.Entities.Commons.Entity;
+import Game.Entities.Commons.EntityUtils;
+import Game.Entities.Commons.Health;
+import Game.Entities.Commons.KnockbackState;
+import Game.Entities.Commons.StunnedState;
 import Game.Entities.Player.PlayerStates.*;
-import Game.Gun.Weapon;
 import GameEngine.*;
 
 /**
@@ -43,6 +43,20 @@ public class Player extends Entity {
     }
 
     /////////////////////////////////////////////////// IBehaviour Methods ///////////////////////////////////////////////////
+
+    @Override
+    public void onUpdate(double dT, InputEvent ie) {
+        animator.update((float) dT);
+        if (go != null) {
+            go.setShape(animator.getCurrentShape());
+            go.update();
+            lastSafePos = go.transform().position();
+            setTargetPos(new Point(ie.getMouseWorldPosition().getX(), ie.getMouseWorldPosition().getY()));
+            currentGun.updateRotation(targetPos);
+            stateMachine.onUpdate(dT, ie);
+            go.update();
+        }
+    }
 
     @Override
     public void onCollision(List<IGameObject> gol) {
@@ -97,45 +111,9 @@ public class Player extends Entity {
         animator.addAnimation("idle", Shape.loadAnimation("player_idle", 5, (int) go.transform().scale()));
     }
 
-    /**
-     * Adds a gun to the player's inventory and equips it.
-     * @param gun the weapon to add
-     */
-    public void addGun(Weapon gun) {
-        if (gun != null) {
-            guns.add(gun);
-            currentGun = gun;
-        }
-    }
-
-    /**
-     * Sets the current gun and adds it to the game engine.
-     * @param gun the weapon to equip
-     */
-    public void setCurrentGun(Weapon gun) {
-        if (gun != null) {
-            this.currentGun = gun;
-            if (gun.gameObject() != null) {
-                GameEngine.getInstance().destroy(gun.gameObject());
-            }
-            GameEngine.getInstance().addEnabled(gun.gameObject());
-        }
-    }
-
-    /**
-     * Equips a gun by index.
-     * @param index the index of the gun in the inventory
-     */
-    public void equipGun(int index) {
-        if (index >= 0 && index < guns.size()) {
-            currentGun = guns.get(index);
-            setCurrentGun(currentGun);
-        }
-    }
-
     @Override
     public void gameObject(IGameObject go) {
-        this.go = go;
+        this.go = (GameObject) go;
         this.stateMachine.setOwner(this);
         loadAnimations();
     }

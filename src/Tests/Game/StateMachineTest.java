@@ -6,7 +6,7 @@ import GameEngine.InputEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Game.Entities.StateMachine;
+import Game.Entities.Commons.StateMachine;
 
 class StateMachineTest {
 

@@ -2,7 +2,7 @@ package Tests.Game;
 
 import org.junit.jupiter.api.Test;
 
-import Game.Entities.Health;
+import Game.Entities.Commons.Health;
 
 import static org.junit.jupiter.api.Assertions.*;
 

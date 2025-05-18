@@ -3,7 +3,7 @@ package Game.Entities.Enemies;
 import java.util.List;
 
 import Figures.Point;
-import Game.Entities.Health;
+import Game.Entities.Commons.Health;
 import Game.Entities.Enemies.EnemyStates.ChaseState;
 import Game.Entities.Enemies.EnemyStates.EnemyDeadState;
 import Game.Entities.Enemies.EnemyStates.KamikazeState;
@@ -33,7 +33,7 @@ public abstract class Bomber extends Enemy {
                   double patrolSpeed, double detectionRadius, double attackRadius,
                   double chaseSpeed, double forgetfullRadius) {
 
-        super(health);
+        super(health, player);
 
         stateMachine.addState("Patrol", new PatrolState(patrolPoints, player, patrolSpeed, detectionRadius));
         stateMachine.addState("Chase", new ChaseState(player, chaseSpeed, attackRadius, forgetfullRadius));

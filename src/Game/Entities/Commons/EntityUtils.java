@@ -1,4 +1,4 @@
-package Game.Entities;
+package Game.Entities.Commons;
 
 import Figures.Point;
 

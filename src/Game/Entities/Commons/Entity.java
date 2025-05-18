@@ -1,4 +1,4 @@
-package Game.Entities;
+package Game.Entities.Commons;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -13,11 +13,12 @@ import Game.Gun.Weapon;
 public abstract class Entity implements IEntity {
     protected final StateMachine stateMachine;
     protected final Health healthManager;
-    protected IGameObject go;
+    protected GameObject go;
     protected List<Weapon> guns;
     protected Weapon currentGun;
     protected Animator animator = new Animator(0.1f);
     protected Point lastSafePos;
+    protected Point targetPos = new Point(0, 0);
 
     public Entity(Health health) {
         this.healthManager = health;
@@ -58,7 +59,7 @@ public abstract class Entity implements IEntity {
 
     @Override
     public void gameObject(IGameObject go) {
-        this.go = go;
+        this.go = (GameObject) go;
         this.stateMachine.setOwner((IEntity) go.behaviour());
     }
 
@@ -85,6 +86,17 @@ public abstract class Entity implements IEntity {
         go.update();
     }
 
+    /**
+     * Adds a gun to the player's inventory and equips it.
+     * @param gun the weapon to add
+     */
+    public void addGun(Weapon gun) {
+        if (gun != null) {
+            guns.add(gun);
+            currentGun = gun;
+        }
+    }
+
     // Common getters and setters
 
     public Health getHealthManager() {
@@ -107,21 +119,36 @@ public abstract class Entity implements IEntity {
         return currentGun;
     }
 
+    /**
+     * Sets the current gun and adds it to the game engine.
+     * @param gun the weapon to equip
+     */
     public void setCurrentGun(Weapon gun) {
         if (gun != null) {
             this.currentGun = gun;
+            if (gun.gameObject() != null) {
+                GameEngine.getInstance().destroy(gun.gameObject());
+            }
+            GameEngine.getInstance().addEnabled(gun.gameObject());
         }
     }
 
+    /**
+     * Equips a gun by index.
+     * @param index the index of the gun in the inventory
+     */
     public void equipGun(int index) {
         if (index >= 0 && index < guns.size()) {
             currentGun = guns.get(index);
-        } else {
-            throw new IndexOutOfBoundsException("Invalid gun index: " + index);
+            setCurrentGun(currentGun);
         }
     }
 
     public void lastSafePos(Point p) {
         this.lastSafePos = p;
+    }
+
+    public void setTargetPos(Point p) {
+        this.targetPos = p;
     }
 }

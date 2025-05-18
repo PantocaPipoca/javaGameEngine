@@ -26,24 +26,6 @@ public class GameConfigLoader {
         Map<String,EnemyBlueprint> enemyCache   = new HashMap<>();
         Map<String,WeaponBlueprint> weaponCache = new HashMap<>();
 
-        // Enemy blueprints (global)
-        for (Object ebObj : (List<Object>) root.get("enemyBlueprints")) {
-            Map<String,Object> m = (Map<String,Object>) ebObj;
-            String type = (String) m.get("type");
-
-            EnemyBlueprint bp = new EnemyBlueprint();
-            bp.type            = type;
-            bp.health          = ((Number) m.get("maxHealth")).intValue();
-            bp.patrol          = ((Number) m.get("patrolSpeed")).doubleValue();
-            bp.chase           = ((Number) m.get("chaseSpeed")).doubleValue();
-            bp.detectionRadius = ((Number) m.get("detectionRadius")).doubleValue();
-            bp.attackRadius    = ((Number) m.get("attackRadius")).doubleValue();
-            bp.forgetfulRadius = ((Number) m.get("forgetfullRadius")).doubleValue();
-            // bp.drops is not used
-
-            enemyCache.put(type, bp);
-        }
-
         // Weapon blueprints (global)
         for (Object wbObj : (List<Object>) root.get("weaponBlueprints")) {
             Map<String,Object> m = (Map<String,Object>) wbObj;
@@ -60,6 +42,30 @@ public class GameConfigLoader {
             wp.distanceFromOwner = ((Number) m.get("distanceFromOwner")).doubleValue();
 
             weaponCache.put(type, wp);
+        }
+
+        // Enemy blueprints (global)
+        for (Object ebObj : (List<Object>) root.get("enemyBlueprints")) {
+            Map<String,Object> m = (Map<String,Object>) ebObj;
+            String type = (String) m.get("type");
+
+            EnemyBlueprint bp = new EnemyBlueprint();
+            bp.type            = type;
+            bp.enemyWeapons    = new ArrayList<>();
+            for (String weaponType : (List<String>) m.get("weapons")) {
+                WeaponBlueprint wp = weaponCache.get(weaponType);
+                if (wp == null) throw new RuntimeException("Missing weapon blueprint: " + weaponType);
+                bp.enemyWeapons.add(wp);
+            }
+            bp.health          = ((Number) m.get("maxHealth")).intValue();
+            bp.patrol          = ((Number) m.get("patrolSpeed")).doubleValue();
+            bp.chase           = ((Number) m.get("chaseSpeed")).doubleValue();
+            bp.detectionRadius = ((Number) m.get("detectionRadius")).doubleValue();
+            bp.attackRadius    = ((Number) m.get("attackRadius")).doubleValue();
+            bp.forgetfulRadius = ((Number) m.get("forgetfullRadius")).doubleValue();
+            // bp.drops is not used
+
+            enemyCache.put(type, bp);
         }
 
         // Load each level by referencing the caches

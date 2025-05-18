@@ -74,8 +74,15 @@ public class Gun extends Weapon {
         double bulletY = ownerPosition.y() + Math.sin(rotation);
 
         // Create a new bullet object
-        Bullet bullet = new Bullet(rotation, bulletSpeed);
-        GameObject bulletObject = new GameObject("bullet", new Transform(new Point(bulletX, bulletY), 1, 0, 1), new Circle("0 0 10"), bullet);
+        Bullet bullet;
+        GameObject bulletObject;
+        if (owner.name().equals("player")) {
+            bullet = new PlayerBullet(rotation, bulletSpeed);
+            bulletObject = new GameObject("bullet", new Transform(new Point(bulletX, bulletY), 1, 0, 1), new Circle("0 0 10"), bullet);
+        } else {
+            bullet = new EnemyBullet(rotation, bulletSpeed);
+            bulletObject = new GameObject("enemyBullet", new Transform(new Point(bulletX, bulletY), 1, 0, 1), new Circle("0 0 10"), bullet);
+        }
         bullet.gameObject(bulletObject);
         gameEngine.addEnabled(bulletObject);
 

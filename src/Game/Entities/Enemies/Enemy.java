@@ -2,11 +2,11 @@ package Game.Entities.Enemies;
 
 import java.util.List;
 
-import Game.Entities.Entity;
-import Game.Entities.EntityUtils;
-import Game.Entities.Health;
-import Game.Entities.KnockbackState;
-import Game.Entities.StunnedState;
+import Game.Entities.Commons.Entity;
+import Game.Entities.Commons.EntityUtils;
+import Game.Entities.Commons.Health;
+import Game.Entities.Commons.KnockbackState;
+import Game.Entities.Commons.StunnedState;
 import GameEngine.*;
 
 /**
@@ -18,12 +18,15 @@ import GameEngine.*;
  */
 public abstract class Enemy extends Entity {
 
+    private IGameObject player;
+
     /**
      * Constructs an enemy with the specified health manager.
      * @param health the health manager
      */
-    public Enemy(Health health) {
+    public Enemy(Health health, IGameObject player) {
         super(health);
+        this.player = player;
         stateMachine.addState("Stunned", new StunnedState(1.5));
         stateMachine.addState("Knocked", new KnockbackState(0.2));
     }
@@ -41,7 +44,9 @@ public abstract class Enemy extends Entity {
             stateMachine.setState("Dead");
             return;
         }
+        setTargetPos(player.transform().position());
         stateMachine.onUpdate(dT, ie);
+        currentGun.updateRotation(targetPos);
         go.update();
     }
 

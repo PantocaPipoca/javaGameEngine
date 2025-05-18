@@ -1,4 +1,4 @@
-package Game.Entities;
+package Game.Entities.Commons;
 
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
@@ -58,11 +58,12 @@ public class StateMachine {
     /**
      * Sets the current state of the state machine.
      * @param state name of the new state
-     * @throws IllegalArgumentException if the state does not exist
+     * If the state does not exist, does nothing and prints an error.
      */
     public void setState(String state) {
         if (!states.containsKey(state)) {
-            throw new IllegalArgumentException("State " + state + " not found.");
+            System.err.println("State " + state + " not found. State unchanged.");
+            return;
         }
         if (currentState != null) {
             currentState.onExit();
@@ -88,11 +89,12 @@ public class StateMachine {
     /**
      * Removes a state from the state machine.
      * @param name the name of the state to remove
-     * @throws IllegalArgumentException if the state does not exist
+     * If the state does not exist, does nothing and prints an error.
      */
     public void removeState(String name) {
         if (!states.containsKey(name)) {
-            throw new IllegalArgumentException("State " + name + " not found.");
+            System.err.println("State " + name + " not found. Nothing removed.");
+            return;
         }
         states.remove(name);
     }

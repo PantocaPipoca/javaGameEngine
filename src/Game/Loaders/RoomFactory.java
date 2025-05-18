@@ -2,7 +2,7 @@ package Game.Loaders;
 
 import Game.Loaders.ConfigModels.*;
 import Game.Obstacles.Wall;
-import Game.Entities.Health;
+import Game.Entities.Commons.Health;
 import Game.Entities.Enemies.*;
 import Game.Entities.Player.Player;
 import Game.Gun.*;
@@ -65,21 +65,7 @@ public class RoomFactory {
 
         if (pc.playerWeapons != null) {
             for (WeaponBlueprint wp : pc.playerWeapons) {
-                Weapon gun;
-                switch (wp.type) {
-                    case "pistol":
-                        gun = new Pistol(pl.gameObject(), wp.bulletSpeed, wp.damage, wp.fireRate, wp.reloadTime, wp.magazineSize, wp.maxAmmo, wp.distanceFromOwner);
-                        IGameObject pistolObject = new GameObject(
-                            gun.name() + "_0",
-                            new Transform(go.transform().position(), go.transform().layer() + 1, 0, 2),
-                            new Circle("0 0 20"),
-                            gun
-                        );
-                        gun.gameObject(pistolObject);
-                        break;
-                    default:
-                        throw new RuntimeException("Unknown weapon: " + wp.type);
-                }
+                Weapon gun = makeWeapon(wp, pl.gameObject());
                 pl.addGun(gun);
             }
         }
@@ -97,6 +83,10 @@ public class RoomFactory {
             Transform et = new Transform(es.spawn, 1, 0, 2);
             GameObject ego = new GameObject(type + "_" + i, et, new Circle(es.spawn.x() + " " + es.spawn.y() + " 20"), e);
             e.gameObject(ego);
+            for (WeaponBlueprint wp : bp.enemyWeapons) {
+                Weapon gun = makeWeapon(wp, e.gameObject());
+                e.addGun(gun);
+            }
             enemies.add(e);
         }
 
@@ -145,5 +135,23 @@ public class RoomFactory {
             case "striker":        return new Striker(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
             default:               throw new RuntimeException("Unknown: " + bp.type);
         }
+    }
+    public static Weapon makeWeapon(WeaponBlueprint wp, IGameObject owner) {
+        Weapon gun;
+        switch (wp.type) {
+            case "pistol":
+                gun = new Pistol(owner, wp.bulletSpeed, wp.damage, wp.fireRate, wp.reloadTime, wp.magazineSize, wp.maxAmmo, wp.distanceFromOwner);
+                IGameObject pistolObject = new GameObject(
+                    gun.name() + "_0",
+                    new Transform(owner.transform().position(), owner.transform().layer() + 1, 0, 2),
+                    new Circle("0 0 20"),
+                    gun
+                );
+                gun.gameObject(pistolObject);
+                break;
+            default:
+                throw new RuntimeException("Unknown weapon: " + wp.type);
+        }
+        return gun;
     }
 }

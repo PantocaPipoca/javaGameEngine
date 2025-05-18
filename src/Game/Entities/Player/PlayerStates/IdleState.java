@@ -1,7 +1,7 @@
 package Game.Entities.Player.PlayerStates;
 
+import Game.Entities.Commons.State;
 import Game.Entities.Player.Player;
-import Game.Entities.State;
 import Game.Gun.Gun;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;

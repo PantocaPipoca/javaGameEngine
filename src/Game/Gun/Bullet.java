@@ -18,7 +18,7 @@ import GameEngine.IBehaviour;
 public class Bullet implements IBehaviour {
     private double rotation;
     private double speed;
-    private IGameObject go;
+    protected IGameObject go;
     private final GameEngine gameEngine = GameEngine.getInstance();
     private final double lifeTime = 0.7;
     private double timeAlive = 0.0; // Time counter
@@ -53,21 +53,7 @@ public class Bullet implements IBehaviour {
         }
     }
 
-    /**
-     * Handles collision with other game objects.
-     * Destroys the bullet if it hits anything except itself or the player.
-     * @param gol list of game objects collided with
-     */
-    @Override
-    public void onCollision(List<IGameObject> gol) {
-        for (IGameObject other : gol) {
-            if (!other.name().equals(go.name()) && !other.name().equals("player")) {
-                gameEngine.destroy(go);
-                break;
-            }
-        }
-    }
-
+    @Override public void onCollision(List<IGameObject> gol) {}
     @Override public void onInit() {}
     @Override public void onEnabled() {}
     @Override public void onDisabled() {}

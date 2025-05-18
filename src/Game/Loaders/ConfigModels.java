@@ -33,6 +33,7 @@ public class ConfigModels {
         public double patrol, chase;
         public Map<String, Object> drops;
         public double detectionRadius, attackRadius, forgetfulRadius;
+        public List<WeaponBlueprint> enemyWeapons;
     }
 
     /**

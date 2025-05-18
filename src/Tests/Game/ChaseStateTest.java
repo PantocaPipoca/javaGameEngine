@@ -3,7 +3,7 @@ package Tests.Game;
 import static org.junit.jupiter.api.Assertions.*;
 
 import Figures.Point;
-import Game.Entities.StateMachine;
+import Game.Entities.Commons.StateMachine;
 import Game.Entities.Enemies.EnemyStates.ChaseState;
 import GameEngine.InputEvent;
 

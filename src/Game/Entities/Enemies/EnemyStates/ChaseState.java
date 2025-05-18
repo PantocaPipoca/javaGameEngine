@@ -2,7 +2,7 @@ package Game.Entities.Enemies.EnemyStates;
 
 import Figures.GeometryUtils;
 import Figures.Point;
-import Game.Entities.State;
+import Game.Entities.Commons.State;
 import Game.Entities.Player.Player;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;

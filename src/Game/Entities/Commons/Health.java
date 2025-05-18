@@ -1,4 +1,4 @@
-package Game.Entities;
+package Game.Entities.Commons;
 
 /**
  * Class that manages the health of an entity, including damage, healing, and alive status.
