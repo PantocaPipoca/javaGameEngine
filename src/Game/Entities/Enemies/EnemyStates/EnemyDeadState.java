@@ -1,6 +1,7 @@
 package Game.Entities.Enemies.EnemyStates;
 
 import Game.Entities.State;
+import GameEngine.GameEngine;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 
@@ -26,7 +27,6 @@ public class EnemyDeadState extends State {
      */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
-        // No update logic while dead
     }
 
     /**
@@ -35,7 +35,7 @@ public class EnemyDeadState extends State {
     @Override
     public void onEnter() {
         super.onEnter();
-        // Additional logic for entering dead state can be added here
+        GameEngine.getInstance().destroy(owner.gameObject());
     }
 
     /**
@@ -43,7 +43,6 @@ public class EnemyDeadState extends State {
      */
     @Override
     public void onExit() {
-        // Additional logic for exiting dead state can be added here
     }
 
     /**
@@ -52,7 +51,5 @@ public class EnemyDeadState extends State {
      */
     @Override
     public void onCollision(IGameObject other) {
-        super.onCollision(other);
-        // No collision logic while dead
     }
 }

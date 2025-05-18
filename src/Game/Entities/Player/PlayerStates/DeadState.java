@@ -26,7 +26,6 @@ public class DeadState extends State {
      */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
-        // No update logic while dead
     }
 
     /**
@@ -35,7 +34,6 @@ public class DeadState extends State {
     @Override
     public void onEnter() {
         super.onEnter();
-        // Additional logic for entering dead state can be added here
     }
 
     /**
@@ -43,7 +41,6 @@ public class DeadState extends State {
      */
     @Override
     public void onExit() {
-        // Additional logic for exiting dead state can be added here
     }
 
     /**
@@ -52,7 +49,5 @@ public class DeadState extends State {
      */
     @Override
     public void onCollision(IGameObject other) {
-        super.onCollision(other);
-        // No collision logic while dead
     }
 }

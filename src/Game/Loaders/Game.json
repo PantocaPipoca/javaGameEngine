@@ -61,10 +61,10 @@
         "type": "striker",
         "maxHealth": 35,
         "patrolSpeed": 100.0,
-        "chaseSpeed": 150.0,
-        "detectionRadius": 300,
+        "chaseSpeed": 300.0,
+        "detectionRadius": 500,
         "attackRadius": 50,
-        "forgetfullRadius": 500,
+        "forgetfullRadius": 1000,
         "dropChance": {
           "health": 0.25,
           "powerup": 0.15,
@@ -94,11 +94,11 @@
         "levelName": "First Mission",
         "difficulty": "Normal",
         "figures": [
-        { "type": "polygon", "vertices": [ [0,0],[1600,0],[1600,40],[0,40] ], "layer": 1 },
-        { "type": "polygon", "vertices": [ [-200,1160],[1600,1160],[1600,1200],[-200,1200] ], "layer": 1 },
-        { "type": "polygon", "vertices": [ [0,0],[40,0],[40,1200],[0,1200] ], "layer": 1 },
-        { "type": "polygon", "vertices": [ [1560,0],[1600,0],[1600,1200],[1560,1200] ], "layer": 1 }
-      ],
+          { "type": "polygon", "vertices": [ [-10000,-10000],[16000,-10000],[1600,40],[0,40] ], "layer": 1 },
+          { "type": "polygon", "vertices": [ [-10000,12100],[16000,12100],[1600,1160],[0,1160] ], "layer": 1 },
+          { "type": "polygon", "vertices": [ [-10000,-10000],[0,0],[0,1200],[-10000,12100] ], "layer": 1 },
+          { "type": "polygon", "vertices": [ [1600,0],[16000,-10000],[16000,12100],[1600,1200] ], "layer": 1 }
+        ],
         "player": {
           "startPosition": { "x": 400, "y": 300 },
           "layer": 1,
@@ -152,10 +152,10 @@
         "globalWeapons": [ "pistol" ],
         "enemyCount": 5,
         "enemyChances": {
-          "gunner": 0.3,
-          "bomber_striker": 0.25,
-          "bomber_ghost": 0.15,
-          "striker": 0.30
+          "gunner": 0,
+          "bomber_striker": 0,
+          "bomber_ghost": 0,
+          "striker": 1
         }
       },
   

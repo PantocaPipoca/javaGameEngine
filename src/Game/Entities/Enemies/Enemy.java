@@ -37,6 +37,10 @@ public abstract class Enemy extends Entity {
     public void onUpdate(double dT, InputEvent ie) {
         go.update();
         lastSafePos = go.transform().position();
+        if (!healthManager.isAlive()) {
+            stateMachine.setState("Dead");
+            return;
+        }
         stateMachine.onUpdate(dT, ie);
         go.update();
     }
@@ -45,13 +49,22 @@ public abstract class Enemy extends Entity {
     public void onCollision(List<IGameObject> gol) {
         boolean knocked = false;
         for (IGameObject other : gol) {
-            if ((other.name().startsWith("bullet") || other.name().equals("player")) && !knocked) {
-                EntityUtils.calculateKnockback(this, other, 10, 0.2);
-                stateMachine.setState("Knocked");
-                knocked = true;
-            }
             if (other.name().equals("wall")) {
                 resolveAgainst(other);
+                continue;
+            }
+            if(!knocked) {
+                knocked = true;
+                if (other.name().equals("player")) {
+                    EntityUtils.calculateKnockback(this, other, 200, 0.3);
+                    stateMachine.setState("Knocked");
+                    continue;
+                }
+                if (other.name().equals("bullet")) {
+                    healthManager.takeDamage(10);
+                    stateMachine.setState("Stunned");
+                    continue;
+                }
             }
         }
     }

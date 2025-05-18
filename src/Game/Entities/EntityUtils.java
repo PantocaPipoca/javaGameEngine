@@ -19,6 +19,6 @@ public class EntityUtils {
 
         // Use the KnockbackState logic
         KnockbackState ks = (KnockbackState) entity.getStateMachine().getState("Knocked");
-        ks.knockbackStart(dx, dy, 10, 0.2);
+        ks.knockbackStart(dx, dy, strength, duration);
     }
 }

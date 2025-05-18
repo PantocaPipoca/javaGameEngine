@@ -42,7 +42,6 @@ public class Health {
                 isAlive = false;
             }
         }
-        System.out.println("Health: " + currentHealth);
     }
 
     /**
