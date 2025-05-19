@@ -76,6 +76,7 @@ public abstract class Weapon implements IBehaviour {
     public IGameObject gameObject() { return go; }
     public void gameObject(IGameObject go) { this.go = (GameObject) go; }
     public String name() { return name; }
+    public double fireRate() { return fireRate; }
 
     ///////////////////////////////////////////////////IBehaviour Methods///////////////////////////////////////////////////
 

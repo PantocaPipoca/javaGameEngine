@@ -36,7 +36,9 @@ public class EnemyDeadState extends State {
     public void onEnter() {
         super.onEnter();
         GameEngine.getInstance().destroy(owner.gameObject());
-        GameEngine.getInstance().destroy(owner.getCurrentGun().gameObject());
+        if (owner.getCurrentGun() != null) {
+            GameEngine.getInstance().destroy(owner.getCurrentGun().gameObject());
+        }
     }
 
     /**

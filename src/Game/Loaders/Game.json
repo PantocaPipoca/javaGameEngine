@@ -99,7 +99,7 @@
         "difficulty": "Normal",
         "figures": [
           { "type": "polygon", "vertices": [ [-10000,-10000],[16000,-10000],[1600,40],[0,40] ], "layer": 1 },
-          { "type": "polygon", "vertices": [ [-10000,12100],[16000,12100],[1600,1160],[0,1160] ], "layer": 1 },
+          { "type": "polygon", "vertices": [ [-10000,12100],[800,12100],[800,1160],[0,1160] ], "layer": 1 },
           { "type": "polygon", "vertices": [ [-10000,-10000],[0,0],[0,1200],[-10000,12100] ], "layer": 1 },
           { "type": "polygon", "vertices": [ [1600,0],[16000,-10000],[16000,12100],[1600,1200] ], "layer": 1 }
         ],
@@ -156,10 +156,10 @@
         "globalWeapons": [ "pistol" ],
         "enemyCount": 5,
         "enemyChances": {
-          "gunner": 1,
+          "gunner": 0.5,
           "bomber_striker": 0,
           "bomber_ghost": 0,
-          "striker": 0
+          "striker": 0.5
         }
       },
   

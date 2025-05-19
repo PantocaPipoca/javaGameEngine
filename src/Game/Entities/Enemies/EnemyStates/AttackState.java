@@ -13,6 +13,9 @@ import GameEngine.InputEvent;
  */
 public class AttackState extends State {
 
+    private double shootCooldown = 0;
+    private double shootTimer = 0;
+
     /**
      * Constructs an AttackState.
      * @param target the target game object (e.g., player)
@@ -29,7 +32,11 @@ public class AttackState extends State {
      */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
-        owner.getCurrentGun().shoot();
+        shootTimer -= dT;
+        if (shootTimer <= 0.0) {
+            owner.getCurrentGun().shoot();
+            shootTimer = shootCooldown;
+        }
     }
 
     /**
@@ -37,8 +44,10 @@ public class AttackState extends State {
      */
     @Override
     public void onEnter() {
+        shootCooldown = 3.0 / owner.getCurrentGun().fireRate();
         super.onEnter();
         owner.equipGun(0);
+        shootTimer = 0.0;
     }
 
     /**

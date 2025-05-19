@@ -46,7 +46,7 @@ public abstract class Enemy extends Entity {
         }
         setTargetPos(player.transform().position());
         stateMachine.onUpdate(dT, ie);
-        currentGun.updateRotation(targetPos);
+        if (currentGun != null) currentGun.updateRotation(targetPos);
         go.update();
     }
 
