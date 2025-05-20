@@ -61,7 +61,14 @@ public class Player extends Entity implements GamePublisher {
             go.update();
             lastSafePos = go.transform().position();
             setTargetPos(new Point(ie.getMouseWorldPosition().getX(), ie.getMouseWorldPosition().getY()));
-            currentGun.updateRotation(targetPos);
+            if (currentGun != null) {
+                currentGun.updateRotation(targetPos);
+
+                // Flip horizontal com base na posição da arma em relação ao corpo
+                double gunX = currentGun.gameObject().transform().position().x();
+                double bodyX = go.transform().position().x();
+                go.setFlip(gunX < bodyX); // vira para a esquerda se arma estiver à esquerda
+            }
             stateMachine.onUpdate(dT, ie);
             go.update();
         }

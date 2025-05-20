@@ -3,6 +3,7 @@ package Game.Entities.Enemies.EnemyStates;
 import Figures.Point;
 import Game.Entities.Commons.State;
 import Game.Entities.Player.Player;
+import GameEngine.Animator;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 
@@ -66,6 +67,7 @@ public class AttackState extends State {
      */
     @Override
     public void onEnter() {
+        owner.getAnimator().stopAnimation();
         shootCooldown = 3.0 / owner.getCurrentGun().fireRate();
         super.onEnter();
         owner.equipGun(0);
