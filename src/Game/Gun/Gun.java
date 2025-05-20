@@ -1,7 +1,12 @@
 package Game.Gun;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Figures.Circle;
 import Figures.Point;
+import Game.Observer.GameListener;
+import Game.Observer.GamePublisher;
 import GameEngine.GameObject;
 import GameEngine.IGameObject;
 import GameEngine.Transform;
@@ -14,7 +19,7 @@ import GameEngine.InputEvent;
  * @version 1.0 (17/05/25)
  * @inv Gun always has positive magazine size and max ammo.
  */
-public class Gun extends Weapon {
+public class Gun extends Weapon implements GamePublisher {
     protected double bulletSpeed;
     protected double reloadTime;
     protected int magazineSize;
@@ -24,6 +29,8 @@ public class Gun extends Weapon {
     protected int reserveAmmo;
     protected boolean isReloading = false;
     protected double reloadTimer = 0.0;
+
+    private final List<GameListener> listeners = new ArrayList<>();
 
     /**
      * Constructs a gun with the specified parameters.
@@ -87,6 +94,7 @@ public class Gun extends Weapon {
         gameEngine.addEnabled(bulletObject);
 
         currentAmmo--;
+        publishAmmoChanged();
         return true;
     }
 
@@ -106,6 +114,7 @@ public class Gun extends Weapon {
                 currentAmmo += ammoToLoad;
                 reserveAmmo -= ammoToLoad;
                 isReloading = false;
+                publishAmmoChanged();
             }
         }
     }
@@ -128,5 +137,29 @@ public class Gun extends Weapon {
 
     public double getBulletSpeed() {
         return bulletSpeed;
+    }
+
+    public int getCurrentAmmo() {
+        return currentAmmo;
+    }
+    public int getReserveAmmo() {
+        return reserveAmmo;
+    }
+
+    ////////////////////////////////////////////////////// Observer Methods ///////////////////////////////////////////////////
+    @Override
+    public void subscribe(GameListener listener) {
+        listeners.add(listener);
+    }
+
+    @Override
+    public void unsubscribe(GameListener listener) {
+        listeners.remove(listener);
+    }
+
+    private void publishAmmoChanged() {
+        for (GameListener l : listeners) {
+            l.onAmmoChanged(getCurrentAmmo(), getReserveAmmo());
+        }
     }
 }

@@ -28,6 +28,8 @@ public class ShapeFactory {
                 return new Shape(name, 50 * scale, 50 * scale, 0, 0);
             case "bullet":
                 return new Shape(name, 20 * scale, 20 * scale, 0, 0);
+            case "enemyBullet":
+                return new Shape(name, 20 * scale, 20 * scale, 0, 0);
             case "bomb":
                 return new Shape(name, 20 * scale, 20 * scale, 0, 0);
             default:

@@ -18,8 +18,10 @@ public interface IEntity extends IBehaviour {
     Health getHealthManager();
     Weapon getCurrentGun();
     void equipGun(int index);
+    void equipGun(Weapon gun);
     List<Weapon> getGuns();
     Animator getAnimator();
     void resolveAgainst(IGameObject go);
     void lastSafePos(Point p);
+    void hideCurrentGun();
 }

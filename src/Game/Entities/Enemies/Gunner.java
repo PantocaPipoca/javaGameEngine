@@ -3,6 +3,7 @@ package Game.Entities.Enemies;
 import java.util.List;
 
 import GameEngine.IGameObject;
+import GameEngine.Shape;
 import Figures.Point;
 import Game.Entities.Commons.Health;
 import Game.Entities.Enemies.EnemyStates.*;
@@ -28,14 +29,21 @@ public class Gunner extends Enemy {
      */
     public Gunner(Health health, IGameObject player, List<Point> patrolPoints,
                   double patrolSpeed, double detectionRadius, double attackRadius,
-                  double chaseSpeed, double forgetfullRadius) {
+                  double chaseSpeed, double forgetfullRadius, double outOfRangeRadius) {
         super(health, player);
 
         stateMachine.addState("Patrol", new PatrolState(patrolPoints, player, patrolSpeed, detectionRadius));
         stateMachine.addState("Chase", new ChaseState(player, chaseSpeed, attackRadius, forgetfullRadius));
         stateMachine.addState("Dead", new EnemyDeadState());
-        stateMachine.addState("Attack", new AttackState());
+        stateMachine.addState("Attack", new AttackState(player, outOfRangeRadius));
 
         stateMachine.setDefaultState("Patrol");
+    }
+
+    @Override
+    protected void loadAnimations() {
+        animator.addAnimation("walk", Shape.loadAnimation("gunner_walk", 8, (int) go.transform().scale()));
+        animator.addAnimation("run", Shape.loadAnimation("gunner_walk", 8, (int) go.transform().scale()));
+        animator.addAnimation("death", Shape.loadAnimation("gunner_death", 10, (int) go.transform().scale()));
     }
 }

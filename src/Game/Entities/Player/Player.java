@@ -1,5 +1,6 @@
 package Game.Entities.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Figures.Point;
@@ -9,9 +10,11 @@ import Game.Entities.Commons.Health;
 import Game.Entities.Commons.KnockbackState;
 import Game.Entities.Commons.StunnedState;
 import Game.Entities.Player.PlayerStates.*;
+import Game.Gun.Gun;
+import Game.Observer.GameListener;
+import Game.Observer.GamePublisher;
+import Game.UI.GameUI;
 import GameEngine.*;
-
-import java.awt.event.KeyEvent;
 
 /**
  * Class that represents the player entity in the game.
@@ -20,8 +23,9 @@ import java.awt.event.KeyEvent;
  * @version 1.0 (17/05/25)
  * @inv Player must always have a valid health manager and state machine.
  */
-public class Player extends Entity {
+public class Player extends Entity implements GamePublisher {
 
+    private final List<GameListener> listeners = new ArrayList<>();
     private float score;
 
     /**
@@ -83,6 +87,14 @@ public class Player extends Entity {
         }
     }
 
+    @Override
+    public void onInit() {
+        super.onInit();
+        subscribe(GameUI.getInstance());
+        getHealthManager().subscribe(GameUI.getInstance());
+        equipGun(0);
+    }
+
     /////////////////////////////////////////////////// Player Logic ///////////////////////////////////////////////////
 
     /**
@@ -91,6 +103,7 @@ public class Player extends Entity {
      */
     public void addScore(float score) {
         this.score += score;
+        publishScoreChanged();
     }
 
     /**
@@ -122,5 +135,59 @@ public class Player extends Entity {
         this.go = (GameObject) go;
         this.stateMachine.setOwner(this);
         loadAnimations();
+    }
+
+    /**
+     * Equips a gun by index.
+     * @param index the index of the gun in the inventory
+     */
+    @Override
+    public void equipGun(int index) {
+        if (index >= 0 && index < guns.size()) {
+            // Unsubscribe listeners from the old gun (if any)
+            if (currentGun != null && currentGun.gameObject().name().equals("pistol")) {
+                for (GameListener listener : listeners) {
+                    Gun g = (Gun) currentGun;
+                    g.unsubscribe(listener);
+                }
+            }
+            currentGun = guns.get(index);
+            setCurrentGun(currentGun);
+            // Subscribe listeners to the new gun (if any)
+            if (currentGun != null && currentGun.gameObject().name().equals("pistol")) {
+                for (GameListener listener : listeners) {
+                    Gun g = (Gun) currentGun;
+                    g.subscribe(listener);
+                }
+            }
+            publishAmmoChanged();
+        }
+    }
+
+    /////////////////////////////////////////////////// Observer Methods ///////////////////////////////////////////////////
+
+    @Override
+    public void subscribe(GameListener listener) {
+        listeners.add(listener);
+    }
+
+    @Override
+    public void unsubscribe(GameListener listener) {
+        listeners.remove(listener);
+    }
+
+    private void publishAmmoChanged() {
+        for (GameListener l : listeners) {
+            if (currentGun != null) {
+                if (currentGun.gameObject().name().equals("pistol")) {
+                    Gun g = (Gun) currentGun;
+                    l.onAmmoChanged(g.getCurrentAmmo(), g.getReserveAmmo());
+                }
+            }
+        }
+    }
+
+    private void publishScoreChanged() {
+        for (GameListener l : listeners) l.onScoreChanged(score);
     }
 }

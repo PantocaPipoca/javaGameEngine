@@ -3,7 +3,9 @@ package Game.Entities.Enemies.EnemyStates;
 import Figures.GeometryUtils;
 import Figures.Point;
 import Game.Entities.Commons.State;
+import Game.Entities.Enemies.Enemy;
 import Game.Entities.Player.Player;
+import GameEngine.Animator;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 
@@ -68,6 +70,12 @@ public class ChaseState extends State {
 
         Point direction = GeometryUtils.normalize(new Point(dx, dy));
 
+        if (direction.x() < 0) {
+            owner.gameObject().setFlip(true);
+        } else if (direction.x() > 0) {
+            owner.gameObject().setFlip(false);
+        }
+
         // Move the enemy towards the player
         owner.gameObject().transform().move(new Point(direction.x() * chaseSpeed * dT, direction.y() * chaseSpeed * dT), 0);
     }
@@ -77,10 +85,15 @@ public class ChaseState extends State {
      */
     @Override
     public void onEnter() {
+        super.onEnter();
+        Enemy e = (Enemy) owner;
+        Animator animator = e.getAnimator();
+        animator.setFrameDuration(0.05f);
+        e.playAnimation("run");
+
         if (owner.gameObject().name().contains("bomb")) {
             owner.equipGun(0);
         }
-        super.onEnter();
     }
 
     /**

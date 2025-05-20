@@ -25,7 +25,7 @@ public class GUI extends JFrame {
      */
     public GUI() {
         setTitle("Game Engine GUI");
-        setSize(800, 600);
+        setSize(1920, 1080);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 

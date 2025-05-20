@@ -9,6 +9,7 @@ import Game.Entities.Enemies.EnemyStates.PatrolState;
 import Game.Entities.Commons.Health;
 import Game.Entities.Enemies.EnemyStates.AttackState;
 import GameEngine.IGameObject;
+import GameEngine.Shape;
 
 /**
  * Class that represents a Striker enemy.
@@ -39,5 +40,13 @@ public class Striker extends Enemy {
         stateMachine.addState("Dead", new EnemyDeadState());
 
         stateMachine.setDefaultState("Patrol");
+    }
+
+    
+    @Override
+    protected void loadAnimations() {
+        animator.addAnimation("walk", Shape.loadAnimation("striker_walk", 8, (int) go.transform().scale()));
+        animator.addAnimation("run", Shape.loadAnimation("striker_walk", 8, (int) go.transform().scale()));
+        animator.addAnimation("death", Shape.loadAnimation("striker_death", 10, (int) go.transform().scale()));
     }
 }

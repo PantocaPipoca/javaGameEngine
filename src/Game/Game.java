@@ -1,8 +1,10 @@
 package Game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Game.Entities.Enemies.Enemy;
+import Game.UI.GameUI;
 import GameEngine.IGameObject;
 import GameEngine.GameObject;
 import GameEngine.GameEngine;
@@ -17,17 +19,20 @@ import Figures.Point;
  * @inv The rooms list must not be null or empty.
  */
 public class Game {
+    private static Game instance; // Singleton instance of the game
     private final List<Room> rooms; // List of all rooms in the game
     private Room currentRoom; // The currently loaded room
     private final Camera camera; // The main camera
     private final GameEngine engine; // The game engine instance
+    private int currentRoomIndex; // Index of the current room
+    private double currentEnemyCount = 0;
 
     /**
      * Constructs the Game with a list of rooms.
      * @param rooms the list of rooms
      * @throws IllegalArgumentException if rooms is null or empty
      */
-    public Game(List<Room> rooms) {
+    private Game(List<Room> rooms) {
         if (rooms == null || rooms.isEmpty()) {
             throw new IllegalArgumentException("Game: rooms list must not be null or empty");
         }
@@ -43,16 +48,19 @@ public class Game {
      */
     public void loadRoom(int roomIndex) {
         // Clear out any old unnecessary objects
-        for (IGameObject go : engine.gameObjects()) {
-            engine.destroy(go);
-        }
+    List<IGameObject> objectsToDestroy = new ArrayList<>(engine.gameObjects());
+    for (IGameObject go : objectsToDestroy) {
+        engine.destroy(go);
+    }
 
         // Choose a room to load
         currentRoom = rooms.get(roomIndex);
+        currentRoomIndex = roomIndex;
 
         // Load Enemies
         for (Enemy enemy : currentRoom.enemies()) {
             engine.addEnabled(enemy.gameObject());
+            currentEnemyCount++;
         }
 
         // Load Player
@@ -80,6 +88,7 @@ public class Game {
      * Starts the game loop, loading the first room.
      */
     public void start() {
+        GameUI ui = GameUI.getInstance();
         loadRoom(0);
         engine.run();
     }
@@ -92,4 +101,53 @@ public class Game {
         loadRoom(0);
         engine.simulateFrames(frames);
     }
+
+    /**
+     * Returns the singleton instance of Game, creating it if necessary.
+     * @param rooms the list of rooms (only used on first call)
+     * @return the singleton Game instance
+     */
+    public static Game getInstance(List<Room> rooms) {
+        if (instance == null) {
+            instance = new Game(rooms);
+        }
+        return instance;
+    }
+
+    /**
+     * Returns the singleton instance of Game.
+     * @return the singleton Game instance
+     * @throws IllegalStateException if the instance has not been initialized
+     */
+    public static Game getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("Game has not been initialized. Call getInstance(List<Room>) first.");
+        }
+        return instance;
+    }
+
+    /**
+     * Returns the index of the currently loaded room.
+     * @return the current room index
+     */
+    public int getCurrentRoomIndex() {
+        return currentRoomIndex;
+    }
+
+    /**
+     * Get current enemy count.
+     * @return current enemy count
+     */
+    public double getCurrentEnemyCount() {
+        return currentEnemyCount;
+    }
+
+    /**
+     * Set current enemy count.
+     * @param currentEnemyCount the new enemy count
+     */
+    public void setCurrentEnemyCount(double currentEnemyCount) {
+        this.currentEnemyCount = currentEnemyCount;
+    }
+    
 }

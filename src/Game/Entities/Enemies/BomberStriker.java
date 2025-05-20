@@ -5,6 +5,7 @@ import java.util.List;
 import Figures.Point;
 import Game.Entities.Commons.Health;
 import GameEngine.IGameObject;
+import GameEngine.Shape;
 
 /**
  * Class that represents a BomberStriker enemy.
@@ -29,5 +30,12 @@ public class BomberStriker extends Bomber {
                   double patrolSpeed, double detectionRadius, double attackRadius,
                   double chaseSpeed, double forgetfullRadius) {
         super(health, player, patrolPoints, patrolSpeed, detectionRadius, attackRadius, chaseSpeed, forgetfullRadius);
+    }
+
+    @Override
+    protected void loadAnimations() {
+        animator.addAnimation("walk", Shape.loadAnimation("bomberStriker_walk", 8, (int) go.transform().scale()));
+        animator.addAnimation("run", Shape.loadAnimation("bomberStriker_walk", 8, (int) go.transform().scale()));
+        animator.addAnimation("death", Shape.loadAnimation("bomberStriker_death", 10, (int) go.transform().scale()));
     }
 }

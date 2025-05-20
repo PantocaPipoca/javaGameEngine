@@ -73,6 +73,9 @@ public class MovingState extends State {
             int keyCode = KeyEvent.VK_1 + (i - 1);
             if (ie.isKeyPressed(keyCode)) {
                 if (owner.getGuns().size() >= i && owner.getGuns().get(i - 1) != null) {
+                    if (owner.getCurrentGun() != null) {
+                        owner.hideCurrentGun();
+                    }
                     owner.equipGun(i - 1);
                 }
             }

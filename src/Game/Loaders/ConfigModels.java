@@ -34,6 +34,7 @@ public class ConfigModels {
         public Map<String, Object> drops;
         public double detectionRadius, attackRadius, forgetfulRadius;
         public List<WeaponBlueprint> enemyWeapons;
+        public double outOfRangeRadius;
     }
 
     /**
@@ -85,5 +86,6 @@ public class ConfigModels {
         public List<Number> center;
         public double radius;
         public int layer;
+        public String objectType;
     }
 }

@@ -1,6 +1,7 @@
 package Game.Loaders;
 
 import Game.Loaders.ConfigModels.*;
+import Game.Obstacles.Door;
 import Game.Obstacles.Wall;
 import Game.Entities.Commons.Health;
 import Game.Entities.Enemies.*;
@@ -40,7 +41,11 @@ public class RoomFactory {
                 Polygon poly = new Polygon(sb.toString());
                 Point center = poly.centroid();
                 Transform t = new Transform(center, fb.layer, 0, 1);
-                go = new GameObject("wall", t, poly, new Wall());
+                if (fb.objectType != null && fb.objectType.equals("door")) {
+                    go = new GameObject("door", t, poly, new Door());
+                } else {
+                    go = new GameObject("wall", t, poly, new Wall());
+                }
                 go.behaviour().gameObject(go);
             }
             else if ("circle".equals(fb.type)) {
@@ -79,10 +84,7 @@ public class RoomFactory {
             double r = rnd.nextDouble();
             String type = chooseByChance(r, lvl.chances);
             EnemyBlueprint bp = findBlueprint(type, lvl.blueprints);
-            Enemy e = makeEnemy(bp, pl, es.patrols);
-            Transform et = new Transform(es.spawn, 1, 0, 2);
-            GameObject ego = new GameObject(type + "_" + i, et, new Circle(es.spawn.x() + " " + es.spawn.y() + " 20"), e);
-            e.gameObject(ego);
+            Enemy e = makeEnemy(bp, pl, es.patrols, i); // Pass index for unique naming
             for (WeaponBlueprint wp : bp.enemyWeapons) {
                 Weapon gun = makeWeapon(wp, e.gameObject());
                 e.addGun(gun);
@@ -127,14 +129,30 @@ public class RoomFactory {
      * @param patrols patrol points
      * @return the created Enemy
      */
-    private static Enemy makeEnemy(EnemyBlueprint bp, Player pl, List<Point> patrols) {
+    private static Enemy makeEnemy(EnemyBlueprint bp, Player pl, List<Point> patrols, int index) {
+        Enemy e;
         switch (bp.type) {
-            case "gunner":         return new Gunner(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
-            case "bomber_striker": return new BomberStriker(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
-            case "bomber_ghost":   return new BomberGhost(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
-            case "striker":        return new Striker(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
-            default:               throw new RuntimeException("Unknown: " + bp.type);
+            case "gunner":
+                e = new Gunner(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius, bp.outOfRangeRadius);
+                break;
+            case "bomber_striker":
+                e = new BomberStriker(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
+                break;
+            case "bomber_ghost":
+                e = new BomberGhost(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
+                break;
+            case "striker":
+                e = new Striker(new Health(bp.health), pl.gameObject(), patrols, bp.patrol, bp.detectionRadius, bp.attackRadius, bp.chase, bp.forgetfulRadius);
+                break;
+            default:
+                throw new RuntimeException("Unknown: " + bp.type);
         }
+        int layer = bp.type.equals("bomber_ghost") ? 2 : 1;
+        Point spawn = patrols.isEmpty() ? new Point(0, 0) : patrols.get(0);
+        Transform et = new Transform(spawn, layer, 0, 2);
+        GameObject ego = new GameObject(bp.type + "_" + index, et, new Circle(spawn.x() + " " + spawn.y() + " 20"), e);
+        e.gameObject(ego);
+        return e;
     }
     public static Weapon makeWeapon(WeaponBlueprint wp, IGameObject owner) {
         Weapon gun;

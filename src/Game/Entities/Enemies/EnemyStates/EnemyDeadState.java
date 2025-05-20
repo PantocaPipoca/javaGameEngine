@@ -1,6 +1,9 @@
 package Game.Entities.Enemies.EnemyStates;
 
+import Game.Game;
 import Game.Entities.Commons.State;
+import Game.Entities.Enemies.Enemy;
+import GameEngine.Animator;
 import GameEngine.GameEngine;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
@@ -13,6 +16,9 @@ import GameEngine.InputEvent;
  */
 public class EnemyDeadState extends State {
 
+    private float timer = 0f;
+    private final float delayBeforeDestroy = 0.5f;
+
     /**
      * Constructs an EnemyDeadState.
      */
@@ -21,23 +27,34 @@ public class EnemyDeadState extends State {
     /////////////////////////////////////////////////// State Methods ///////////////////////////////////////////////////
 
     /**
+     * Called when entering the dead state.
+     */
+    @Override
+    public void onEnter() {
+        super.onEnter();
+        Game.getInstance().setCurrentEnemyCount(Game.getInstance().getCurrentEnemyCount() - 1);
+
+        Enemy e = (Enemy) owner;
+        Animator animator = e.getAnimator();
+        animator.setFrameDuration(0.05f);
+        e.playAnimation("death");
+
+        // Remove a arma
+        if (e.getCurrentGun() != null) {
+            GameEngine.getInstance().destroy(e.getCurrentGun().gameObject());
+        }
+    }
+
+   /**
      * Updates the dead state. No actions are performed while dead.
      * @param dT delta time since last update
      * @param ie the current input event
      */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
-    }
-
-    /**
-     * Called when entering the dead state.
-     */
-    @Override
-    public void onEnter() {
-        super.onEnter();
-        GameEngine.getInstance().destroy(owner.gameObject());
-        if (owner.getCurrentGun() != null) {
-            GameEngine.getInstance().destroy(owner.getCurrentGun().gameObject());
+        timer += (float) dT;
+        if (timer >= delayBeforeDestroy) {
+            GameEngine.getInstance().destroy(owner.gameObject());
         }
     }
 

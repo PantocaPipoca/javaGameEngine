@@ -1,13 +1,20 @@
 package Game.Entities.Commons;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import Game.Observer.GameListener;
+import Game.Observer.GamePublisher;
+
 /**
  * Class that manages the health of an entity, including damage, healing, and alive status.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
  * @inv Health must always be positive and cannot exceed maxHealth.
  */
-public class Health {
+public class Health implements GamePublisher{
 
+    private final List<GameListener> listeners = new ArrayList<>();
     private int maxHealth;
     private int currentHealth;
     private boolean isAlive;
@@ -37,6 +44,7 @@ public class Health {
         }
         if (isAlive) {
             currentHealth -= damage;
+            publishHealthChanged();
             if (currentHealth <= 0) {
                 currentHealth = 0;
                 isAlive = false;
@@ -55,6 +63,7 @@ public class Health {
         }
         if (isAlive) {
             currentHealth += amount;
+            publishHealthChanged();
             if (currentHealth > maxHealth) {
                 currentHealth = maxHealth;
             }
@@ -85,5 +94,21 @@ public class Health {
      */
     public boolean isAlive() {
         return isAlive;
+    }
+
+    /////////////////////////////////////////////////////// Observer Methods ///////////////////////////////////////////////////
+    @Override
+    public void subscribe(GameListener listener) {
+        listeners.add(listener);
+    }
+
+    @Override
+    public void unsubscribe(GameListener listener) {
+        listeners.remove(listener);
+    }
+
+    private void publishHealthChanged() {
+        int health = getCurrentHealth();
+        for (GameListener l : listeners) l.onPlayerHealthChanged(health);
     }
 }

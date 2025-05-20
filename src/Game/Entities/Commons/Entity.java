@@ -144,6 +144,23 @@ public abstract class Entity implements IEntity {
         }
     }
 
+    /**
+     * Equips the specified gun if it is in the inventory.
+     * @param gun the weapon to equip
+     */
+    public void equipGun(Weapon gun) {
+        if (gun != null && guns.contains(gun)) {
+            currentGun = gun;
+            setCurrentGun(currentGun);
+        }
+    }
+
+    public void hideCurrentGun() {
+    if (currentGun != null && currentGun.gameObject() != null) {
+        GameEngine.getInstance().destroy(currentGun.gameObject());
+    }
+}
+
     public void lastSafePos(Point p) {
         this.lastSafePos = p;
     }

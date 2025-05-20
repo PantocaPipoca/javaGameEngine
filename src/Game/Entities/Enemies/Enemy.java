@@ -38,15 +38,23 @@ public abstract class Enemy extends Entity {
      */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
+        animator.update((float) dT);
+        go.setShape(animator.getCurrentShape());
         go.update();
         lastSafePos = go.transform().position();
-        if (!healthManager.isAlive()) {
+        if (!healthManager.isAlive() && !stateMachine.getCurrentStateName().equals("Dead")) {
             stateMachine.setState("Dead");
             return;
         }
         setTargetPos(player.transform().position());
+        if (currentGun != null) {
+            currentGun.updateRotation(targetPos);
+
+            double gunX = currentGun.gameObject().transform().position().x();
+            double bodyX = go.transform().position().x();
+            go.setFlip(gunX < bodyX);
+        }
         stateMachine.onUpdate(dT, ie);
-        if (currentGun != null) currentGun.updateRotation(targetPos);
         go.update();
     }
 
@@ -73,4 +81,18 @@ public abstract class Enemy extends Entity {
             }
         }
     }
+
+    public void playAnimation(String name) {
+        animator.play(name);
+    }
+
+    protected abstract void loadAnimations();
+
+    @Override
+    public void gameObject(IGameObject go) {
+        this.go = (GameObject) go;
+        this.stateMachine.setOwner(this);
+        loadAnimations();
+    }
+    
 }

@@ -1,12 +1,14 @@
 package Game.Entities.Commons;
 
 import Figures.Point;
+import Game.Gun.Weapon;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 
 public class KnockbackState extends State {
     private double velocityX, velocityY;
     private double timer;
+    private Weapon hiddenGun;
 
     public KnockbackState(double duration) {
         this.timer = duration;
@@ -31,6 +33,10 @@ public class KnockbackState extends State {
             timer -= dT;
         } else {
             stateMachine.setState("Stunned");
+            if (hiddenGun != null) {
+                owner.equipGun(hiddenGun);
+                hiddenGun = null;
+            }
         }
     }
 
@@ -38,6 +44,9 @@ public class KnockbackState extends State {
     public void onEnter() {
         super.onEnter();
         owner.getAnimator().stopAnimation();
+        hiddenGun = owner.getCurrentGun();
+        owner.hideCurrentGun();
+
     }
 
     @Override

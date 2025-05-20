@@ -67,6 +67,11 @@ public class GameConfigLoader {
             bp.detectionRadius = ((Number) m.get("detectionRadius")).doubleValue();
             bp.attackRadius    = ((Number) m.get("attackRadius")).doubleValue();
             bp.forgetfulRadius = ((Number) m.get("forgetfullRadius")).doubleValue();
+            if (m.containsKey("outOfRangeRadius")) {
+                bp.outOfRangeRadius = ((Number) m.get("outOfRangeRadius")).doubleValue();
+            } else {
+                bp.outOfRangeRadius = 0;
+            }
             // bp.drops is not used
 
             enemyCache.put(type, bp);
@@ -100,6 +105,7 @@ public class GameConfigLoader {
                         throw new RuntimeException("Unknown figure type: " + fb.type);
                     }
                     fb.layer = ((Number) m.get("layer")).intValue();
+                    fb.objectType = (String) m.get("objectType");
                     L.figures.add(fb);
                 }
             }

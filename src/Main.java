@@ -19,7 +19,7 @@ public class Main {
         for (LevelConfig level : levels) {
             rooms.add(RoomFactory.make(level));
         }
-        Game game = new Game(rooms);
+        Game game = Game.getInstance(rooms);
         game.start();
     }
 

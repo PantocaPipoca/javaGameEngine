@@ -2,6 +2,7 @@ package Game.Entities.Enemies.EnemyStates;
 
 import Figures.Point;
 import Game.Entities.Commons.State;
+import Game.Entities.Enemies.Enemy;
 import Game.Entities.Player.Player;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
@@ -71,6 +72,12 @@ public class PatrolState extends State {
 
         owner.gameObject().transform().move(new Point(direction.x() * dT * patrolSpeed, direction.y() * dT * patrolSpeed), 0);
 
+        if (direction.x() < 0) {
+            owner.gameObject().setFlip(true);
+        } else if (direction.x() > 0) {
+            owner.gameObject().setFlip(false);
+        }
+
         double distance = Math.sqrt(dx * dx + dy * dy);
         if (distance < finishThreshold) {
             currentPointIndex = (currentPointIndex + 1) % patrolPoints.size();
@@ -83,6 +90,8 @@ public class PatrolState extends State {
     @Override
     public void onEnter() {
         super.onEnter();
+        Enemy e = (Enemy) owner;
+        e.playAnimation("walk");
     }
 
     /**

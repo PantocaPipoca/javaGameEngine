@@ -13,7 +13,7 @@ public class Animator {
     private final Map<String, List<Shape>> animations = new HashMap<>();
     private String currentAnimation;
     private int currentFrame;
-    private final float frameDuration;
+    private float frameDuration;
     private float timeSinceLastFrame;
     private Shape currentShape;
     private boolean isStopped = false;
@@ -101,5 +101,9 @@ public class Animator {
      */
     public void stopAnimation() {
         isStopped = true;
+    }
+
+    public void setFrameDuration(float duration) {
+        this.frameDuration = duration;
     }
 }

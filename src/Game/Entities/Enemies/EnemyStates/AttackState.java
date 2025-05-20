@@ -1,5 +1,6 @@
 package Game.Entities.Enemies.EnemyStates;
 
+import Figures.Point;
 import Game.Entities.Commons.State;
 import Game.Entities.Player.Player;
 import GameEngine.IGameObject;
@@ -16,11 +17,16 @@ public class AttackState extends State {
     private double shootCooldown = 0;
     private double shootTimer = 0;
 
+    private final IGameObject player;
+    private final double outOfRangeRadius;
+
     /**
      * Constructs an AttackState.
      * @param target the target game object (e.g., player)
      */
-    public AttackState() {
+    public AttackState(IGameObject player, double outOfRangeRadius) {
+        this.player = player;
+        this.outOfRangeRadius = outOfRangeRadius;
     }
 
     /////////////////////////////////////////////////// State Methods ///////////////////////////////////////////////////
@@ -36,6 +42,22 @@ public class AttackState extends State {
         if (shootTimer <= 0.0) {
             owner.getCurrentGun().shoot();
             shootTimer = shootCooldown;
+        }
+
+        Point enemyPosition = owner.gameObject().transform().position();
+        Point playerPosition = player.transform().position();
+
+        // Calculate the direction vector towards the player
+        double dx = playerPosition.x() - enemyPosition.x();
+        double dy = playerPosition.y() - enemyPosition.y();
+
+        // Calculate the distance to the player
+        double distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance > outOfRangeRadius) {
+            stateMachine.setState("Chase");
+            owner.hideCurrentGun();
+            return;
         }
     }
 
