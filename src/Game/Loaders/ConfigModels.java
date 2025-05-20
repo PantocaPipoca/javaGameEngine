@@ -71,6 +71,9 @@ public class ConfigModels {
         public int magazineSize;
         public int maxAmmo;
         public double distanceFromOwner;
+
+        public double blastRadius;
+        public int blastDamage;
     }
 
     /**

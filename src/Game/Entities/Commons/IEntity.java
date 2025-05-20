@@ -4,6 +4,9 @@ import GameEngine.Animator;
 import GameEngine.IBehaviour;
 import GameEngine.IGameObject;
 import Game.Gun.Weapon;
+
+import java.util.List;
+
 import Figures.Point;
 
 /**
@@ -15,6 +18,7 @@ public interface IEntity extends IBehaviour {
     Health getHealthManager();
     Weapon getCurrentGun();
     void equipGun(int index);
+    List<Weapon> getGuns();
     Animator getAnimator();
     void resolveAgainst(IGameObject go);
     void lastSafePos(Point p);

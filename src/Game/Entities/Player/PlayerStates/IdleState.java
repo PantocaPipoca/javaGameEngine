@@ -39,8 +39,13 @@ public class IdleState extends State {
                 owner.getCurrentGun().shoot();
             }
         }
-        if (ie.isKeyPressed(KeyEvent.VK_1)) {
-            owner.equipGun(0);
+        for (int i = 1; i <= 9; i++) {
+            int keyCode = KeyEvent.VK_1 + (i - 1);
+            if (ie.isKeyPressed(keyCode)) {
+                if (owner.getGuns().size() >= i && owner.getGuns().get(i - 1) != null) {
+                    owner.equipGun(i - 1);
+                }
+            }
         }
         if (ie.isKeyPressed(KeyEvent.VK_R)) {
             Gun gun = (Gun) owner.getCurrentGun();

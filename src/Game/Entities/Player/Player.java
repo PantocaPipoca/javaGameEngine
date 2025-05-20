@@ -11,6 +11,8 @@ import Game.Entities.Commons.StunnedState;
 import Game.Entities.Player.PlayerStates.*;
 import GameEngine.*;
 
+import java.awt.event.KeyEvent;
+
 /**
  * Class that represents the player entity in the game.
  * Handles health, state, weapons, animation, and collision logic.
@@ -47,6 +49,9 @@ public class Player extends Entity {
     @Override
     public void onUpdate(double dT, InputEvent ie) {
         animator.update((float) dT);
+        if (ie.isMouseButtonPressed(3)) {
+            System.out.println(go.transform().position());
+        }
         if (go != null) {
             go.setShape(animator.getCurrentShape());
             go.update();
@@ -56,6 +61,7 @@ public class Player extends Entity {
             stateMachine.onUpdate(dT, ie);
             go.update();
         }
+
     }
 
     @Override

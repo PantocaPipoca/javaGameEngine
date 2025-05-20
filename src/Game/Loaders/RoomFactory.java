@@ -142,12 +142,22 @@ public class RoomFactory {
             case "pistol":
                 gun = new Pistol(owner, wp.bulletSpeed, wp.damage, wp.fireRate, wp.reloadTime, wp.magazineSize, wp.maxAmmo, wp.distanceFromOwner);
                 IGameObject pistolObject = new GameObject(
-                    gun.name() + "_0",
+                    gun.name(),
                     new Transform(owner.transform().position(), owner.transform().layer() + 1, 0, 2),
                     new Circle("0 0 20"),
                     gun
                 );
                 gun.gameObject(pistolObject);
+                break;
+                case "bomb":
+                gun = new Bomb(owner, "bomb", wp.damage, wp.fireRate, wp.blastDamage, wp.distanceFromOwner);
+                IGameObject bombObject = new GameObject(
+                    gun.name(),
+                    new Transform(owner.transform().position(), owner.transform().layer(), 0, 2),
+                    new Circle("0 0 " + wp.blastRadius),
+                    gun
+                );
+                gun.gameObject(bombObject);
                 break;
             default:
                 throw new RuntimeException("Unknown weapon: " + wp.type);

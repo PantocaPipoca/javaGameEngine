@@ -77,6 +77,9 @@ public class ChaseState extends State {
      */
     @Override
     public void onEnter() {
+        if (owner.gameObject().name().contains("bomb")) {
+            owner.equipGun(0);
+        }
         super.onEnter();
     }
 

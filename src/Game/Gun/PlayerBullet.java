@@ -29,7 +29,8 @@ public class PlayerBullet extends Bullet {
     @Override
     public void onCollision(List<IGameObject> gol) {
         for (IGameObject other : gol) {
-            if (!other.name().contains("ullet") && !other.name().equals("player")) {
+            if (!other.name().contains("ullet") && !other.name().equals("player") && !other.name().equals("bomb")) {
+                System.out.println("Player bullet destroyed by" + other.name());
                 GameEngine.getInstance().destroy(go);
                 break;
             }

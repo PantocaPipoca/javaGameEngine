@@ -33,13 +33,17 @@ public class GameConfigLoader {
 
             WeaponBlueprint wp = new WeaponBlueprint();
             wp.type        = type;
-            wp.bulletSpeed = ((Number) m.get("bulletSpeed")).doubleValue();
             wp.damage      = ((Number) m.get("damage")).doubleValue();
             wp.fireRate    = ((Number) m.get("fireRate")).doubleValue();
-            wp.reloadTime  = ((Number) m.get("reloadTime")).doubleValue();
-            wp.magazineSize = ((Number) m.get("magazineSize")).intValue();
-            wp.maxAmmo     = ((Number) m.get("maxAmmo")).intValue();
             wp.distanceFromOwner = ((Number) m.get("distanceFromOwner")).doubleValue();
+
+            // Only set if present
+            if (m.containsKey("bulletSpeed"))   wp.bulletSpeed   = ((Number) m.get("bulletSpeed")).doubleValue();
+            if (m.containsKey("reloadTime"))    wp.reloadTime    = ((Number) m.get("reloadTime")).doubleValue();
+            if (m.containsKey("magazineSize"))  wp.magazineSize  = ((Number) m.get("magazineSize")).intValue();
+            if (m.containsKey("maxAmmo"))       wp.maxAmmo       = ((Number) m.get("maxAmmo")).intValue();
+            if (m.containsKey("blastRadius"))   wp.blastRadius   = ((Number) m.get("blastRadius")).doubleValue();
+            if (m.containsKey("blastDamage"))   wp.blastDamage   = ((Number) m.get("blastDamage")).intValue();
 
             weaponCache.put(type, wp);
         }

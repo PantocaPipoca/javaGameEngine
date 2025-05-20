@@ -1,6 +1,7 @@
 package Game.Entities.Enemies.EnemyStates;
 
 import Game.Entities.Commons.State;
+import GameEngine.GameEngine;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 
@@ -36,6 +37,12 @@ public class KamikazeState extends State {
     @Override
     public void onEnter() {
         super.onEnter();
+        // Shoot the bomb (trigger explosion)
+        if (owner.getCurrentGun() != null) {
+            owner.getCurrentGun().shoot();
+        }
+        // Optionally, destroy the enemy after shooting
+        //GameEngine.getInstance().destroy(owner.gameObject());
     }
 
     /**

@@ -31,7 +31,7 @@ public class EnemyBullet extends Bullet {
     public void onCollision(List<IGameObject> gol) {
         for (IGameObject other : gol) {
             // Ignore self and enemies
-            if (!other.name().contains("ullet") && !other.name().startsWith("gunner") && !other.name().startsWith("bomber") && !other.name().startsWith("striker")) {
+            if (!other.name().contains("ullet") && !other.name().startsWith("gunner") && !other.name().startsWith("bomber") && !other.name().startsWith("striker") && !other.name().equals("bomb")) {
                 GameEngine.getInstance().destroy(go);
                 break;
             }

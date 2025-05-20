@@ -16,7 +16,9 @@ public class Main {
         GameEngine.getInstance(new GUI());
         List<LevelConfig> levels = GameConfigLoader.load("src/Game/Loaders/Game.json");
         List<Room> rooms = new ArrayList<>();
-        rooms.add(RoomFactory.make(levels.get(0)));
+        for (LevelConfig level : levels) {
+            rooms.add(RoomFactory.make(level));
+        }
         Game game = new Game(rooms);
         game.start();
     }
