@@ -7,7 +7,6 @@ import java.util.List;
  * Provides lifecycle methods and collision handling for game entities.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
- * @inv Behaviour must be attached to a valid game object.
  */
 public interface IBehaviour {
     void onUpdate(double dT, InputEvent ie);

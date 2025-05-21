@@ -7,7 +7,6 @@ import Figures.GeometricFigure;
  * Provides methods for collision detection and access to the underlying geometric figure.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
- * @inv Collider must have a valid geometric figure and implement collision logic.
  */
 public interface ICollider {
     String toString();

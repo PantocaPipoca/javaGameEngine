@@ -44,7 +44,7 @@ public class Camera implements IBehaviour {
         double cx = gui.getWidth() * 0.5;
         double cy = gui.getHeight() * 0.5;
 
-        java.awt.Point m = ie.getMousePosition();
+        java.awt.Point m = ie.mousePosition();
         double mx = m.x;
         double my = m.y;
 

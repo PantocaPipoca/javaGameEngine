@@ -16,6 +16,7 @@ import Game.Camera;
  * @inv GUI must always have a valid InputEvent and render enabled game objects.
  */
 public class GUI extends JFrame {
+
     private List<IGameObject> gameObjects = new CopyOnWriteArrayList<>(); // Objects to render
     private InputEvent ie = new InputEvent(); // Current input event
     private Camera camera;
@@ -24,7 +25,7 @@ public class GUI extends JFrame {
      * Constructs the GUI window, sets up rendering panel and input listeners.
      */
     public GUI() {
-        setTitle("Game Engine GUI");
+        setTitle("Enter The Ualg");
         setSize(16*80, 9*80);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -80,30 +81,7 @@ public class GUI extends JFrame {
         setCursor(invisibleCursor);
     }
 
-    /**
-     * Gets the current InputEvent instance.
-     * @return the InputEvent
-     */
-    public InputEvent ie() {
-        return ie;
-    }
-
-    /**
-     * Sets the camera used for rendering.
-     * @param camera the Camera instance
-     */
-    public void setCamera(Camera camera) {
-        this.camera = camera;
-    }
-
-    /**
-     * Updates the list of game objects to be rendered and repaints the canvas.
-     * @param gameObjects list of enabled game objects
-     */
-    public void renderGameObjects(List<IGameObject> gameObjects) {
-        this.gameObjects = new CopyOnWriteArrayList<>(gameObjects);
-        repaint();
-    }
+    ///////////////// Inner Classes /////////////////
 
     /**
      * Inner class for the rendering panel.
@@ -201,7 +179,7 @@ public class GUI extends JFrame {
                 // 6) Draw crosshair at mouse position (in world coordinates)
                 try {
                     Image crosshair = new ImageIcon("sprites/crosshair.png").getImage();
-                    Point mouseWorld = ie.getMouseWorldPosition();
+                    Point mouseWorld = ie.mouseWorldPosition();
 
                     int crossX = (int) ((mouseWorld.x - camX) + screenCX);
                     int crossY = (int) ((mouseWorld.y - camY) + screenCY);
@@ -213,5 +191,34 @@ public class GUI extends JFrame {
                 }
             }
         }
+    }
+
+    /**
+     * Updates the list of game objects to be rendered and repaints the canvas.
+     * @param gameObjects list of enabled game objects
+     */
+    public void renderGameObjects(List<IGameObject> gameObjects) {
+        this.gameObjects = new CopyOnWriteArrayList<>(gameObjects);
+        repaint();
+    }
+
+    ///////////////// Getters /////////////////
+
+    /**
+     * Gets the current InputEvent instance.
+     * @return the InputEvent
+     */
+    public InputEvent ie() {
+        return ie;
+    }
+
+    ///////////////// Setters /////////////////
+
+    /**
+     * Sets the camera used for rendering.
+     * @param camera the Camera instance
+     */
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
 }

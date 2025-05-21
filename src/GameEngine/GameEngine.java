@@ -245,41 +245,6 @@ public class GameEngine {
         group.add(go);
     }
 
-    ///////////////////////////// Debug Methods /////////////////////////////
-
-    /**
-     * Simulates the GameEngine for a number of frames.
-     * @param frames number of frames to simulate
-     */
-    public void simulateFrames(int frames) {
-        long lastTime = System.nanoTime();
-
-        for (int i = 0; i < frames; i++) {
-            long currentTime = System.nanoTime();
-            float dt = (currentTime - lastTime) / 1_000_000_000.0f;
-            lastTime = currentTime;
-
-            InputEvent ie = gui.ie();
-
-            // Update enabled objects
-            for (IGameObject go : new ArrayList<>(enabled)) {
-                int oldLayer = go.transform().layer();
-                go.behaviour().onUpdate(dt, ie);
-                int newLayer = go.transform().layer();
-
-                // Handle layer changes
-                if (oldLayer != newLayer) {
-                    updateObjectLayer(go, oldLayer, newLayer);
-                }
-            }
-
-            // Check collisions
-            checkCollisions();
-
-            gui.renderGameObjects(enabled);
-        }
-    }
-
     ///////////////////////////// Getters and Setters /////////////////////////////
 
     /**

@@ -54,32 +54,11 @@ public class Transform implements ITransform {
     }
 
     /**
-     * Sets the position of the object.
-     * @param pos position to set
-     * @throws IllegalArgumentException if the position is null
-     */
-    public void setPosition(Point pos) {
-        if (pos == null) {
-            throw new IllegalArgumentException("Position cannot be null.");
-        }
-        this.pos = pos;
-    }
-
-    /**
      * Rotates the object by dTheta degrees.
      * @param dTheta rotation angle
      */
     public void rotate(double dTheta) {
-        setAngle(angle + dTheta);
-    }
-
-    /**
-     * Sets the angle of the object.
-     * @param angle angle to set
-     */
-    public void setAngle(double angle) {
-        this.angle = angle % 360;
-        if (this.angle < 0) this.angle += 360;
+        angle(angle + dTheta);
     }
 
     /**
@@ -91,7 +70,7 @@ public class Transform implements ITransform {
         if (scale < 0) scale = 0;
     }
 
-    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Getters ///////////////////////////////////////////////////
 
     /**
      * Gets the position of the object.
@@ -132,5 +111,39 @@ public class Transform implements ITransform {
     @Override
     public String toString() {
         return String.format("%s %d %.2f %.2f", pos.toString(), layer, angle, scale);
+    }
+
+    /////////////////////////////////////////////////// Setters ///////////////////////////////////////////////////
+
+    /**
+     * Sets the position of the object.
+     * @param pos position to set
+     * @throws IllegalArgumentException if the position is null
+     */
+    public void position(Point pos) {
+        if (pos == null) {
+            throw new IllegalArgumentException("Position cannot be null.");
+        }
+        this.pos = pos;
+    }
+
+    /**
+     * Sets the layer of the object.
+     * @param layer layer to set
+     */
+    public void layer(int layer) {
+        if (layer < 0) {
+            throw new IllegalArgumentException("Layer cannot be negative.");
+        }
+        this.layer = layer;
+    }
+
+    /**
+     * Sets the angle of the object.
+     * @param angle angle to set
+     */
+    public void angle(double angle) {
+        this.angle = angle % 360;
+        if (this.angle < 0) this.angle += 360;
     }
 }

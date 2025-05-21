@@ -92,15 +92,6 @@ public class Game {
     }
 
     /**
-     * Starts the game in simulation mode for a fixed number of frames.
-     * @param frames number of frames to simulate
-     */
-    public void startSimulate(int frames) {
-        loadRoom(0);
-        engine.simulateFrames(frames);
-    }
-
-    /**
      * Returns the singleton instance of Game, creating it if necessary.
      * @param rooms the list of rooms (only used on first call)
      * @return the singleton Game instance

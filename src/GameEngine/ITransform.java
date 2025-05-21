@@ -16,6 +16,6 @@ public interface ITransform {
     int layer();
     double angle();
     double scale();
-    void setAngle(double angle);
-    void setPosition(Point position);
+    void angle(double angle);
+    void position(Point position);
 }

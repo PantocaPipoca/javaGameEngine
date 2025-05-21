@@ -10,6 +10,7 @@ import java.util.*;
  * @inv Animator must have valid animation frame lists and frame duration > 0.
  */
 public class Animator {
+
     private final Map<String, List<Shape>> animations = new HashMap<>();
     private String currentAnimation;
     private int currentFrame;
@@ -29,6 +30,8 @@ public class Animator {
         }
         this.frameDuration = frameDuration;
     }
+
+    ////////////////////// Core Methods //////////////////////
 
     /**
      * Adds an animation with the given name and list of frames.
@@ -88,12 +91,59 @@ public class Animator {
         }
     }
 
+    ////////////////////// Getters //////////////////////
+
     /**
      * Gets the current Shape frame.
      * @return the current Shape
      */
-    public Shape getCurrentShape() {
+    public Shape currentShape() {
         return currentShape;
+    }
+
+    /**
+     * Gets the current animation name.
+     * @return the current animation name
+     */
+    public String currentAnimation() {
+        return currentAnimation;
+    }
+
+    /**
+     * Gets the current frame index.
+     * @return the current frame index
+     */
+    public int currentFrame() {
+        return currentFrame;
+    }
+
+    /**
+     * Gets the frame duration.
+     * @return the frame duration
+     */
+    public float frameDuration() {
+        return frameDuration;
+    }
+
+    /**
+     * Checks if the animation is stopped.
+     * @return true if stopped, false otherwise
+     */
+    public boolean isStopped() {
+        return isStopped;
+    }
+
+    ////////////////////// Setters //////////////////////
+
+    /**
+     * Sets the frame duration.
+     * @param duration the frame duration to set
+     */
+    public void frameDuration(float duration) {
+        if (duration <= 0) {
+            throw new IllegalArgumentException("Frame duration must be positive.");
+        }
+        this.frameDuration = duration;
     }
 
     /**
@@ -101,9 +151,5 @@ public class Animator {
      */
     public void stopAnimation() {
         isStopped = true;
-    }
-
-    public void setFrameDuration(float duration) {
-        this.frameDuration = duration;
     }
 }

@@ -50,7 +50,7 @@ public abstract class Weapon implements IBehaviour {
         double dx = mousePosition.x() - ownerPosition.x();
         double dy = mousePosition.y() - ownerPosition.y();
         double targetRotation = Math.atan2(dy, dx);
-        go.transform().setAngle(Math.toDegrees(targetRotation));
+        go.transform().angle(Math.toDegrees(targetRotation));
         double gunX = ownerPosition.x() + Math.cos(targetRotation) * distanceFromOwner;
         double gunY = ownerPosition.y() + Math.sin(targetRotation) * distanceFromOwner;
         go.transform().move(

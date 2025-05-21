@@ -62,7 +62,7 @@ public class Player extends Entity implements GamePublisher {
             go.setShape(animator.getCurrentShape());
             go.update();
             lastSafePos = go.transform().position();
-            setTargetPos(new Point(ie.getMouseWorldPosition().getX(), ie.getMouseWorldPosition().getY()));
+            setTargetPos(new Point(ie.mouseWorldPosition().getX(), ie.mouseWorldPosition().getY()));
             if (currentGun != null) {
                 currentGun.updateRotation(targetPos);
 

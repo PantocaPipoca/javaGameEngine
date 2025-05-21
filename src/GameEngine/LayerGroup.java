@@ -4,26 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class that represents a collider for an object.
- * Is used to simplify the management of objects and colisions in the game.
- * @author: Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version: 1.0 (12/04/25)
+ * Class that represents a group of game objects on a specific layer.
+ * Used to simplify the management of objects and collisions in the game.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (12/04/25)
+ * @inv layer >= 0 && objects != null
  **/
 public class LayerGroup {
     private int layer;
     private List<IGameObject> objects;
 
     /**
-     * Constructor for the LayerGroup
+     * Constructor for the LayerGroup.
      * @param layer layer of the group
      */
     public LayerGroup(int layer) {
         this.layer = layer;
-        objects = new ArrayList<>();
+        this.objects = new ArrayList<>();
     }
 
     /**
-     * Adds an object to the group
+     * Adds an object to the group.
      * @param go object to be added
      */
     public void add(IGameObject go) {
@@ -33,7 +34,7 @@ public class LayerGroup {
     }
 
     /**
-     * Removes an object from the group
+     * Removes an object from the group.
      * @param go object to be removed
      */
     public void remove(IGameObject go) {
@@ -41,7 +42,7 @@ public class LayerGroup {
     }
 
     /**
-     * Checks if the group contains an object
+     * Checks if the group contains an object.
      * @param go object to be checked
      * @return true if the group contains the object, false otherwise
      */
@@ -49,10 +50,10 @@ public class LayerGroup {
         return objects.contains(go);
     }
 
-    ///////////////////////////////////////////////////Getters and Setters///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Getters ///////////////////////////////////////////////////
 
     /**
-     * Returns the layer of the group
+     * Returns the layer of the group.
      * @return layer of the group
      */
     public int layer() {
@@ -60,11 +61,31 @@ public class LayerGroup {
     }
 
     /**
-     * Returns the list of objects in the group
+     * Returns the list of objects in the group.
      * @return list of objects in the group
      */
     public List<IGameObject> objects() {
         return objects;
     }
 
+    /////////////////////////////////////////////////// Setters ///////////////////////////////////////////////////
+
+    /**
+     * Sets the layer of the group.
+     * @param layer the layer to set
+     */
+    public void layer(int layer) {
+        this.layer = layer;
+    }
+
+    /**
+     * Sets the list of objects in the group.
+     * @param objects the list of objects to set
+     */
+    public void objects(List<IGameObject> objects) {
+        if (objects == null) {
+            throw new IllegalArgumentException("Objects list cannot be null.");
+        }
+        this.objects = objects;
+    }
 }

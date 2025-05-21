@@ -73,7 +73,7 @@ public abstract class Entity implements IEntity {
         for (int i = 0; i < 5; i++) {
             double mid = (lo + hi) / 2;
             Point test = new Point(from.x() + vx * mid, from.y() + vy * mid);
-            go.transform().setPosition(test);
+            go.transform().position(test);
             go.update();
             if (go.collider().colides(wall.collider())) {
                 hi = mid;
@@ -82,7 +82,7 @@ public abstract class Entity implements IEntity {
             }
         }
         Point finalPos = new Point(from.x() + vx * lo, from.y() + vy * lo);
-        go.transform().setPosition(finalPos);
+        go.transform().position(finalPos);
         go.update();
     }
 

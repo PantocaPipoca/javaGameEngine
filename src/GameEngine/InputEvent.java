@@ -13,7 +13,6 @@ import Game.Camera;
  * Tracks pressed keys, mouse buttons, and mouse position, and provides world-coordinate conversion.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
- * @inv Mouse position is always valid; pressed key/button sets are never null.
  */
 public class InputEvent {
     private Set<Integer> pressedKeys = new HashSet<>(); // Currently pressed keys
@@ -65,7 +64,7 @@ public class InputEvent {
      * Converts the current mouse position into WORLD-COORDS.
      * @return mouse position in world coordinates as a Point object
      */
-    public Point getMouseWorldPosition() {
+    public Point mouseWorldPosition() {
         // 1) raw screen-pixels
         int sx = mousePosition.x;
         int sy = mousePosition.y;
@@ -108,7 +107,7 @@ public class InputEvent {
      * Returns the current mouse position.
      * @return mouse position as a Point object
      */
-    public Point getMousePosition() {
+    public Point mousePosition() {
         return mousePosition;
     }
 }
