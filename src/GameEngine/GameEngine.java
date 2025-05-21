@@ -2,7 +2,6 @@ package GameEngine;
 
 import java.util.ArrayList;
 import java.util.List;
-import Game.Game;
 
 /**
  * Class that represents the GameEngine.

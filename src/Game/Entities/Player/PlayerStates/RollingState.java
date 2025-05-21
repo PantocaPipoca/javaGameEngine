@@ -1,6 +1,9 @@
 package Game.Entities.Player.PlayerStates;
 
+import Figures.Point;
+import Game.Entities.Commons.EntityUtils;
 import Game.Entities.Commons.State;
+import Game.Entities.Player.Player;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 
@@ -13,12 +16,22 @@ import GameEngine.InputEvent;
 public class RollingState extends State {
 
     private static final double rollDuration = 0.5;
+    private static final double rollSpeedMultiplier = 2.5; // How much faster than normal
     private double rollTime = 0;
+    private Point rollDirection = new Point(0, 0);
+    private double rollSpeed = 0;
+    private boolean wasImmune = false;
+    private double currentSpeed;
+
+    Player player = null;
 
     /**
      * Constructs a RollingState.
      */
-    public RollingState() {}
+    public RollingState(double currentSpeed) {
+        super();
+        this.currentSpeed = currentSpeed;
+    }
 
     /////////////////////////////////////////////////// State Methods ///////////////////////////////////////////////////
 
@@ -31,8 +44,17 @@ public class RollingState extends State {
     public void onUpdate(double dT, InputEvent ie) {
         rollTime += dT;
         if (rollTime >= rollDuration) {
+            if (wasImmune) {
+                player.getHealthManager().setImmune(false);
+                wasImmune = false;
+            }
             stateMachine.setState("Idle");
+            return;
         }
+        // Move in the roll direction at rollSpeed
+        player.gameObject().transform().move(
+            new Point(rollDirection.x() * rollSpeed * dT, rollDirection.y() * rollSpeed * dT), 0
+        );
     }
 
     /**
@@ -42,14 +64,29 @@ public class RollingState extends State {
     @Override
     public void onEnter() {
         super.onEnter();
+        player = (Player) owner;
         rollTime = 0;
+
+        Point dir = player.getLastMoveDirection();
+        rollDirection = Figures.GeometryUtils.normalize(dir);
+        if (rollDirection.x() == 0 && rollDirection.y() == 0) {
+            rollDirection = new Point(1, 0); // Default to right if no direction
+        }
+        rollSpeed = currentSpeed * rollSpeedMultiplier;
+        player.getHealthManager().setImmune(true);
+        wasImmune = true;
     }
 
     /**
      * Called when exiting the rolling state.
      */
     @Override
-    public void onExit() {}
+    public void onExit() {
+        if (wasImmune) {
+            player.getHealthManager().setImmune(false);
+            wasImmune = false;
+        }
+    }
 
     /**
      * Handles collision while rolling.

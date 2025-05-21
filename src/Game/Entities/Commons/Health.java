@@ -18,6 +18,7 @@ public class Health implements GamePublisher{
     private int maxHealth;
     private int currentHealth;
     private boolean isAlive;
+    private boolean immune = false;
 
     /**
      * Constructs a Health manager with the specified maximum health.
@@ -39,6 +40,7 @@ public class Health implements GamePublisher{
      * @throws IllegalArgumentException if damage is negative
      */
     public void takeDamage(int damage) {
+        if (immune) return;
         if (damage < 0) {
             throw new IllegalArgumentException("Damage must be non-negative.");
         }
@@ -94,6 +96,14 @@ public class Health implements GamePublisher{
      */
     public boolean isAlive() {
         return isAlive;
+    }
+
+    public void setImmune(boolean immune) {
+        this.immune = immune;
+    }
+
+    public boolean isImmune() {
+        return immune;
     }
 
     /////////////////////////////////////////////////////// Observer Methods ///////////////////////////////////////////////////

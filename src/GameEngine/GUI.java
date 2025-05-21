@@ -25,7 +25,7 @@ public class GUI extends JFrame {
      */
     public GUI() {
         setTitle("Game Engine GUI");
-        setSize(1920, 1080);
+        setSize(16*80, 9*80);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -143,6 +143,21 @@ public class GUI extends JFrame {
                     }
 
                     g.setColor(Color.BLACK);
+                    g.fillPolygon(xs, ys, pontos.size());
+                }
+                else if (go.name().equals("door")) {
+                    ColliderPolygon col = (ColliderPolygon) go.collider();
+                    List<Figures.Point> pontos = col.points();
+
+                    int[] xs = new int[pontos.size()];
+                    int[] ys = new int[pontos.size()];
+                    for (int i = 0; i < pontos.size(); i++) {
+                        Figures.Point p = pontos.get(i);
+                        xs[i] = (int) (p.x() - camX + screenCX);
+                        ys[i] = (int) (p.y() - camY + screenCY);
+                    }
+
+                    g.setColor(Color.RED);
                     g.fillPolygon(xs, ys, pontos.size());
                 }
 

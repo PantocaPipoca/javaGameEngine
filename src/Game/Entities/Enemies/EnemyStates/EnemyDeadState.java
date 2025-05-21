@@ -32,7 +32,6 @@ public class EnemyDeadState extends State {
     @Override
     public void onEnter() {
         super.onEnter();
-        Game.getInstance().setCurrentEnemyCount(Game.getInstance().getCurrentEnemyCount() - 1);
 
         Enemy e = (Enemy) owner;
         Animator animator = e.getAnimator();
@@ -54,6 +53,8 @@ public class EnemyDeadState extends State {
     public void onUpdate(double dT, InputEvent ie) {
         timer += (float) dT;
         if (timer >= delayBeforeDestroy) {
+            
+            Game.getInstance().setCurrentEnemyCount(Game.getInstance().getCurrentEnemyCount() - 1);
             GameEngine.getInstance().destroy(owner.gameObject());
         }
     }

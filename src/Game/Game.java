@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Game.Entities.Enemies.Enemy;
-import Game.UI.GameUI;
 import GameEngine.IGameObject;
 import GameEngine.GameObject;
 import GameEngine.GameEngine;
@@ -88,7 +87,6 @@ public class Game {
      * Starts the game loop, loading the first room.
      */
     public void start() {
-        GameUI ui = GameUI.getInstance();
         loadRoom(0);
         engine.run();
     }
@@ -149,5 +147,5 @@ public class Game {
     public void setCurrentEnemyCount(double currentEnemyCount) {
         this.currentEnemyCount = currentEnemyCount;
     }
-    
+
 }

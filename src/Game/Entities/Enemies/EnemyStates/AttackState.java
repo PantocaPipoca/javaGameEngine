@@ -3,7 +3,6 @@ package Game.Entities.Enemies.EnemyStates;
 import Figures.Point;
 import Game.Entities.Commons.State;
 import Game.Entities.Player.Player;
-import GameEngine.Animator;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 

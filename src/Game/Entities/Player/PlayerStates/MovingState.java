@@ -57,7 +57,9 @@ public class MovingState extends State {
             ownerGo.setFlip(false);
         }
 
+        Player player = (Player) owner;
         if (direction.x() != 0 || direction.y() != 0) {
+            player.setLastMoveDirection(direction);
             transform.move(new Point(direction.x() * distance, direction.y() * distance), 0);
         } else {
             stateMachine.setState("Idle");
@@ -79,6 +81,10 @@ public class MovingState extends State {
                     owner.equipGun(i - 1);
                 }
             }
+        }
+
+        if (ie.isKeyPressed(KeyEvent.VK_F)) {
+            stateMachine.setState("Rolling");
         }
     }
 

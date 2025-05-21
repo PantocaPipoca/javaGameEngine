@@ -87,7 +87,10 @@ public class RoomFactory {
             Enemy e = makeEnemy(bp, pl, es.patrols, i); // Pass index for unique naming
             for (WeaponBlueprint wp : bp.enemyWeapons) {
                 Weapon gun = makeWeapon(wp, e.gameObject());
-                e.addGun(gun);
+                if (e.gameObject().name().startsWith("bomber_ghost")) {
+                    gun.gameObject().transform().move(new Point(0, 0), -1);
+                }
+                e.addGun(gun); // Always add the weapon
             }
             enemies.add(e);
         }
@@ -167,7 +170,17 @@ public class RoomFactory {
                 );
                 gun.gameObject(pistolObject);
                 break;
-                case "bomb":
+            case "rifle":
+                gun = new Rifle(owner, wp.bulletSpeed, wp.damage, wp.fireRate, wp.reloadTime, wp.magazineSize, wp.maxAmmo, wp.distanceFromOwner);
+                IGameObject rifleGameObject = new GameObject(
+                    gun.name(),
+                    new Transform(owner.transform().position(), owner.transform().layer() + 1, 0, 2),
+                    new Circle("0 0 20"),
+                    gun
+                );
+                gun.gameObject(rifleGameObject);
+                break;
+            case "bomb":
                 gun = new Bomb(owner, "bomb", wp.damage, wp.fireRate, wp.blastDamage, wp.distanceFromOwner);
                 IGameObject bombObject = new GameObject(
                     gun.name(),

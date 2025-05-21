@@ -7,7 +7,6 @@ import Game.Entities.Enemies.EnemyStates.ChaseState;
 import Game.Entities.Enemies.EnemyStates.EnemyDeadState;
 import Game.Entities.Enemies.EnemyStates.PatrolState;
 import Game.Entities.Commons.Health;
-import Game.Entities.Enemies.EnemyStates.AttackState;
 import GameEngine.IGameObject;
 import GameEngine.Shape;
 

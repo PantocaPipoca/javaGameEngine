@@ -2,6 +2,7 @@ package Game.Gun;
 
 import java.util.List;
 
+import Game.Game;
 import Game.Entities.Commons.Entity;
 import GameEngine.GameEngine;
 import GameEngine.IGameObject;
@@ -9,6 +10,7 @@ import GameEngine.IGameObject;
 public class Bomb extends Weapon {
     private int blastDamage;
     private boolean exploded = false;
+    private boolean destroyed = false;
 
     public Bomb(IGameObject owner, String name, double damage, double fireRate, int blastDamage, double distanceFromOwner) {
         super(owner, name, damage, fireRate, distanceFromOwner);
@@ -26,10 +28,7 @@ public class Bomb extends Weapon {
     public void onCollision(List<IGameObject> gol) {
         if (!exploded) return; // Only explode if bomb was shot
         for (IGameObject go : gol) {
-            if(go.name().equals("player") ||
-               go.name().startsWith("gunner") ||
-               go.name().contains("bomber") ||
-               go.name().startsWith("striker")) {
+            if(go.name().equals("player")) {
 
                 System.out.println("Bomb: onCollision with " + go.name());
 
@@ -38,8 +37,11 @@ public class Bomb extends Weapon {
             }
         }
         // Destroy the bomb after explosion
-        if (go != null) {
-            GameEngine.getInstance().destroy(go);
+        if (this.go != null && !destroyed) {
+            destroyed = true;
+            GameEngine.getInstance().destroy(this.go);
+            GameEngine.getInstance().destroy(owner);
+            Game.getInstance().setCurrentEnemyCount(Game.getInstance().getCurrentEnemyCount() - 1);
         }
     }
 }

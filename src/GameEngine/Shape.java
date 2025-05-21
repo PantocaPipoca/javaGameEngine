@@ -79,6 +79,7 @@ public class Shape {
     public void render(Graphics g, ITransform t, boolean flip, double angle) {
         Graphics2D g2d = (Graphics2D) g;
         AffineTransform old = g2d.getTransform();
+        
 
         int x = (int) t.position().x();
         int y = (int) t.position().y();

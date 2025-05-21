@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Figures.Point;
+import Game.Game;
 import Game.Entities.Commons.Entity;
 import Game.Entities.Commons.EntityUtils;
 import Game.Entities.Commons.Health;
@@ -27,6 +28,7 @@ public class Player extends Entity implements GamePublisher {
 
     private final List<GameListener> listeners = new ArrayList<>();
     private float score;
+    private Point lastMoveDirection = new Point(1, 0);
 
     /**
      * Constructs a player with the specified health, movement speed, and rolling speed.
@@ -40,7 +42,7 @@ public class Player extends Entity implements GamePublisher {
 
         stateMachine.addState("Idle", new IdleState());
         stateMachine.addState("Moving", new MovingState(movingSpeed));
-        stateMachine.addState("Rolling", new RollingState());
+        stateMachine.addState("Rolling", new RollingState(movingSpeed));
         stateMachine.addState("Stunned", new StunnedState(0.2));
         stateMachine.addState("Dead", new DeadState());
         stateMachine.addState("Knocked", new KnockbackState(0.2));
@@ -73,6 +75,7 @@ public class Player extends Entity implements GamePublisher {
             go.update();
         }
 
+        System.out.println(Game.getInstance().getCurrentEnemyCount());
     }
 
     @Override
@@ -196,5 +199,14 @@ public class Player extends Entity implements GamePublisher {
 
     private void publishScoreChanged() {
         for (GameListener l : listeners) l.onScoreChanged(score);
+    }
+
+    
+    public void setLastMoveDirection(Point dir) {
+        this.lastMoveDirection = dir;
+    }
+
+    public Point getLastMoveDirection() {
+        return lastMoveDirection;
     }
 }

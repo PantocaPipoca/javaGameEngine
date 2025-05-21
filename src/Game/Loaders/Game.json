@@ -100,7 +100,18 @@
       "blastRadius": 120,
       "blastDamage": 80,
       "distanceFromOwner": 0
+    },
+    {
+      "type": "rifle",
+      "bulletSpeed": 1000.0,
+      "damage": 2,
+      "fireRate": 10,
+      "reloadTime": 2.0,
+      "magazineSize": 20,
+      "maxAmmo": 120,
+      "distanceFromOwner": 40
     }
+    
   ],
   "levels": [
       {
@@ -182,7 +193,7 @@
           "maxHealth": 100,
           "movingSpeed": 500.0,
           "rollingSpeed": 8.0,
-          "playerWeapons": [ "pistol", "bomb" ]
+          "playerWeapons": [ "pistol", "rifle" ]
         },
         "enemyTypes": [ "gunner", "bomber_striker", "bomber_ghost", "striker" ],
         "enemySpawns": [
@@ -283,7 +294,7 @@
           ]
         }
       ],
-        "globalWeapons": [ "pistol", "bomb" ],
+        "globalWeapons": [ "pistol", "bomb", "rifle" ],
         "enemyCount": 100,
         "enemyChances": {
           "gunner": 0.25,
