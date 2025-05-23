@@ -74,7 +74,6 @@ public class ConfigModels {
         public double distanceFromOwner;
 
         public double blastRadius;
-        public int blastDamage;
     }
 
     /**

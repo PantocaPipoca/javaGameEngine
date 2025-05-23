@@ -28,7 +28,7 @@ public abstract class Weapon implements IBehaviour {
      * Constructor for a weapon.
      * @param owner the owning game object
      * @param name weapon name
-     * @param damage weapon damage (not used in base class)
+     * @param damage weapon damage
      * @param fireRate shots per second
      * @param distanceFromOwner distance from owner to orbit
      */

@@ -32,6 +32,7 @@ public class Health implements GamePublisher{
         this.maxHealth = maxHealth;
         this.currentHealth = maxHealth;
         this.isAlive = true;
+        publishHealthChanged();
     }
 
     /**
@@ -46,11 +47,11 @@ public class Health implements GamePublisher{
         }
         if (isAlive) {
             currentHealth -= damage;
-            publishHealthChanged();
             if (currentHealth <= 0) {
                 currentHealth = 0;
                 isAlive = false;
             }
+            publishHealthChanged();
         }
     }
 
@@ -65,10 +66,10 @@ public class Health implements GamePublisher{
         }
         if (isAlive) {
             currentHealth += amount;
-            publishHealthChanged();
             if (currentHealth > maxHealth) {
                 currentHealth = maxHealth;
             }
+            publishHealthChanged();
         }
     }
 

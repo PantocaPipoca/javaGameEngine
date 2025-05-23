@@ -5,6 +5,7 @@ import java.util.List;
 
 import Figures.Circle;
 import Figures.Point;
+import Game.Audio.SoundPlayer;
 import Game.Observer.GameListener;
 import Game.Observer.GamePublisher;
 import GameEngine.GameObject;
@@ -95,6 +96,7 @@ public class Gun extends Weapon implements GamePublisher {
 
         currentAmmo--;
         publishAmmoChanged();
+        SoundPlayer.playSound("songs/shoot.wav");
         return true;
     }
 
@@ -126,6 +128,7 @@ public class Gun extends Weapon implements GamePublisher {
         if (!isReloading && reserveAmmo > 0 && currentAmmo < magazineSize) {
             isReloading = true;
             reloadTimer = reloadTime;
+            SoundPlayer.playSound("songs/reload.wav");
         }
     }
 

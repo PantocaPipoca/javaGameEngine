@@ -88,8 +88,16 @@ public class ChaseState extends State {
         super.onEnter();
         Enemy e = (Enemy) owner;
         Animator animator = e.getAnimator();
-        animator.frameDuration(0.05f);
-        e.playAnimation("run");
+
+
+        if(owner.gameObject().name().startsWith("bomber_ghost")) {
+            animator.frameDuration(0.25f);
+            e.playAnimation("run");
+        }
+        else {
+            animator.frameDuration(0.05f);
+            e.playAnimation("run");
+        }
 
         if (owner.gameObject().name().contains("bomb")) {
             owner.equipGun(0);

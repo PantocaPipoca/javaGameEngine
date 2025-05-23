@@ -193,7 +193,7 @@ public class RoomFactory {
                 gun.gameObject(rifleGameObject);
                 break;
             case "bomb":
-                gun = new Bomb(owner, "bomb", wp.damage, wp.fireRate, wp.blastDamage, wp.distanceFromOwner);
+                gun = new Bomb(owner, "bomb", wp.damage, wp.fireRate, wp.distanceFromOwner);
                 IGameObject bombObject = new GameObject(
                     gun.name(),
                     new Transform(owner.transform().position(), owner.transform().layer(), 0, 2),

@@ -1,7 +1,6 @@
 package Game.Entities.Player.PlayerStates;
 
 import Figures.Point;
-import Game.Entities.Commons.EntityUtils;
 import Game.Entities.Commons.State;
 import Game.Entities.Player.Player;
 import GameEngine.IGameObject;

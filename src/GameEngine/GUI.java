@@ -7,6 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import Game.Camera;
+import Game.UI.GameUI;
 
 /**
  * Class that represents the main GUI window for the game engine.
@@ -190,6 +191,8 @@ public class GUI extends JFrame {
                     System.err.println("Erro ao carregar a imagem da mira: " + e.getMessage());
                 }
             }
+
+            GameUI.getInstance().render(g2);
         }
     }
 

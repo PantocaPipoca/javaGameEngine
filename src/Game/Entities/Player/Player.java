@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Figures.Point;
-import Game.Game;
 import Game.Entities.Commons.Entity;
 import Game.Entities.Commons.EntityUtils;
 import Game.Entities.Commons.Health;
@@ -121,6 +120,11 @@ public class Player extends Entity implements GamePublisher {
         subscribe(GameUI.getInstance());
         getHealthManager().subscribe(GameUI.getInstance());
         equipGun(0);
+
+        publishScoreChanged();
+        for (GameListener l : listeners) {
+            l.onPlayerHealthChanged(getHealthManager().getCurrentHealth());
+        }
     }
 
     /////////////////////////////////////////////////// Player Logic ///////////////////////////////////////////////////
@@ -207,7 +211,9 @@ public class Player extends Entity implements GamePublisher {
     private void publishAmmoChanged() {
         for (GameListener l : listeners) {
             if (currentGun != null) {
-                if (currentGun.gameObject().name().equals("pistol")) {
+                if (currentGun.gameObject().name().equals("pistol") ||
+                    currentGun.gameObject().name().equals("shotgun") ||
+                    currentGun.gameObject().name().equals("rifle")) {
                     Gun g = (Gun) currentGun;
                     l.onAmmoChanged(g.getCurrentAmmo(), g.getReserveAmmo());
                 }

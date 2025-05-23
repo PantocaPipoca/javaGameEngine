@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Game.Entities.Enemies.Enemy;
+import Game.UI.GameUI;
 import GameEngine.IGameObject;
 import GameEngine.GameObject;
 import GameEngine.GameEngine;
@@ -63,6 +64,9 @@ public class Game {
         // Choose a room to load
         currentRoom = rooms.get(roomIndex);
         currentRoomIndex = roomIndex;
+
+        GameUI ui = GameUI.getInstance();
+        ui.initUI(engine, camera.position());
 
         // Load Enemies
         for (Enemy enemy : currentRoom.enemies()) {

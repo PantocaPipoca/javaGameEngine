@@ -45,7 +45,6 @@ public class GameConfigLoader {
             if (m.containsKey("magazineSize"))  wp.magazineSize  = ((Number) m.get("magazineSize")).intValue();
             if (m.containsKey("maxAmmo"))       wp.maxAmmo       = ((Number) m.get("maxAmmo")).intValue();
             if (m.containsKey("blastRadius"))   wp.blastRadius   = ((Number) m.get("blastRadius")).doubleValue();
-            if (m.containsKey("blastDamage"))   wp.blastDamage   = ((Number) m.get("blastDamage")).intValue();
 
             weaponCache.put(type, wp);
         }

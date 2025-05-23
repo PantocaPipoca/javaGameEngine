@@ -58,7 +58,6 @@
       "damage": 20,
       "fireRate": 0.2,
       "blastRadius": 120,
-      "blastDamage": 80,
       "distanceFromOwner": 0
     },
     {
@@ -121,8 +120,45 @@
           "striker": 0
         }
       },
+{
+  "levelName": "Second Mission",
+  "figures": [
+{ "type": "polygon", "vertices": [[1000,-800],[2716.157,249.181],[1800,650],[1000,200]], "layer": 1, "objectType": "wall" },
+{ "type": "polygon", "vertices": [[2716.157,249.181],[2716.157,1750.819],[1800,1350],[1800,650]], "layer": 1, "objectType": "wall" },
+{ "type": "polygon", "vertices": [[2716.157,1750.819],[1000,2800],[1000,1800],[1800,1350]], "layer": 1, "objectType": "wall" },
+{ "type": "polygon", "vertices": [[1000,2800],[-716.157,1750.819],[200,1350],[1000,1800]], "layer": 1, "objectType": "wall" },
+{ "type": "polygon", "vertices": [[-716.157,1750.819],[-716.157,249.181],[200,650],[200,1350]], "layer": 1, "objectType": "wall" },
+{ "type": "polygon", "vertices": [[-716.157,249.181],[1000,-800],[1000,200],[200,650]], "layer": 1, "objectType": "wall" },
+
+    { "type": "polygon", "vertices": [[1000,200],[1265,350],[735,350]], "layer": 1, "objectType": "door" }
+  ],
+  "player": {
+    "startPosition": { "x": 1000, "y": 1000 },
+    "layer": 1,
+    "angle": 0.0,
+    "scale": 2.0,
+    "maxHealth": 100,
+    "movingSpeed": 500.0,
+    "rollingSpeed": 8.0,
+    "playerWeapons": ["pistol"]
+  },
+  "enemyTypes": ["gunner"],
+"enemySpawns": [
+  { "spawnPoint": { "x": 1000, "y": 400 }, "patrolPoints": [ { "x": 1000, "y": 400 }, { "x": 1708, "y": 683 }, { "x": 1708, "y": 1317 }, { "x": 1000, "y": 1700 }, { "x": 292, "y": 1317 }, { "x": 292, "y": 683 } ] },
+  { "spawnPoint": { "x": 1708, "y": 683 }, "patrolPoints": [ { "x": 1708, "y": 683 }, { "x": 1708, "y": 1317 }, { "x": 1000, "y": 1700 }, { "x": 292, "y": 1317 }, { "x": 292, "y": 683 }, { "x": 1000, "y": 400 } ] },
+  { "spawnPoint": { "x": 1708, "y": 1317 }, "patrolPoints": [ { "x": 1708, "y": 1317 }, { "x": 1000, "y": 1700 }, { "x": 292, "y": 1317 }, { "x": 292, "y": 683 }, { "x": 1000, "y": 400 }, { "x": 1708, "y": 683 } ] },
+  { "spawnPoint": { "x": 1000, "y": 1700 }, "patrolPoints": [ { "x": 1000, "y": 1700 }, { "x": 292, "y": 1317 }, { "x": 292, "y": 683 }, { "x": 1000, "y": 400 }, { "x": 1708, "y": 683 }, { "x": 1708, "y": 1317 } ] },
+  { "spawnPoint": { "x": 292, "y": 1317 }, "patrolPoints": [ { "x": 292, "y": 1317 }, { "x": 292, "y": 683 }, { "x": 1000, "y": 400 }, { "x": 1708, "y": 683 }, { "x": 1708, "y": 1317 }, { "x": 1000, "y": 1700 } ] },
+  { "spawnPoint": { "x": 292, "y": 683 }, "patrolPoints": [ { "x": 292, "y": 683 }, { "x": 1000, "y": 400 }, { "x": 1708, "y": 683 }, { "x": 1708, "y": 1317 }, { "x": 1000, "y": 1700 }, { "x": 292, "y": 1317 } ] }
+],
+  "globalWeapons": ["pistol"],
+  "enemyCount": 6,
+  "enemyChances": {
+    "gunner": 1
+  }
+},
       {
-        "levelName": "Second Mission",
+        "levelName": "Thrid Mission",
         "figures": [
           { "type": "polygon", "vertices": [[800,2000],[1600,2000],[1600,13100],[800,13100]], "layer": 1, "objectType": "door" },
           { "type": "polygon", "vertices": [[-10000,-10000],[16000,-10000],[16000,40],[-10000,40]], "layer": 1, "objectType": "wall" },
