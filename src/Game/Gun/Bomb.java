@@ -41,7 +41,7 @@ public class Bomb extends Weapon {
             destroyed = true;
             GameEngine.getInstance().destroy(this.go);
             GameEngine.getInstance().destroy(owner);
-            Game.getInstance().setCurrentEnemyCount(Game.getInstance().getCurrentEnemyCount() - 1);
+            Game.getInstance().currentEnemyCount(Game.getInstance().currentEnemyCount() - 1);
         }
     }
 }

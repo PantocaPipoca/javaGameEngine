@@ -88,7 +88,7 @@ public class ChaseState extends State {
         super.onEnter();
         Enemy e = (Enemy) owner;
         Animator animator = e.getAnimator();
-        animator.setFrameDuration(0.05f);
+        animator.frameDuration(0.05f);
         e.playAnimation("run");
 
         if (owner.gameObject().name().contains("bomb")) {

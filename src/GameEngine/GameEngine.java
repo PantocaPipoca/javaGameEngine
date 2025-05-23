@@ -2,6 +2,7 @@ package GameEngine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Class that represents the GameEngine.
@@ -13,11 +14,11 @@ import java.util.List;
 public class GameEngine {
     private static GameEngine instance;
 
-    private List<IGameObject> gameObjects;
-    private List<LayerGroup> layerGroups;
-    private List<IGameObject> enabled = new ArrayList<>();
-    private List<IGameObject> disabled = new ArrayList<>();
-    private GUI gui;
+    private final List<IGameObject> gameObjects = new CopyOnWriteArrayList<>();
+    private final List<LayerGroup>  layerGroups = new CopyOnWriteArrayList<>();
+    private final List<IGameObject> enabled     = new CopyOnWriteArrayList<>();
+    private final List<IGameObject> disabled    = new CopyOnWriteArrayList<>();
+    private final GUI gui;
 
     /**
      * Constructor for the GameEngine.
@@ -29,8 +30,6 @@ public class GameEngine {
             throw new IllegalArgumentException("GUI cannot be null.");
         }
         this.gui = gui;
-        gameObjects = new ArrayList<>();
-        layerGroups = new ArrayList<>();
     }
 
     ///////////////////////////// Essential methods /////////////////////////////
@@ -56,12 +55,10 @@ public class GameEngine {
             checkCollisions();
 
             // Update enabled objects
-            for (IGameObject go : new ArrayList<>(enabled)) {
+            for (IGameObject go : enabled) {
                 int oldLayer = go.transform().layer();
                 go.behaviour().onUpdate(dt, ie);
                 int newLayer = go.transform().layer();
-
-                // Handle layer changes
                 if (oldLayer != newLayer) {
                     updateObjectLayer(go, oldLayer, newLayer);
                 }

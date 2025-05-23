@@ -14,8 +14,12 @@ import java.util.*;
  * @see <a href="https://www.codeproject.com/Articles/5262223/How-to-Build-a-Recursive-Descent-Parser?pageflow=FixedWidtht.com">JSON Specification</a>
  */
 public class JsonParser {
+
+    ////////////////////// Fields //////////////////////
     private final String src;
     private int pos;
+
+    ////////////////////// Constructors //////////////////////
 
     /**
      * Constructs a new JsonParser for the given JSON string.
@@ -25,6 +29,8 @@ public class JsonParser {
         this.src = json.trim();
         this.pos = 0;
     }
+
+    ////////////////////// Core Methods //////////////////////
 
     /**
      * Parses a JSON file and returns the parsed object.
@@ -42,21 +48,6 @@ public class JsonParser {
     }
 
     /**
-     * Returns the current character in the JSON string.
-     * @return The current character.
-     */
-    private char cur() {
-        return src.charAt(pos);
-    }
-
-    /**
-     * Skips whitespace characters in the JSON string.
-     */
-    private void skip() {
-        while (pos < src.length() && Character.isWhitespace(cur())) pos++;
-    }
-
-    /**
      * Parses a JSON value from the current position.
      * @return The parsed JSON value, which can be a Map (for objects), List (for arrays), String, Number, Boolean, or null.
      * @throws RuntimeException If the JSON is invalid or an unexpected character is encountered.
@@ -71,6 +62,23 @@ public class JsonParser {
         if (src.startsWith("false", pos)) { pos += 5; return false; }
         if (src.startsWith("null", pos)) { pos += 4; return null; }
         throw new RuntimeException("Unexpected JSON at " + pos);
+    }
+
+    ////////////////////// Helpers //////////////////////
+
+    /**
+     * Returns the current character in the JSON string.
+     * @return The current character.
+     */
+    private char cur() {
+        return src.charAt(pos);
+    }
+
+    /**
+     * Skips whitespace characters in the JSON string.
+     */
+    private void skip() {
+        while (pos < src.length() && Character.isWhitespace(cur())) pos++;
     }
 
     /**

@@ -30,7 +30,7 @@ public abstract class Entity implements IEntity {
     public void onUpdate(double dT, InputEvent ie) {
         animator.update((float) dT);
         if (go != null) {
-            go.setShape(animator.getCurrentShape());
+            go.setShape(animator.currentShape());
             go.update();
             lastSafePos = go.transform().position();
             stateMachine.onUpdate(dT, ie);
@@ -65,6 +65,9 @@ public abstract class Entity implements IEntity {
 
     @Override
     public void resolveAgainst(IGameObject wall) {
+        if (lastSafePos == null) {
+            return;
+        }
         Point from = lastSafePos;
         Point to   = go.transform().position();
         double vx = to.x() - from.x();

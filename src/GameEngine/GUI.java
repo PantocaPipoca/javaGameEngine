@@ -98,8 +98,8 @@ public class GUI extends JFrame {
             // Camera
             double camX = 0, camY = 0;
             if (camera != null) {
-                camX = camera.getPosition().x();
-                camY = camera.getPosition().y();
+                camX = camera.position().x();
+                camY = camera.position().y();
             }
             int screenCX = getWidth() / 2;
             int screenCY = getHeight() / 2;

@@ -9,17 +9,7 @@
         "detectionRadius": 300,
         "attackRadius": 500,
         "forgetfullRadius": 700,
-        "outOfRangeRadius": 600,
-        "dropChance": {
-          "health": 0.2,
-          "powerup": 0.2,
-          "ammo": {
-            "type": "normal",
-            "chance": 0.5,
-            "minAmount": 2,
-            "maxAmount": 5
-          }
-        }
+        "outOfRangeRadius": 600
       },
       {
         "type": "bomber_striker",
@@ -29,17 +19,7 @@
         "chaseSpeed": 400.0,
         "detectionRadius": 500,
         "attackRadius": 100,
-        "forgetfullRadius": 1000,
-        "dropChance": {
-          "health": 0.15,
-          "powerup": 0.25,
-          "ammo": {
-            "type": "special",
-            "chance": 0.4,
-            "minAmount": 1,
-            "maxAmount": 3
-          }
-        }
+        "forgetfullRadius": 1000
       },
       {
         "type": "bomber_ghost",
@@ -49,17 +29,7 @@
         "chaseSpeed": 400.0,
         "detectionRadius": 500,
         "attackRadius": 100,
-        "forgetfullRadius": 1000,
-        "dropChance": {
-          "health": 0.1,
-          "powerup": 0.3,
-          "ammo": {
-            "type": "special",
-            "chance": 0.3,
-            "minAmount": 1,
-            "maxAmount": 2
-          }
-        }
+        "forgetfullRadius": 1000
       },
       {
         "type": "striker",
@@ -69,17 +39,7 @@
         "chaseSpeed": 300.0,
         "detectionRadius": 500,
         "attackRadius": 50,
-        "forgetfullRadius": 1000,
-        "dropChance": {
-          "health": 0.25,
-          "powerup": 0.15,
-          "ammo": {
-            "type": "normal",
-            "chance": 0.6,
-            "minAmount": 3,
-            "maxAmount": 6
-          }
-        }
+        "forgetfullRadius": 1000
       }
     ],
   "weaponBlueprints": [
@@ -95,7 +55,7 @@
     },
     {
       "type": "bomb",
-      "damage": 50,
+      "damage": 20,
       "fireRate": 0.2,
       "blastRadius": 120,
       "blastDamage": 80,
@@ -116,306 +76,92 @@
   "levels": [
       {
         "levelName": "First Mission",
-        "difficulty": "Normal",
         "figures": [
-          {
-            "type": "polygon",
-            "vertices": [
-              [   800,  2000],
-              [  1600,  2000],
-              [  1600, 13100],
-              [   800, 13100]
-            ],
-            "layer": 1,
-            "objectType": "door"
-          },
-          {
-            "type": "polygon",
-            "vertices": [
-              [-10000, -10000],
-              [ 16000, -10000],
-              [ 16000,     40],
-              [-10000,     40]
-            ],
-            "layer": 1,
-            "objectType": "wall"
-          },
-          {
-            "type": "polygon",
-            "vertices": [
-              [-10000,   1160],
-              [   800,   1160],
-              [   800,  12100],
-              [-10000,  12100]
-            ],
-            "layer": 1,
-            "objectType": "wall"
-          },
-          {
-            "type": "polygon",
-            "vertices": [
-              [-10000, -10000],
-              [     0, -10000],
-              [     0,  12100],
-              [-10000,  12100]
-            ],
-            "layer": 1,
-            "objectType": "wall"
-          },
-          {
-            "type": "polygon",
-            "vertices": [
-              [  1600, -10000],
-              [ 16000, -10000],
-              [ 16000,  12100],
-              [  1600,  12100]
-            ],
-            "layer": 1,
-            "objectType": "wall"
-          },
-          {
-            "type": "polygon",
-            "vertices": [
-              [   800,  2160],
-              [  1600,  2160],
-              [  1600, 13100],
-              [   800, 13100]
-            ],
-            "layer": 1,
-            "objectType": "wall"
-          }
+          { "type": "polygon", "vertices": [[100,100],[1900,100],[1900,200],[100,200]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[1900,100],[1900,1900],[1800,1900],[1800,200]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[1800,1900],[200,1900],[200,1800],[1800,1800]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[200,1800],[200,300],[300,300],[300,1800]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[300,300],[1700,300],[1700,400],[300,400]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[1700,300],[1700,1700],[1600,1700],[1600,400]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[1600,1700],[400,1700],[400,1600],[1600,1600]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[400,1600],[400,500],[500,500],[500,1600]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[500,500],[1500,500],[1500,600],[500,600]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[1500,500],[1500,1500],[1400,1500],[1400,600]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[1400,1500],[600,1500],[600,1400],[1400,1400]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[600,1400],[600,700],[700,700],[700,1400]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[60,120],[200,120],[200,350],[60,350]], "layer": 1, "objectType": "door" }
         ],
         "player": {
-          "startPosition": { "x": 400, "y": 300 },
+          "startPosition": { "x": 1000, "y": 1000 },
           "layer": 1,
           "angle": 0.0,
           "scale": 2.0,
           "maxHealth": 100,
           "movingSpeed": 500.0,
           "rollingSpeed": 8.0,
-          "playerWeapons": [ "pistol", "rifle" ]
+          "playerWeapons": [  ]
         },
         "enemyTypes": [ "gunner", "bomber_striker", "bomber_ghost", "striker" ],
         "enemySpawns": [
-        {
-          "spawnPoint": { "x": 120, "y": 120 },
-          "patrolPoints": [
-            { "x": 41, "y": 86 },
-            { "x": 41, "y": 1107 },
-            { "x": 800, "y": 1107 },
-            { "x": 800, "y": 86 }
-          ]
-        },
-        {
-          "spawnPoint": { "x": 1480, "y": 120 },
-          "patrolPoints": [
-            { "x": 1553, "y": 86 },
-            { "x": 1553, "y": 1107 },
-            { "x": 800, "y": 1107 },
-            { "x": 800, "y": 86 }
-          ]
-        },
-        {
-          "spawnPoint": { "x": 120, "y": 1080 },
-          "patrolPoints": [
-            { "x": 41, "y": 1107 },
-            { "x": 800, "y": 1107 },
-            { "x": 1553, "y": 1107 }
-          ]
-        },
-        {
-          "spawnPoint": { "x": 1480, "y": 1080 },
-          "patrolPoints": [
-            { "x": 1553, "y": 1107 },
-            { "x": 1553, "y": 86 },
-            { "x": 800, "y": 86 }
-          ]
-        },
-        {
-          "spawnPoint": { "x": 800, "y": 120 },
-          "patrolPoints": [
-            { "x": 800, "y": 86 },
-            { "x": 41, "y": 86 },
-            { "x": 1553, "y": 86 }
-          ]
-        },
-        {
-          "spawnPoint": { "x": 900, "y": 1250 },
-          "patrolPoints": [
-            { "x": 850, "y": 1200 },
-            { "x": 1560, "y": 1200 },
-            { "x": 1560, "y": 1932 },
-            { "x": 850, "y": 1932 }
-          ]
-        },
-        {
-          "spawnPoint": { "x": 1550, "y": 1250 },
-          "patrolPoints": [
-            { "x": 1560, "y": 1200 },
-            { "x": 1560, "y": 1932 },
-            { "x": 1200, "y": 1932 },
-            { "x": 1200, "y": 1200 }
-          ]
-        },
-        {
-          "spawnPoint": { "x": 1200, "y": 1300 },
-          "patrolPoints": [
-            { "x": 1200, "y": 1200 },
-            { "x": 1560, "y": 1200 },
-            { "x": 1560, "y": 1560 },
-            { "x": 1200, "y": 1560 }
-          ]
-        },
-        {
-          "spawnPoint": { "x": 1200, "y": 1900 },
-          "patrolPoints": [
-            { "x": 1200, "y": 1932 },
-            { "x": 1560, "y": 1932 },
-            { "x": 1560, "y": 1560 },
-            { "x": 1200, "y": 1560 }
-          ]
-        },
-        {
-          "spawnPoint": { "x": 900, "y": 1900 },
-          "patrolPoints": [
-            { "x": 850, "y": 1932 },
-            { "x": 1560, "y": 1932 },
-            { "x": 1200, "y": 1560 },
-            { "x": 850, "y": 1560 }
-          ]
-        },
-        {
-          "spawnPoint": { "x": 1550, "y": 1900 },
-          "patrolPoints": [
-            { "x": 1560, "y": 1932 },
-            { "x": 1560, "y": 1200 },
-            { "x": 1200, "y": 1200 },
-            { "x": 1200, "y": 1932 }
-          ]
-        }
-      ],
-        "globalWeapons": [ "pistol", "bomb", "rifle" ],
-        "enemyCount": 100,
-        "enemyChances": {
-          "gunner": 0.25,
-          "bomber_striker": 0.25,
-          "bomber_ghost": 0.25,
-          "striker": 0.25
-        }
-      },
-  
-      {
-        "levelName": "Second Mission",
-        "difficulty": "Normal",
-        "figures": [
-          {
-            "type": "polygon",
-            "vertices": [
-              [-10000, -10000],
-              [ 16000, -10000],
-              [ 16000,     40],
-              [-10000,     40]
-            ],
-            "layer": 1
-          },
-          {
-            "type": "polygon",
-            "vertices": [
-              [-10000,   1160],
-              [   800,   1160],
-              [   800,  12100],
-              [-10000,  12100]
-            ],
-            "layer": 1
-          },
-          {
-            "type": "polygon",
-            "vertices": [
-              [-10000, -10000],
-              [     0, -10000],
-              [     0,  12100],
-              [-10000,  12100]
-            ],
-            "layer": 1
-          },
-          {
-            "type": "polygon",
-            "vertices": [
-              [  1600, -10000],
-              [ 16000, -10000],
-              [ 16000,  12100],
-              [  1600,  12100]
-            ],
-            "layer": 1
-          },
-          {
-            "type": "polygon",
-            "vertices": [
-              [   800,  2160],
-              [  1600,  2160],
-              [  1600, 13100],
-              [   800, 13100]
-            ],
-            "layer": 1
-          }
+          { "spawnPoint": { "x": 300, "y": 250 }, "patrolPoints": [ { "x": 300, "y": 250 } ] },
+          { "spawnPoint": { "x": 1750, "y": 300 }, "patrolPoints": [ { "x": 1750, "y": 300 } ] },
+          { "spawnPoint": { "x": 1750, "y": 1750 }, "patrolPoints": [ { "x": 1750, "y": 1750 } ] },
+          { "spawnPoint": { "x": 350, "y": 1700 }, "patrolPoints": [ { "x": 350, "y": 1700 } ] },
+          { "spawnPoint": { "x": 550, "y": 450 }, "patrolPoints": [ { "x": 550, "y": 450 } ] },
+          { "spawnPoint": { "x": 1550, "y": 550 }, "patrolPoints": [ { "x": 1550, "y": 550 } ] },
+          { "spawnPoint": { "x": 1450, "y": 1550 }, "patrolPoints": [ { "x": 1450, "y": 1550 } ] },
+          { "spawnPoint": { "x": 550, "y": 1500 }, "patrolPoints": [ { "x": 550, "y": 1500 } ] }
         ],
-        "player": {
-          "startPosition": { "x": 400, "y": 300 },
-          "layer": 1,
-          "angle": 0.0,
-          "scale": 2.0,
-          "maxHealth": 100,
-          "movingSpeed": 500.0,
-          "rollingSpeed": 8.0,
-          "playerWeapons": [ "pistol", "bomb" ]
-        },
-        "enemyTypes": [ "gunner", "bomber_striker", "bomber_ghost", "striker" ],
-        "enemySpawns": [
-        {
-          "spawnPoint": { "x": 120, "y": 120 },
-          "patrolPoints": [
-            { "x": 160, "y": 160 },
-            { "x": 180, "y": 190 },
-            { "x": 150, "y": 180 }
-          ]
-        },
-        {
-          "spawnPoint": { "x": 1480, "y": 120 },
-          "patrolPoints": [
-            { "x": 1440, "y": 160 },
-            { "x": 1460, "y": 200 }
-          ]
-        },
-        {
-          "spawnPoint": { "x": 120, "y": 1080 },
-          "patrolPoints": [
-            { "x": 160, "y": 1040 },
-            { "x": 180, "y": 1070 },
-            { "x": 150, "y": 1060 }
-          ]
-        },
-        {
-          "spawnPoint": { "x": 1480, "y": 1080 },
-          "patrolPoints": [
-            { "x": 1440, "y": 1040 },
-            { "x": 1460, "y": 1070 }
-          ]
-        },
-        {
-          "spawnPoint": { "x": 800, "y": 120 },
-          "patrolPoints": [
-            { "x": 800, "y": 160 },
-            { "x": 820, "y": 180 }
-          ]
-        }
-      ],
-        "globalWeapons": [ "pistol", "bomb" ],
-        "enemyCount": 5,
+        "globalWeapons": [  ],
+        "enemyCount": 12,
         "enemyChances": {
           "gunner": 0,
           "bomber_striker": 1,
           "bomber_ghost": 0,
           "striker": 0
+        }
+      },
+      {
+        "levelName": "Second Mission",
+        "figures": [
+          { "type": "polygon", "vertices": [[800,2000],[1600,2000],[1600,13100],[800,13100]], "layer": 1, "objectType": "door" },
+          { "type": "polygon", "vertices": [[-10000,-10000],[16000,-10000],[16000,40],[-10000,40]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[-10000,1160],[800,1160],[800,12100],[-10000,12100]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[-10000,-10000],[0,-10000],[0,12100],[-10000,12100]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[1600,-10000],[16000,-10000],[16000,12100],[1600,12100]], "layer": 1, "objectType": "wall" },
+          { "type": "polygon", "vertices": [[800,2160],[1600,2160],[1600,13100],[800,13100]], "layer": 1, "objectType": "wall" }
+        ],
+        "player": {
+          "startPosition": { "x": 400, "y": 300 },
+          "layer": 1,
+          "angle": 0.0,
+          "scale": 2.0,
+          "maxHealth": 100,
+          "movingSpeed": 500.0,
+          "rollingSpeed": 8.0,
+          "playerWeapons": ["pistol", "rifle"]
+        },
+        "enemyTypes": ["gunner", "bomber_striker", "bomber_ghost", "striker"],
+        "enemySpawns": [
+          { "spawnPoint": { "x": 120, "y": 120 }, "patrolPoints": [ { "x": 41, "y": 86 }, { "x": 41, "y": 1107 }, { "x": 800, "y": 1107 }, { "x": 800, "y": 86 } ] },
+          { "spawnPoint": { "x": 1480, "y": 120 }, "patrolPoints": [ { "x": 1553, "y": 86 }, { "x": 1553, "y": 1107 }, { "x": 800, "y": 1107 }, { "x": 800, "y": 86 } ] },
+          { "spawnPoint": { "x": 120, "y": 1080 }, "patrolPoints": [ { "x": 41, "y": 1107 }, { "x": 800, "y": 1107 }, { "x": 1553, "y": 1107 } ] },
+          { "spawnPoint": { "x": 1480, "y": 1080 }, "patrolPoints": [ { "x": 1553, "y": 1107 }, { "x": 1553, "y": 86 }, { "x": 800, "y": 86 } ] },
+          { "spawnPoint": { "x": 800, "y": 120 }, "patrolPoints": [ { "x": 800, "y": 86 }, { "x": 41, "y": 86 }, { "x": 1553, "y": 86 } ] },
+          { "spawnPoint": { "x": 900, "y": 1250 }, "patrolPoints": [ { "x": 850, "y": 1200 }, { "x": 1560, "y": 1200 }, { "x": 1560, "y": 1932 }, { "x": 850, "y": 1932 } ] },
+          { "spawnPoint": { "x": 1550, "y": 1250 }, "patrolPoints": [ { "x": 1560, "y": 1200 }, { "x": 1560, "y": 1932 }, { "x": 1200, "y": 1932 }, { "x": 1200, "y": 1200 } ] },
+          { "spawnPoint": { "x": 1200, "y": 1300 }, "patrolPoints": [ { "x": 1200, "y": 1200 }, { "x": 1560, "y": 1200 }, { "x": 1560, "y": 1560 }, { "x": 1200, "y": 1560 } ] },
+          { "spawnPoint": { "x": 1200, "y": 1900 }, "patrolPoints": [ { "x": 1200, "y": 1932 }, { "x": 1560, "y": 1932 }, { "x": 1560, "y": 1560 }, { "x": 1200, "y": 1560 } ] },
+          { "spawnPoint": { "x": 900, "y": 1900 }, "patrolPoints": [ { "x": 850, "y": 1932 }, { "x": 1560, "y": 1932 }, { "x": 1200, "y": 1560 }, { "x": 850, "y": 1560 } ] },
+          { "spawnPoint": { "x": 1550, "y": 1900 }, "patrolPoints": [ { "x": 1560, "y": 1932 }, { "x": 1560, "y": 1200 }, { "x": 1200, "y": 1200 }, { "x": 1200, "y": 1932 } ] }
+        ],
+        "globalWeapons": ["pistol", "bomb", "rifle"],
+        "enemyCount": 15,
+        "enemyChances": {
+          "gunner": 0.5,
+          "bomber_striker": 0,
+          "bomber_ghost": 0,
+          "striker": 0.5
         }
       }
     ]

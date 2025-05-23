@@ -2,6 +2,7 @@ package GameEngine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Class that represents a group of game objects on a specific layer.
@@ -12,7 +13,7 @@ import java.util.List;
  **/
 public class LayerGroup {
     private int layer;
-    private List<IGameObject> objects;
+    private final CopyOnWriteArrayList<IGameObject> objects = new CopyOnWriteArrayList<>();
 
     /**
      * Constructor for the LayerGroup.
@@ -20,7 +21,6 @@ public class LayerGroup {
      */
     public LayerGroup(int layer) {
         this.layer = layer;
-        this.objects = new ArrayList<>();
     }
 
     /**
@@ -76,16 +76,5 @@ public class LayerGroup {
      */
     public void layer(int layer) {
         this.layer = layer;
-    }
-
-    /**
-     * Sets the list of objects in the group.
-     * @param objects the list of objects to set
-     */
-    public void objects(List<IGameObject> objects) {
-        if (objects == null) {
-            throw new IllegalArgumentException("Objects list cannot be null.");
-        }
-        this.objects = objects;
     }
 }

@@ -22,6 +22,8 @@ import java.util.*;
  */
 public class RoomFactory {
 
+    ////////////////////// Core Methods //////////////////////
+
     /**
      * Builds a Room from the given LevelConfig.
      * @param lvl the level configuration
@@ -98,6 +100,8 @@ public class RoomFactory {
         return new Room(pl, enemies, figures);
     }
 
+    ////////////////////// Helpers //////////////////////
+
     /**
      * Chooses a key from the map based on a random value and the associated chances.
      * @param r random value between 0 and 1
@@ -130,6 +134,7 @@ public class RoomFactory {
      * @param bp the blueprint
      * @param pl the player
      * @param patrols patrol points
+     * @param index unique index for naming
      * @return the created Enemy
      */
     private static Enemy makeEnemy(EnemyBlueprint bp, Player pl, List<Point> patrols, int index) {
@@ -157,6 +162,13 @@ public class RoomFactory {
         e.gameObject(ego);
         return e;
     }
+
+    /**
+     * Creates a Weapon instance from a blueprint and owner.
+     * @param wp the weapon blueprint
+     * @param owner the owning game object
+     * @return the created Weapon
+     */
     public static Weapon makeWeapon(WeaponBlueprint wp, IGameObject owner) {
         Weapon gun;
         switch (wp.type) {

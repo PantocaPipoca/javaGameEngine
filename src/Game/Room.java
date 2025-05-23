@@ -19,6 +19,7 @@ public class Room {
     private final List<Enemy> enemies; // List of enemies present in the room
     private final List<IGameObject> figures; // List of static figures (walls, obstacles, etc.)
 
+
     /**
      * Constructs a Room with the specified player, enemies, and figures.
      * @param player the player in the room (must not be null)
@@ -40,6 +41,8 @@ public class Room {
         this.enemies = enemies;
         this.figures = figures;
     }
+
+    ////////////////////// Getters //////////////////////
 
     /**
      * Gets the player in this room.

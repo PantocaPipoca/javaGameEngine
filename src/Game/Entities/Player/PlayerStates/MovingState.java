@@ -20,6 +20,9 @@ import java.awt.event.KeyEvent;
 public class MovingState extends State {
 
     private double speed;
+    private double rollCooldown = 0.5;
+
+    private double rollTime = 0;
 
     /**
      * Constructs a MovingState with the specified movement speed.
@@ -83,8 +86,13 @@ public class MovingState extends State {
             }
         }
 
-        if (ie.isKeyPressed(KeyEvent.VK_F)) {
+        if(rollTime > 0) {
+            rollTime -= dT;
+        }
+
+        if (ie.isMouseButtonPressed(3) && rollTime <= 0) {
             stateMachine.setState("Rolling");
+            rollTime = rollCooldown;
         }
     }
 

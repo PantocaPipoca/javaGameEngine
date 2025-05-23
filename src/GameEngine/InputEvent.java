@@ -70,8 +70,8 @@ public class InputEvent {
         int sy = mousePosition.y;
 
         // 2) camera world-center
-        double camX = Camera.getInstance().getPosition().x();
-        double camY = Camera.getInstance().getPosition().y();
+        double camX = Camera.getInstance().position().x();
+        double camY = Camera.getInstance().position().y();
 
         // 3) screen center in pixels
         JFrame gui = GameEngine.getInstance().getGui();

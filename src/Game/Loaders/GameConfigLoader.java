@@ -11,6 +11,8 @@ import java.util.*;
  */
 public class GameConfigLoader {
 
+    ////////////////////// Core Methods //////////////////////
+
     /**
      * Loads all levels from the given JSON file path.
      * @param path the path to the JSON file

@@ -12,11 +12,11 @@ public class GameUI implements GameListener {
     }
     @Override
     public void onAmmoChanged(int currentAmmo, int reserveAmmo) {
-        System.out.println("UI: Ammo = " + currentAmmo + " / " + reserveAmmo);
+        //System.out.println("UI: Ammo = " + currentAmmo + " / " + reserveAmmo);
     }
     @Override
     public void onScoreChanged(float score) {
-        System.out.println("UI: Score = " + score);
+        //System.out.println("UI: Score = " + score);
     }
 
     public static GameUI getInstance() {

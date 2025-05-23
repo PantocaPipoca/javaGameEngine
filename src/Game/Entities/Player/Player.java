@@ -1,5 +1,6 @@
 package Game.Entities.Player;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import Game.Entities.Commons.EntityUtils;
 import Game.Entities.Commons.Health;
 import Game.Entities.Commons.KnockbackState;
 import Game.Entities.Commons.StunnedState;
+import Game.Entities.Enemies.Enemy;
 import Game.Entities.Player.PlayerStates.*;
 import Game.Gun.Gun;
 import Game.Observer.GameListener;
@@ -55,11 +57,11 @@ public class Player extends Entity implements GamePublisher {
     @Override
     public void onUpdate(double dT, InputEvent ie) {
         animator.update((float) dT);
-        if (ie.isMouseButtonPressed(3)) {
+        if (ie.isKeyPressed(KeyEvent.VK_F)) {
             System.out.println(go.transform().position());
         }
         if (go != null) {
-            go.setShape(animator.getCurrentShape());
+            go.setShape(animator.currentShape());
             go.update();
             lastSafePos = go.transform().position();
             setTargetPos(new Point(ie.mouseWorldPosition().getX(), ie.mouseWorldPosition().getY()));
@@ -71,30 +73,46 @@ public class Player extends Entity implements GamePublisher {
                 double bodyX = go.transform().position().x();
                 go.setFlip(gunX < bodyX); // vira para a esquerda se arma estiver à esquerda
             }
+            if (!healthManager.isAlive() && !stateMachine.getCurrentStateName().equals("Dead")) {
+                stateMachine.setState("Dead");
+                System.out.println("Game Over!");
+                return;
+            }
             stateMachine.onUpdate(dT, ie);
             go.update();
         }
 
-        System.out.println(Game.getInstance().getCurrentEnemyCount());
+        //System.out.println(Game.getInstance().currentEnemyCount());
     }
 
     @Override
     public void onCollision(List<IGameObject> gol) {
-        boolean knocked = false;
-        for (IGameObject other : gol) {
-            stateMachine.onCollision(other);
-            if ((other.name().startsWith("gunner") ||
-                other.name().startsWith("bomber") ||
-                other.name().startsWith("striker")) && !knocked) {
-                EntityUtils.calculateKnockback(this, other, 20, 0.3);
-                stateMachine.setState("Knocked");
-                knocked = true;
-            }
-            if (other.name().equals("wall")) {
-                resolveAgainst(other);
-                System.out.println("Player colliding with wall: " + other.name());
+    boolean knocked = false;
+    for (IGameObject other : gol) {
+        stateMachine.onCollision(other);
+
+        boolean isEnemy = other.name().startsWith("gunner") ||
+                          other.name().startsWith("bomber") ||
+                          other.name().startsWith("striker");
+
+        if (isEnemy) {
+            Enemy enemy = (Enemy) other.behaviour();
+            if (enemy.getStateMachine().getCurrentStateName().equals("Dead")) {
+                continue;
             }
         }
+
+        if ((isEnemy || other.name().equals("enemyBullet")) &&
+            !knocked && !stateMachine.getCurrentStateName().equals("Rolling")) {
+            EntityUtils.calculateKnockback(this, other, 20, 0.3);
+            stateMachine.setState("Knocked");
+            knocked = true;
+            healthManager.takeDamage(10);
+        }
+        if (other.name().equals("wall")) {
+            resolveAgainst(other);
+        }
+    }
     }
 
     @Override

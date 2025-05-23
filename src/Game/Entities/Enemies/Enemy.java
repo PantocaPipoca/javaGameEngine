@@ -39,7 +39,7 @@ public abstract class Enemy extends Entity {
     @Override
     public void onUpdate(double dT, InputEvent ie) {
         animator.update((float) dT);
-        go.setShape(animator.getCurrentShape());
+        go.setShape(animator.currentShape());
         go.update();
         lastSafePos = go.transform().position();
         if (!healthManager.isAlive() && !stateMachine.getCurrentStateName().equals("Dead")) {
@@ -64,6 +64,9 @@ public abstract class Enemy extends Entity {
         for (IGameObject other : gol) {
             if (other.name().equals("wall")) {
                 resolveAgainst(other);
+                continue;
+            }
+            if(stateMachine.getCurrentStateName().equals("Dead")) {
                 continue;
             }
             if(!knocked) {

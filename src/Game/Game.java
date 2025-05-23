@@ -18,6 +18,7 @@ import Figures.Point;
  * @inv The rooms list must not be null or empty.
  */
 public class Game {
+
     private static Game instance; // Singleton instance of the game
     private final List<Room> rooms; // List of all rooms in the game
     private Room currentRoom; // The currently loaded room
@@ -40,17 +41,24 @@ public class Game {
         camera = Camera.getInstance(engine.getGui());
     }
 
+    ////////////////////// Core Methods //////////////////////
+
     /**
      * Loads a room by its index, clearing previous objects and setting up all entities and camera.
      * @param roomIndex the index of the room to load
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public void loadRoom(int roomIndex) {
+        if (roomIndex < 0 || roomIndex >= rooms.size()) {
+            System.out.println("You Win");
+            return;
+        }
+
         // Clear out any old unnecessary objects
-    List<IGameObject> objectsToDestroy = new ArrayList<>(engine.gameObjects());
-    for (IGameObject go : objectsToDestroy) {
-        engine.destroy(go);
-    }
+        List<IGameObject> objectsToDestroy = new ArrayList<>(engine.gameObjects());
+        for (IGameObject go : objectsToDestroy) {
+            engine.destroy(go);
+        }
 
         // Choose a room to load
         currentRoom = rooms.get(roomIndex);
@@ -73,7 +81,7 @@ public class Game {
             camera
         );
         camera.gameObject(cameraObject);
-        camera.setTarget(currentRoom.player().gameObject().transform());
+        camera.target(currentRoom.player().gameObject().transform());
         engine.addEnabled(cameraObject);
         engine.getGui().setCamera(camera);
 
@@ -90,6 +98,8 @@ public class Game {
         loadRoom(0);
         engine.run();
     }
+
+    ////////////////////// Getters //////////////////////
 
     /**
      * Returns the singleton instance of Game, creating it if necessary.
@@ -119,7 +129,7 @@ public class Game {
      * Returns the index of the currently loaded room.
      * @return the current room index
      */
-    public int getCurrentRoomIndex() {
+    public int currentRoomIndex() {
         return currentRoomIndex;
     }
 
@@ -127,16 +137,17 @@ public class Game {
      * Get current enemy count.
      * @return current enemy count
      */
-    public double getCurrentEnemyCount() {
+    public double currentEnemyCount() {
         return currentEnemyCount;
     }
+
+    ////////////////////// Setters //////////////////////
 
     /**
      * Set current enemy count.
      * @param currentEnemyCount the new enemy count
      */
-    public void setCurrentEnemyCount(double currentEnemyCount) {
+    public void currentEnemyCount(double currentEnemyCount) {
         this.currentEnemyCount = currentEnemyCount;
     }
-
 }

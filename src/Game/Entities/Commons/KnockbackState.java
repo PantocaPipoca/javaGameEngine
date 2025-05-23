@@ -43,6 +43,9 @@ public class KnockbackState extends State {
     @Override
     public void onEnter() {
         super.onEnter();
+        if(owner.gameObject().name().contains("bomber")) {
+            owner.getStateMachine().setState("Attack");
+        }
         owner.getAnimator().stopAnimation();
         hiddenGun = owner.getCurrentGun();
         owner.hideCurrentGun();

@@ -11,8 +11,8 @@ import java.util.List;
  * @inv The camera must be initialized with a GUI before use.
  */
 public class Camera implements IBehaviour {
-    private static Camera instance;
 
+    private static Camera instance;
     private IGameObject go;
     private ITransform target;
     private Point position = new Point(0, 0);
@@ -26,7 +26,7 @@ public class Camera implements IBehaviour {
         this.gui = gui;
     }
 
-    /////////////////////////////////////////////////// IBehaviour Methods ///////////////////////////////////////////////////
+    ////////////////////// IBehaviour Methods //////////////////////
 
     /**
      * Updates the camera position based on the target and mouse offset.
@@ -63,7 +63,7 @@ public class Camera implements IBehaviour {
     @Override public void onDestroy() {}
     @Override public void onCollision(List<IGameObject> gol) {}
 
-    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
+    ////////////////////// Getters //////////////////////
 
     /**
      * Gets the singleton instance of the camera, initializing it if necessary.
@@ -90,18 +90,10 @@ public class Camera implements IBehaviour {
     }
 
     /**
-     * Sets the transform that the camera should follow.
-     * @param target the target transform
-     */
-    public void setTarget(ITransform target) {
-        this.target = target;
-    }
-
-    /**
      * Gets the current position of the camera.
      * @return the camera position
      */
-    public Point getPosition() {
+    public Point position() {
         return position;
     }
 
@@ -112,6 +104,16 @@ public class Camera implements IBehaviour {
     @Override
     public IGameObject gameObject() {
         return go;
+    }
+
+    ////////////////////// Setters //////////////////////
+
+    /**
+     * Sets the transform that the camera should follow.
+     * @param target the target transform
+     */
+    public void target(ITransform target) {
+        this.target = target;
     }
 
     /**

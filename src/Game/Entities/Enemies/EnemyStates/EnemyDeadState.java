@@ -35,7 +35,7 @@ public class EnemyDeadState extends State {
 
         Enemy e = (Enemy) owner;
         Animator animator = e.getAnimator();
-        animator.setFrameDuration(0.05f);
+        animator.frameDuration(0.05f);
         e.playAnimation("death");
 
         // Remove a arma
@@ -54,7 +54,7 @@ public class EnemyDeadState extends State {
         timer += (float) dT;
         if (timer >= delayBeforeDestroy) {
             
-            Game.getInstance().setCurrentEnemyCount(Game.getInstance().getCurrentEnemyCount() - 1);
+            Game.getInstance().currentEnemyCount(Game.getInstance().currentEnemyCount() - 1);
             GameEngine.getInstance().destroy(owner.gameObject());
         }
     }
