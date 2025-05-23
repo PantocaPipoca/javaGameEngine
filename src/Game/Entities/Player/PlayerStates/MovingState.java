@@ -1,6 +1,7 @@
 package Game.Entities.Player.PlayerStates;
 
 import Figures.Point;
+import Game.Audio.SoundPlayer;
 import Game.Entities.Commons.State;
 import Game.Entities.Player.Player;
 import GameEngine.GameObject;
@@ -103,9 +104,9 @@ public class MovingState extends State {
     @Override
     public void onEnter() {
         super.onEnter();
-        if (owner instanceof Player player) {
-            player.playAnimation("walk");
-        }
+        Player player = (Player) owner;
+        player.playAnimation("walk");
+        SoundPlayer.playSound("songs/walk.wav");
     }
 
     /**

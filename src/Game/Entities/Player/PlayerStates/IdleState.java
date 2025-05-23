@@ -65,9 +65,8 @@ public class IdleState extends State {
     @Override
     public void onEnter() {
         super.onEnter();
-        if (owner instanceof Player player) {
-            player.playAnimation("idle");
-        }
+        Player player = (Player) owner; 
+        player.playAnimation("idle");
     }
 
     /**
