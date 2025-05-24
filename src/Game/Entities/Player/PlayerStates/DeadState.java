@@ -66,8 +66,7 @@ public class DeadState extends State {
      * Called when exiting the dead state.
      */
     @Override
-    public void onExit() {
-        
+    public void onExit() {  
     }
 
     /**

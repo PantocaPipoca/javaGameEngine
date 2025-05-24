@@ -2,8 +2,8 @@ package Game.Observer;
 
 /**
  * Publisher interface for the Observer pattern in the game.
- * This interface defines methods to be implemented by classes that want to listen for game events.
- * 
+ * This interface defines methods for subscribing and unsubscribing listeners to game events.
+ * Used to notify observers (listeners) about changes in game state, such as health, ammo, or score.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
  */

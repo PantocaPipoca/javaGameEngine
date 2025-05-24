@@ -8,17 +8,20 @@ import Game.Observer.GamePublisher;
 
 /**
  * Class that manages the health of an entity, including damage, healing, and alive status.
+ * Provides methods for taking damage, healing, and notifying listeners of health changes.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
  * @inv Health must always be positive and cannot exceed maxHealth.
  */
-public class Health implements GamePublisher{
+public class Health implements GamePublisher {
 
     private final List<GameListener> listeners = new ArrayList<>();
     private int maxHealth;
     private int currentHealth;
     private boolean isAlive;
     private boolean immune = false;
+
+    /////////////////////////////////////////////////// Constructor ///////////////////////////////////////////////////
 
     /**
      * Constructs a Health manager with the specified maximum health.
@@ -34,6 +37,8 @@ public class Health implements GamePublisher{
         this.isAlive = true;
         publishHealthChanged();
     }
+
+    /////////////////////////////////////////////////// Health Methods ///////////////////////////////////////////////////
 
     /**
      * Applies damage to the entity.
@@ -99,25 +104,45 @@ public class Health implements GamePublisher{
         return isAlive;
     }
 
+    /**
+     * Sets the immune state of the entity.
+     * @param immune true to make the entity immune to damage, false otherwise
+     */
     public void setImmune(boolean immune) {
         this.immune = immune;
     }
 
+    /**
+     * Checks if the entity is immune to damage.
+     * @return true if immune, false otherwise
+     */
     public boolean isImmune() {
         return immune;
     }
 
-    /////////////////////////////////////////////////////// Observer Methods ///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Observer Methods ///////////////////////////////////////////////////
+
+    /**
+     * Subscribes a listener to health changes.
+     * @param listener the listener to subscribe
+     */
     @Override
     public void subscribe(GameListener listener) {
         listeners.add(listener);
     }
 
+    /**
+     * Unsubscribes a listener from health changes.
+     * @param listener the listener to unsubscribe
+     */
     @Override
     public void unsubscribe(GameListener listener) {
         listeners.remove(listener);
     }
 
+    /**
+     * Notifies all listeners of a health change.
+     */
     private void publishHealthChanged() {
         int health = getCurrentHealth();
         for (GameListener l : listeners) l.onPlayerHealthChanged(health);

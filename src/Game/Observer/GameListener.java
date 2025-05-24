@@ -3,7 +3,7 @@ package Game.Observer;
 /**
  * Observer interface for game events.
  * This interface defines methods to be implemented by classes that want to listen for game events.
- * 
+ * Provides callbacks for player health, ammo, and score changes.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
  */

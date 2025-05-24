@@ -32,6 +32,8 @@ public class Player extends Entity implements GamePublisher {
     private float score;
     private Point lastMoveDirection = new Point(1, 0);
 
+    /////////////////////////////////////////////////// Constructor ///////////////////////////////////////////////////
+
     /**
      * Constructs a player with the specified health, movement speed, and rolling speed.
      * @param health the health manager

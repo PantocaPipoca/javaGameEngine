@@ -23,7 +23,7 @@ public class PlayerBullet extends Bullet {
 
     /**
      * Handles the collision of the bullet with other game objects.
-     * If the bullet collides with any object that is not itself, it is destroyed.
+     * If the bullet collides with any object that is not itself, the player, or a bomb, it is destroyed.
      * @param gol List of game objects to check for collision
      */
     @Override

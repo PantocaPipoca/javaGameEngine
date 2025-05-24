@@ -76,7 +76,6 @@ public class IdleState extends State {
      */
     @Override
     public void onExit() {
-        // No actions needed on exit from idle state.
     }
 
     /**

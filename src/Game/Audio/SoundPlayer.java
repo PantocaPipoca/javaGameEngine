@@ -4,11 +4,21 @@ import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Utility class for playing sound effects and background music in the game.
+ * Supports playing, looping, and stopping audio clips for effects and music.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
+ */
 public class SoundPlayer {
 
     private static Clip backgroundClip;
     private static Clip stateClip;
 
+    /**
+     * Plays a one-shot sound effect from the specified file.
+     * @param filePath the path to the audio file
+     */
     public static void playSound(String filePath) {
         try {
             File file = new File(filePath);
@@ -25,6 +35,11 @@ public class SoundPlayer {
         }
     }
 
+    /**
+     * Plays background music from the specified file, looping continuously.
+     * Stops any currently playing background music.
+     * @param filePath the path to the music file
+     */
     public static void playBackgroundMusic(String filePath) {
         try {
             if (backgroundClip != null && backgroundClip.isRunning()) {
@@ -47,6 +62,9 @@ public class SoundPlayer {
         }
     }
 
+    /**
+     * Stops and closes the currently playing background music.
+     */
     public static void stopBackgroundMusic() {
         if (backgroundClip != null) {
             backgroundClip.stop();
@@ -54,6 +72,11 @@ public class SoundPlayer {
         }
     }
 
+    /**
+     * Plays a looping state sound (e.g., for game states) from the specified file.
+     * Stops any currently playing state sound.
+     * @param filePath the path to the audio file
+     */
     public static void playStateSound(String filePath) {
         try {
             if (stateClip != null && stateClip.isRunning()) {
@@ -76,6 +99,9 @@ public class SoundPlayer {
         }
     }
 
+    /**
+     * Stops and closes the currently playing state sound.
+     */
     public static void stopStateSound() {
         if (stateClip != null) {
             stateClip.stop();

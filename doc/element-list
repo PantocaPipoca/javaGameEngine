@@ -1,2 +1,14 @@
 Figures
+Game
+Game.Audio
+Game.Entities.Commons
+Game.Entities.Enemies
+Game.Entities.Enemies.EnemyStates
+Game.Entities.Player
+Game.Entities.Player.PlayerStates
+Game.Gun
+Game.Loaders
+Game.Observer
+Game.Obstacles
+Game.UI
 GameEngine

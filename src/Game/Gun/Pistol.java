@@ -4,6 +4,7 @@ import GameEngine.IGameObject;
 
 /**
  * Class that represents a pistol weapon.
+ * Inherits all shooting and reloading logic from Gun.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
  */

@@ -132,34 +132,63 @@ public class Gun extends Weapon implements GamePublisher {
         }
     }
 
-    ///////////////////////////////////////////////////Getters and Setters///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
 
+    /**
+     * Sets the bullet speed.
+     * @param bulletSpeed the new bullet speed
+     */
     public void setBulletSpeed(double bulletSpeed) {
         this.bulletSpeed = bulletSpeed;
     }
 
+    /**
+     * Gets the bullet speed.
+     * @return the bullet speed
+     */
     public double getBulletSpeed() {
         return bulletSpeed;
     }
 
+    /**
+     * Gets the current ammo in the magazine.
+     * @return the current ammo
+     */
     public int getCurrentAmmo() {
         return currentAmmo;
     }
+
+    /**
+     * Gets the reserve ammo.
+     * @return the reserve ammo
+     */
     public int getReserveAmmo() {
         return reserveAmmo;
     }
 
-    ////////////////////////////////////////////////////// Observer Methods ///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Observer Methods ///////////////////////////////////////////////////
+
+    /**
+     * Subscribes a listener to ammo changes.
+     * @param listener the listener to subscribe
+     */
     @Override
     public void subscribe(GameListener listener) {
         listeners.add(listener);
     }
 
+    /**
+     * Unsubscribes a listener from ammo changes.
+     * @param listener the listener to unsubscribe
+     */
     @Override
     public void unsubscribe(GameListener listener) {
         listeners.remove(listener);
     }
 
+    /**
+     * Notifies listeners about ammo changes.
+     */
     private void publishAmmoChanged() {
         for (GameListener l : listeners) {
             l.onAmmoChanged(getCurrentAmmo(), getReserveAmmo());

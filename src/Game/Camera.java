@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Represents the main camera in the game, following a target and providing view offset based on mouse position.
+ * Handles camera movement, singleton access, and target following logic.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
  * @inv The camera must be initialized with a GUI before use.

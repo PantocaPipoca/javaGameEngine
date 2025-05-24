@@ -15,6 +15,8 @@ public abstract class State {
     protected StateMachine stateMachine;
     protected IEntity owner;
 
+    /////////////////////////////////////////////////// Initialization ///////////////////////////////////////////////////
+
     /**
      * Initializes the state with its state machine and owner.
      * @param stateMachine the state machine managing this state
@@ -24,6 +26,8 @@ public abstract class State {
         this.stateMachine = stateMachine;
         this.owner = owner;
     }
+
+    /////////////////////////////////////////////////// State Methods ///////////////////////////////////////////////////
 
     /**
      * Called every frame to update the state.

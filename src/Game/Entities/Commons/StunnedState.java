@@ -15,6 +15,8 @@ public class StunnedState extends State {
     private double stunDuration;
     private double timer = 0.0;
 
+    /////////////////////////////////////////////////// Constructor ///////////////////////////////////////////////////
+
     /**
      * Constructs a StunnedState with the specified stun duration.
      * @param stunDuration duration of the stun in seconds
@@ -22,6 +24,8 @@ public class StunnedState extends State {
     public StunnedState(double stunDuration) {
         this.stunDuration = stunDuration;
     }
+
+    /////////////////////////////////////////////////// State Methods ///////////////////////////////////////////////////
 
     /**
      * Updates the stun timer and resets state when finished.
@@ -52,7 +56,6 @@ public class StunnedState extends State {
      */
     @Override
     public void onExit() {
-        // No special logic needed on exit
     }
 
     /**

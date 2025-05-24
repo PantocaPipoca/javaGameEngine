@@ -6,6 +6,7 @@ import java.util.*;
 
 /**
  * Loads game configuration from a JSON file and builds level configuration objects.
+ * Parses weapon, enemy, player, and level data into structured config models.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (17/05/25)
  */
@@ -15,9 +16,10 @@ public class GameConfigLoader {
 
     /**
      * Loads all levels from the given JSON file path.
+     * Parses weapon blueprints, enemy blueprints, level data, and player configuration.
      * @param path the path to the JSON file
      * @return a list of LevelConfig objects
-     * @throws RuntimeException if the file or JSON is invalid
+     * @throws RuntimeException if the file or JSON is invalid or missing required data
      */
     @SuppressWarnings("unchecked")
     public static List<LevelConfig> load(String path) {

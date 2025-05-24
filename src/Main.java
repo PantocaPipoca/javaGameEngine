@@ -8,7 +8,7 @@ import GameEngine.GameEngine;
 import GameEngine.GUI;
 
 public class Main {
-        public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         GameEngine.getInstance(new GUI());
         List<LevelConfig> levels = GameConfigLoader.load("src/Game/Loaders/Game.json");
         Game game = Game.getInstance(levels);

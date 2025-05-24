@@ -33,7 +33,7 @@ public class Bullet implements IBehaviour {
         this.speed = speed;
     }
 
-    ///////////////////////////////////////////////////IBehaviour Methods///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// IBehaviour Methods ///////////////////////////////////////////////////
 
     /**
      * Updates the bullet's position and destroys it after its lifetime expires.
@@ -53,17 +53,51 @@ public class Bullet implements IBehaviour {
         }
     }
 
-    @Override public void onCollision(List<IGameObject> gol) {}
-    @Override public void onInit() {}
-    @Override public void onEnabled() {}
-    @Override public void onDisabled() {}
-    @Override public void onDestroy() {}
+    /**
+     * Handles collision with other game objects.
+     * @param gol the list of game objects collided with
+     */
+    @Override
+    public void onCollision(List<IGameObject> gol) {}
 
-    ///////////////////////////////////////////////////Getters and Setters///////////////////////////////////////////////////
+    /**
+     * Initializes the bullet.
+     */
+    @Override
+    public void onInit() {}
 
+    /**
+     * Called when the bullet is enabled.
+     */
+    @Override
+    public void onEnabled() {}
+
+    /**
+     * Called when the bullet is disabled.
+     */
+    @Override
+    public void onDisabled() {}
+
+    /**
+     * Called when the bullet is destroyed.
+     */
+    @Override
+    public void onDestroy() {}
+
+    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
+
+    /**
+     * Gets the game object associated with this bullet.
+     * @return the game object
+     */
     public IGameObject gameObject() {
         return go;
     }
+
+    /**
+     * Sets the game object associated with this bullet.
+     * @param go the game object
+     */
     public void gameObject(IGameObject go) {
         this.go = go;
     }

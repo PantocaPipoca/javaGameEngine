@@ -11,8 +11,8 @@ import GameEngine.InputEvent;
 /**
  * Abstract base class for all weapons.
  * Handles rotation, firing logic, and attachment to a game object.
- * @author: Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version: 1.0 (17/05/25)
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (17/05/25)
  */
 public abstract class Weapon implements IBehaviour {
 
@@ -71,27 +71,63 @@ public abstract class Weapon implements IBehaviour {
         return true;
     }
 
-    ///////////////////////////////////////////////////Getters and Setters///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
 
+    /**
+     * Gets the game object associated with this weapon.
+     * @return the game object
+     */
     public IGameObject gameObject() { return go; }
+
+    /**
+     * Sets the game object associated with this weapon.
+     * @param go the game object
+     */
     public void gameObject(IGameObject go) { this.go = (GameObject) go; }
+
+    /**
+     * Gets the name of the weapon.
+     * @return the weapon name
+     */
     public String name() { return name; }
+
+    /**
+     * Gets the fire rate of the weapon.
+     * @return the fire rate
+     */
     public double fireRate() { return fireRate; }
 
-    ///////////////////////////////////////////////////IBehaviour Methods///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// IBehaviour Methods ///////////////////////////////////////////////////
 
+    /**
+     * Initializes the weapon.
+     */
     @Override
     public void onInit() {}
 
+    /**
+     * Called when the weapon is enabled.
+     */
     @Override
     public void onEnabled() {}
 
+    /**
+     * Called when the weapon is disabled.
+     */
     @Override
     public void onDisabled() {}
 
+    /**
+     * Called when the weapon is destroyed.
+     */
     @Override
     public void onDestroy() {}
 
+    /**
+     * Updates the weapon's cooldown and game object each frame.
+     * @param dT delta time since last update
+     * @param ie the current input event
+     */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
         go.update();
@@ -101,6 +137,10 @@ public abstract class Weapon implements IBehaviour {
         }
     }
 
+    /**
+     * Handles collision with other game objects.
+     * @param gol the list of game objects collided with
+     */
     @Override
     public void onCollision(List<IGameObject> gol) {}
 }
