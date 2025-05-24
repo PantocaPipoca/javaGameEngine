@@ -22,5 +22,4 @@ public class Main {
         Game game = Game.getInstance(rooms);
         game.start();
     }
-
 }

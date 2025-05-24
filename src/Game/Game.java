@@ -3,6 +3,7 @@ package Game;
 import java.util.ArrayList;
 import java.util.List;
 
+import Game.Audio.SoundPlayer;
 import Game.Entities.Enemies.Enemy;
 import Game.UI.GameUI;
 import GameEngine.IGameObject;
@@ -27,6 +28,7 @@ public class Game {
     private final GameEngine engine; // The game engine instance
     private int currentRoomIndex; // Index of the current room
     private double currentEnemyCount = 0;
+    private float previousScore;
 
     /**
      * Constructs the Game with a list of rooms.
@@ -40,6 +42,7 @@ public class Game {
         this.rooms = rooms;
         engine = GameEngine.getInstance();
         camera = Camera.getInstance(engine.getGui());
+        previousScore = 0;
     }
 
     ////////////////////// Core Methods //////////////////////
@@ -54,9 +57,12 @@ public class Game {
             System.out.println("You Win");
             return;
         }
-
+        if (currentRoom != null && currentRoom.player() != null) {
+            previousScore = currentRoom.player().getScore();
+        }
         // Clear out any old unnecessary objects
         List<IGameObject> objectsToDestroy = new ArrayList<>(engine.gameObjects());
+
         for (IGameObject go : objectsToDestroy) {
             engine.destroy(go);
         }
@@ -76,6 +82,7 @@ public class Game {
 
         // Load Player
         engine.addEnabled(currentRoom.player().gameObject());
+        currentRoom.player().setScore(previousScore);
 
         // Load Camera
         GameObject cameraObject = new GameObject(
@@ -100,6 +107,7 @@ public class Game {
      */
     public void start() {
         loadRoom(0);
+        SoundPlayer.playBackgroundMusic("songs/music.wav");
         engine.run();
     }
 

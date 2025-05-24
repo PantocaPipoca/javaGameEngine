@@ -37,7 +37,7 @@ public abstract class Bomber extends Enemy {
 
         stateMachine.addState("Patrol", new PatrolState(patrolPoints, player, patrolSpeed, detectionRadius));
         stateMachine.addState("Chase", new ChaseState(player, chaseSpeed, attackRadius, forgetfullRadius));
-        stateMachine.addState("Dead", new EnemyDeadState());
+        stateMachine.addState("Dead", new EnemyDeadState(player));
         stateMachine.addState("Attack", new KamikazeState());
 
         stateMachine.setDefaultState("Patrol");

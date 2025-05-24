@@ -65,7 +65,7 @@ public class RoomFactory {
 
         // Build player
         PlayerConfig pc = lvl.player;
-        Player pl = new Player(new Health(pc.health), pc.speed, pc.roll);
+        Player pl = new Player(new Health(pc.health), pc.speed, pc.rollCooldown, pc.rollSpeedMultiplier, pc.rollDuration);
         Transform t = new Transform(pc.pos, pc.layer, pc.angle, pc.scale);
         GameObject go = new GameObject("player", t, new Circle(pc.pos.x() + " " + pc.pos.y() + " 20"), pl);
         pl.gameObject(go);

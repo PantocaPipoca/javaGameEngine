@@ -34,7 +34,7 @@ public class Gunner extends Enemy {
 
         stateMachine.addState("Patrol", new PatrolState(patrolPoints, player, patrolSpeed, detectionRadius));
         stateMachine.addState("Chase", new ChaseState(player, chaseSpeed, attackRadius, forgetfullRadius));
-        stateMachine.addState("Dead", new EnemyDeadState());
+        stateMachine.addState("Dead", new EnemyDeadState(player));
         stateMachine.addState("Attack", new AttackState(player, outOfRangeRadius));
 
         stateMachine.setDefaultState("Patrol");

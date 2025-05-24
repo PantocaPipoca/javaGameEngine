@@ -1,6 +1,8 @@
 package Game.Entities.Player.PlayerStates;
 
+import Game.Audio.SoundPlayer;
 import Game.Entities.Commons.State;
+import Game.Entities.Player.Player;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 
@@ -34,6 +36,9 @@ public class DeadState extends State {
     @Override
     public void onEnter() {
         super.onEnter();
+        Player player = (Player) owner;
+        player.playAnimation("death");
+        SoundPlayer.playSound("songs/death.wav");
     }
 
     /**

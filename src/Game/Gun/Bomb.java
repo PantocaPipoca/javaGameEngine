@@ -5,6 +5,7 @@ import java.util.List;
 import Game.Game;
 import Game.Audio.SoundPlayer;
 import Game.Entities.Commons.Entity;
+import Game.Entities.Commons.IEntity;
 import GameEngine.GameEngine;
 import GameEngine.IGameObject;
 
@@ -42,8 +43,10 @@ public class Bomb extends Weapon {
         if (this.go != null && !destroyed) {
             destroyed = true;
             GameEngine.getInstance().destroy(this.go);
-            GameEngine.getInstance().destroy(owner);
-            Game.getInstance().currentEnemyCount(Game.getInstance().currentEnemyCount() - 1);
+            IEntity bomber = (IEntity) owner.behaviour();
+            if (bomber != null) {
+                bomber.getStateMachine().setState("Dead");
+            }
         }
     }
 }

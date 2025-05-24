@@ -3,6 +3,7 @@ package Game.Entities.Enemies.EnemyStates;
 import Game.Game;
 import Game.Entities.Commons.State;
 import Game.Entities.Enemies.Enemy;
+import Game.Entities.Player.Player;
 import GameEngine.Animator;
 import GameEngine.GameEngine;
 import GameEngine.IGameObject;
@@ -18,11 +19,14 @@ public class EnemyDeadState extends State {
 
     private float timer = 0f;
     private final float delayBeforeDestroy = 0.5f;
+    private Player player;
 
     /**
      * Constructs an EnemyDeadState.
      */
-    public EnemyDeadState() {}
+    public EnemyDeadState(IGameObject player) {
+        this.player = (Player) player.behaviour();
+    }
 
     /////////////////////////////////////////////////// State Methods ///////////////////////////////////////////////////
 
@@ -55,6 +59,7 @@ public class EnemyDeadState extends State {
         if (timer >= delayBeforeDestroy) {
             
             Game.getInstance().currentEnemyCount(Game.getInstance().currentEnemyCount() - 1);
+            player.onEnemyKilled(owner.gameObject().name());
             GameEngine.getInstance().destroy(owner.gameObject());
         }
     }

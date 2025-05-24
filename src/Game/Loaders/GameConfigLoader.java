@@ -124,7 +124,9 @@ public class GameConfigLoader {
             L.player.scale  = ((Number)p.get("scale")).doubleValue();
             L.player.health = ((Number)p.get("maxHealth")).intValue();
             L.player.speed  = ((Number)p.get("movingSpeed")).doubleValue();
-            L.player.roll   = ((Number)p.get("rollingSpeed")).doubleValue();
+            L.player.rollCooldown   = ((Number)p.get("rollCooldown")).doubleValue();
+            L.player.rollSpeedMultiplier   = ((Number)p.get("rollSpeedMultiplier")).doubleValue();
+            L.player.rollDuration = ((Number)p.get("rollDuration")).doubleValue();
             L.player.playerWeapons = new ArrayList<>();
 
             // Enemy blueprints for this level

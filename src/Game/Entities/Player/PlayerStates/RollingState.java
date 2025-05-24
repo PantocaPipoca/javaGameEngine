@@ -1,6 +1,7 @@
 package Game.Entities.Player.PlayerStates;
 
 import Figures.Point;
+import Game.Audio.SoundPlayer;
 import Game.Entities.Commons.State;
 import Game.Entities.Player.Player;
 import GameEngine.IGameObject;
@@ -14,8 +15,8 @@ import GameEngine.InputEvent;
  */
 public class RollingState extends State {
 
-    private static final double rollDuration = 0.5;
-    private static final double rollSpeedMultiplier = 2.5; // How much faster than normal
+    private double rollDuration;
+    private double rollSpeedMultiplier; // How much faster than normal
     private double rollTime = 0;
     private Point rollDirection = new Point(0, 0);
     private double rollSpeed = 0;
@@ -27,9 +28,11 @@ public class RollingState extends State {
     /**
      * Constructs a RollingState.
      */
-    public RollingState(double currentSpeed) {
+    public RollingState(double currentSpeed, double rollSpeedMultiplier, double rollDuration) {
         super();
         this.currentSpeed = currentSpeed;
+        this.rollSpeedMultiplier = rollSpeedMultiplier;
+        this.rollDuration = rollDuration;
     }
 
     /////////////////////////////////////////////////// State Methods ///////////////////////////////////////////////////
@@ -74,6 +77,8 @@ public class RollingState extends State {
         rollSpeed = currentSpeed * rollSpeedMultiplier;
         player.getHealthManager().setImmune(true);
         wasImmune = true;
+        player.playAnimation("roll");
+        SoundPlayer.playStateSound("songs/roll.wav");
     }
 
     /**

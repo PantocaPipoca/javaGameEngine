@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Figures.Point;
+import Game.Audio.SoundPlayer;
 import Game.Entities.Commons.Entity;
 import Game.Entities.Commons.EntityUtils;
 import Game.Entities.Commons.Health;
@@ -37,13 +38,13 @@ public class Player extends Entity implements GamePublisher {
      * @param movingSpeed the movement speed
      * @param rollingSpeed the rolling speed
      */
-    public Player(Health health, double movingSpeed, double rollingSpeed) {
+    public Player(Health health, double movingSpeed, double rollCooldown, double rollSpeedMultiplier, double rollTime) {
         super(health);
         this.score = 0;
 
         stateMachine.addState("Idle", new IdleState());
-        stateMachine.addState("Moving", new MovingState(movingSpeed));
-        stateMachine.addState("Rolling", new RollingState(movingSpeed));
+        stateMachine.addState("Moving", new MovingState(movingSpeed, rollCooldown));
+        stateMachine.addState("Rolling", new RollingState(movingSpeed, rollSpeedMultiplier, rollTime));
         stateMachine.addState("Stunned", new StunnedState(0.2));
         stateMachine.addState("Dead", new DeadState());
         stateMachine.addState("Knocked", new KnockbackState(0.2));
@@ -104,6 +105,7 @@ public class Player extends Entity implements GamePublisher {
         if ((isEnemy || other.name().equals("enemyBullet")) &&
             !knocked && !stateMachine.getCurrentStateName().equals("Rolling")) {
             EntityUtils.calculateKnockback(this, other, 20, 0.3);
+            SoundPlayer.playSound("songs/hit.wav");
             stateMachine.setState("Knocked");
             knocked = true;
             healthManager.takeDamage(10);
@@ -138,6 +140,21 @@ public class Player extends Entity implements GamePublisher {
         publishScoreChanged();
     }
 
+    public void setScore(float score) {
+        this.score = score;
+        publishScoreChanged();
+    }
+
+    public void onEnemyKilled(String enemyName) {
+        if (enemyName.startsWith("gunner")) {
+            addScore(30);
+        } else if (enemyName.contains("bomber")) {
+            addScore(50);
+        } else if (enemyName.startsWith("striker")) {
+            addScore(10);
+        }
+    }
+
     /**
      * Gets the player's score.
      * @return the score
@@ -160,6 +177,8 @@ public class Player extends Entity implements GamePublisher {
     private void loadAnimations() {
         animator.addAnimation("walk", Shape.loadAnimation("player_walk", 8, (int) go.transform().scale()));
         animator.addAnimation("idle", Shape.loadAnimation("player_idle", 5, (int) go.transform().scale()));
+        animator.addAnimation("roll", Shape.loadAnimation("player_roll", 5, (int) go.transform().scale()));
+        animator.addAnimation("death", Shape.loadAnimation("player_death", 10, (int) go.transform().scale()));
     }
 
     @Override

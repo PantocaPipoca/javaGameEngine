@@ -4,6 +4,7 @@ import Figures.Point;
 import Game.Audio.SoundPlayer;
 import Game.Entities.Commons.State;
 import Game.Entities.Player.Player;
+import Game.Gun.Gun;
 import GameEngine.GameObject;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
@@ -21,7 +22,7 @@ import java.awt.event.KeyEvent;
 public class MovingState extends State {
 
     private double speed;
-    private double rollCooldown = 0.5;
+    private double rollCooldown;
 
     private double rollTime = 0;
 
@@ -29,8 +30,9 @@ public class MovingState extends State {
      * Constructs a MovingState with the specified movement speed.
      * @param speed the movement speed
      */
-    public MovingState(double speed) {
+    public MovingState(double speed, double rollCooldown) {
         this.speed = speed;
+        this.rollCooldown = rollCooldown;
     }
 
     /////////////////////////////////////////////////// State Methods ///////////////////////////////////////////////////
@@ -74,6 +76,12 @@ public class MovingState extends State {
                 owner.getCurrentGun().shoot();
             }
         }
+        if (ie.isKeyPressed(KeyEvent.VK_R)) {
+            Gun gun = (Gun) owner.getCurrentGun();
+            if (gun != null) {
+                gun.reload();
+            }
+        }
 
         for (int i = 1; i <= 9; i++) {
             int keyCode = KeyEvent.VK_1 + (i - 1);
@@ -106,7 +114,7 @@ public class MovingState extends State {
         super.onEnter();
         Player player = (Player) owner;
         player.playAnimation("walk");
-        SoundPlayer.playSound("songs/walk.wav");
+        SoundPlayer.playStateSound("songs/walk.wav");
     }
 
     /**

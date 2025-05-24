@@ -1,5 +1,6 @@
 package Game.Entities.Player.PlayerStates;
 
+import Game.Audio.SoundPlayer;
 import Game.Entities.Commons.State;
 import Game.Entities.Player.Player;
 import Game.Gun.Gun;
@@ -67,6 +68,7 @@ public class IdleState extends State {
         super.onEnter();
         Player player = (Player) owner; 
         player.playAnimation("idle");
+        SoundPlayer.stopStateSound();
     }
 
     /**

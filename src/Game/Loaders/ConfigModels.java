@@ -20,7 +20,8 @@ public class ConfigModels {
         public int layer;
         public double angle, scale;
         public int health;
-        public double speed, roll;
+        public double speed;
+        public double rollCooldown, rollSpeedMultiplier, rollDuration;
         public List<WeaponBlueprint> playerWeapons;
     }
 
