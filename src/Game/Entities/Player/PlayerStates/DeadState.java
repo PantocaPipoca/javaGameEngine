@@ -8,6 +8,7 @@ import Game.Entities.Player.Player;
 import GameEngine.IGameObject;
 import GameEngine.InputEvent;
 import GameEngine.Shape;
+import Game.UI.GameOverUI;
 
 /**
  * Class that represents the dead state for the player.
@@ -58,6 +59,7 @@ public class DeadState extends State {
         Player player = (Player) owner;
         player.playAnimation("death");
         SoundPlayer.playSound("songs/death.wav");
+        GameOverUI.showBlackout();
     }
 
     /**
@@ -65,6 +67,7 @@ public class DeadState extends State {
      */
     @Override
     public void onExit() {
+        
     }
 
     /**
@@ -73,5 +76,6 @@ public class DeadState extends State {
      */
     @Override
     public void onCollision(IGameObject other) {
+
     }
 }

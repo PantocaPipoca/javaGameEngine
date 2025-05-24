@@ -26,7 +26,6 @@ public class KamikazeState extends State {
      */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
-        // No default kamikaze update logic
     }
 
     /**
@@ -40,7 +39,6 @@ public class KamikazeState extends State {
         if (owner.getCurrentGun() != null) {
             owner.getCurrentGun().shoot();
         }
-
     }
 
     /**
@@ -48,7 +46,6 @@ public class KamikazeState extends State {
      */
     @Override
     public void onExit() {
-        // Additional logic for exiting kamikaze state can be added here
     }
 
     /**
@@ -58,6 +55,5 @@ public class KamikazeState extends State {
     @Override
     public void onCollision(IGameObject other) {
         super.onCollision(other);
-        // Additional collision logic for kamikaze state can be added here
     }
 }

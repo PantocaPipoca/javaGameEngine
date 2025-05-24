@@ -8,11 +8,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Used to simplify the management of objects and collisions in the game.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
  * @version 1.0 (12/04/25)
- * @inv layer >= 0 && objects != null
- **/
+ */
 public class LayerGroup {
     private int layer;
     private final CopyOnWriteArrayList<IGameObject> objects = new CopyOnWriteArrayList<>();
+
+    /////////////////////////////////////////////////// Constructors ///////////////////////////////////////////////////
 
     /**
      * Constructor for the LayerGroup.
@@ -21,6 +22,8 @@ public class LayerGroup {
     public LayerGroup(int layer) {
         this.layer = layer;
     }
+
+    /////////////////////////////////////////////////// Logic ///////////////////////////////////////////////////
 
     /**
      * Adds an object to the group.

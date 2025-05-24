@@ -23,6 +23,7 @@ public class EnemyDeadState extends State {
 
     /**
      * Constructs an EnemyDeadState.
+     * @param player the player game object (for score update)
      */
     public EnemyDeadState(IGameObject player) {
         this.player = (Player) player.behaviour();
@@ -32,6 +33,7 @@ public class EnemyDeadState extends State {
 
     /**
      * Called when entering the dead state.
+     * Plays the death animation and destroys the enemy's weapon.
      */
     @Override
     public void onEnter() {
@@ -42,14 +44,14 @@ public class EnemyDeadState extends State {
         animator.frameDuration(0.05f);
         e.playAnimation("death");
 
-        // Remove a arma
+        // Remove the weapon if present
         if (e.getCurrentGun() != null) {
             GameEngine.getInstance().destroy(e.getCurrentGun().gameObject());
         }
     }
 
-   /**
-     * Updates the dead state. No actions are performed while dead.
+    /**
+     * Updates the dead state. Destroys the enemy after a delay and updates the player's score.
      * @param dT delta time since last update
      * @param ie the current input event
      */
@@ -57,7 +59,6 @@ public class EnemyDeadState extends State {
     public void onUpdate(double dT, InputEvent ie) {
         timer += (float) dT;
         if (timer >= delayBeforeDestroy) {
-            
             Game.getInstance().currentEnemyCount(Game.getInstance().currentEnemyCount() - 1);
             player.onEnemyKilled(owner.gameObject().name());
             GameEngine.getInstance().destroy(owner.gameObject());

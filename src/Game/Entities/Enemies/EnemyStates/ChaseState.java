@@ -82,13 +82,13 @@ public class ChaseState extends State {
 
     /**
      * Called when entering the chase state.
+     * Sets up the run animation and frame duration.
      */
     @Override
     public void onEnter() {
         super.onEnter();
         Enemy e = (Enemy) owner;
         Animator animator = e.getAnimator();
-
 
         if(owner.gameObject().name().startsWith("bomber_ghost")) {
             animator.frameDuration(0.25f);
@@ -108,10 +108,12 @@ public class ChaseState extends State {
      * Called when exiting the chase state.
      */
     @Override
-    public void onExit() {}
+    public void onExit() {
+    }
 
     /**
      * Handles collision while chasing.
+     * Deals damage to the player on collision.
      * @param other the other game object collided with
      */
     @Override

@@ -5,6 +5,8 @@ import java.util.List;
 
 import Game.Audio.SoundPlayer;
 import Game.Entities.Enemies.Enemy;
+import Game.Loaders.ConfigModels.LevelConfig;
+import Game.Loaders.RoomFactory;
 import Game.UI.GameUI;
 import GameEngine.IGameObject;
 import GameEngine.GameObject;
@@ -22,7 +24,7 @@ import Figures.Point;
 public class Game {
 
     private static Game instance; // Singleton instance of the game
-    private final List<Room> rooms; // List of all rooms in the game
+    private final List<LevelConfig> levelConfigs;
     private Room currentRoom; // The currently loaded room
     private final Camera camera; // The main camera
     private final GameEngine engine; // The game engine instance
@@ -31,15 +33,15 @@ public class Game {
     private float previousScore;
 
     /**
-     * Constructs the Game with a list of rooms.
-     * @param rooms the list of rooms
-     * @throws IllegalArgumentException if rooms is null or empty
+     * Constructs the Game with a list of level configs.
+     * @param levelConfigs the list of level configs
+     * @throws IllegalArgumentException if levelConfigs is null or empty
      */
-    private Game(List<Room> rooms) {
-        if (rooms == null || rooms.isEmpty()) {
-            throw new IllegalArgumentException("Game: rooms list must not be null or empty");
+    private Game(List<LevelConfig> levelConfigs) {
+        if (levelConfigs == null || levelConfigs.isEmpty()) {
+            throw new IllegalArgumentException("Game: levelConfigs must not be null or empty");
         }
-        this.rooms = rooms;
+        this.levelConfigs = levelConfigs;
         engine = GameEngine.getInstance();
         camera = Camera.getInstance(engine.getGui());
         previousScore = 0;
@@ -53,7 +55,7 @@ public class Game {
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public void loadRoom(int roomIndex) {
-        if (roomIndex < 0 || roomIndex >= rooms.size()) {
+        if (roomIndex < 0 || roomIndex >= levelConfigs.size()) {
             System.out.println("You Win");
             return;
         }
@@ -62,13 +64,14 @@ public class Game {
         }
         // Clear out any old unnecessary objects
         List<IGameObject> objectsToDestroy = new ArrayList<>(engine.gameObjects());
-
         for (IGameObject go : objectsToDestroy) {
             engine.destroy(go);
         }
 
-        // Choose a room to load
-        currentRoom = rooms.get(roomIndex);
+        currentEnemyCount = 0; // Always reset enemy count
+
+        // Build a fresh Room from config
+        currentRoom = RoomFactory.make(levelConfigs.get(roomIndex));
         currentRoomIndex = roomIndex;
 
         if(roomIndex > 0) {
@@ -133,12 +136,12 @@ public class Game {
 
     /**
      * Returns the singleton instance of Game, creating it if necessary.
-     * @param rooms the list of rooms (only used on first call)
+     * @param levelConfigs the list of level configurations to initialize the game
      * @return the singleton Game instance
      */
-    public static Game getInstance(List<Room> rooms) {
+    public static Game getInstance(List<LevelConfig> levelConfigs) {
         if (instance == null) {
-            instance = new Game(rooms);
+            instance = new Game(levelConfigs);
         }
         return instance;
     }

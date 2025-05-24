@@ -7,13 +7,15 @@ import GameEngine.ColliderCircle;
 /**
  * Class that creates and manipulates circles.
  * Provides methods for translation, scaling, and collision creation.
- * @author: Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version: 1.1 (12/04/25)
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.1 (12/04/25)
  * @inv The circle needs to have a radius > 0
  **/
 public class Circle extends GeometricFigure {
     private Point center;
     private double radius;
+
+    /////////////////////////////////////////////////// Constructors ///////////////////////////////////////////////////
 
     /**
      * Constructor for a circle
@@ -42,6 +44,8 @@ public class Circle extends GeometricFigure {
             throw new IllegalArgumentException();
         }
     }
+
+    /////////////////////////////////////////////////// Logic ///////////////////////////////////////////////////
 
     /**
      * Creates a new instance of the circle moved by dx units on the x-axis and dy units on the y-axis
@@ -96,7 +100,7 @@ public class Circle extends GeometricFigure {
         return new Circle(center.x() + " " + center.y() + " " + radius);
     }
 
-    ///////////////////////////////////////////////////Getters and Setters///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Getters ///////////////////////////////////////////////////
 
     /**
      * Calculates the perimeter of the circle
@@ -114,15 +118,26 @@ public class Circle extends GeometricFigure {
         return String.format("%s %.2f", center.toString(), radius);
     }
 
-    // Getters and Setters
+    /**
+     * Gets the center of the circle.
+     * @return the center point
+     */
     public Point center() {
         return center;
     }
 
+    /**
+     * Gets the radius of the circle.
+     * @return the radius
+     */
     public double radius() {
         return radius;
     }
 
+    /**
+     * Gets the centroid of the circle (same as center).
+     * @return the centroid
+     */
     public Point centroid() {
         return center;
     }

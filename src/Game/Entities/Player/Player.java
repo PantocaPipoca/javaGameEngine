@@ -36,7 +36,9 @@ public class Player extends Entity implements GamePublisher {
      * Constructs a player with the specified health, movement speed, and rolling speed.
      * @param health the health manager
      * @param movingSpeed the movement speed
-     * @param rollingSpeed the rolling speed
+     * @param rollCooldown the cooldown between rolls
+     * @param rollSpeedMultiplier the speed multiplier during roll
+     * @param rollTime the duration of the roll
      */
     public Player(Health health, double movingSpeed, double rollCooldown, double rollSpeedMultiplier, double rollTime) {
         super(health);
@@ -54,6 +56,11 @@ public class Player extends Entity implements GamePublisher {
 
     /////////////////////////////////////////////////// IBehaviour Methods ///////////////////////////////////////////////////
 
+    /**
+     * Updates the player each frame.
+     * @param dT delta time since last update
+     * @param ie input event
+     */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
         animator.update((float) dT);
@@ -82,10 +89,12 @@ public class Player extends Entity implements GamePublisher {
             stateMachine.onUpdate(dT, ie);
             go.update();
         }
-
-        //System.out.println(Game.getInstance().currentEnemyCount());
     }
 
+    /**
+     * Handles collision with other game objects.
+     * @param gol list of game objects collided with
+     */
     @Override
     public void onCollision(List<IGameObject> gol) {
         boolean knocked = false;
@@ -118,6 +127,9 @@ public class Player extends Entity implements GamePublisher {
         }
     }
 
+    /**
+     * Initializes the player.
+     */
     @Override
     public void onInit() {
         super.onInit();
@@ -142,11 +154,19 @@ public class Player extends Entity implements GamePublisher {
         publishScoreChanged();
     }
 
+    /**
+     * Sets the player's score.
+     * @param score the score to set
+     */
     public void setScore(float score) {
         this.score = score;
         publishScoreChanged();
     }
 
+    /**
+     * Updates the score based on the enemy killed.
+     * @param enemyName the name of the enemy killed
+     */
     public void onEnemyKilled(String enemyName) {
         if (enemyName.startsWith("gunner")) {
             addScore(30);
@@ -183,6 +203,10 @@ public class Player extends Entity implements GamePublisher {
         animator.addAnimation("death", Shape.loadAnimation("player_death", 10, (int) go.transform().scale()));
     }
 
+    /**
+     * Sets the game object associated with the player.
+     * @param go the game object
+     */
     @Override
     public void gameObject(IGameObject go) {
         this.go = (GameObject) go;
@@ -219,16 +243,27 @@ public class Player extends Entity implements GamePublisher {
 
     /////////////////////////////////////////////////// Observer Methods ///////////////////////////////////////////////////
 
+    /**
+     * Subscribes a listener to player events.
+     * @param listener the listener to subscribe
+     */
     @Override
     public void subscribe(GameListener listener) {
         listeners.add(listener);
     }
 
+    /**
+     * Unsubscribes a listener from player events.
+     * @param listener the listener to unsubscribe
+     */
     @Override
     public void unsubscribe(GameListener listener) {
         listeners.remove(listener);
     }
 
+    /**
+     * Notifies listeners about ammo changes.
+     */
     private void publishAmmoChanged() {
         for (GameListener l : listeners) {
             if (currentGun != null) {
@@ -242,15 +277,25 @@ public class Player extends Entity implements GamePublisher {
         }
     }
 
+    /**
+     * Notifies listeners about score changes.
+     */
     private void publishScoreChanged() {
         for (GameListener l : listeners) l.onScoreChanged(score);
     }
 
-    
+    /**
+     * Sets the last move direction of the player.
+     * @param dir the direction as a Point
+     */
     public void setLastMoveDirection(Point dir) {
         this.lastMoveDirection = dir;
     }
 
+    /**
+     * Gets the last move direction of the player.
+     * @return the last move direction as a Point
+     */
     public Point getLastMoveDirection() {
         return lastMoveDirection;
     }

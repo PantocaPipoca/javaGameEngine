@@ -7,6 +7,8 @@ import java.awt.geom.AffineTransform;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import Game.Camera;
+import Game.Game;
+import Game.UI.GameOverUI;
 import Game.UI.GameUI;
 
 /**
@@ -18,9 +20,11 @@ import Game.UI.GameUI;
  */
 public class GUI extends JFrame {
 
-    private List<IGameObject> gameObjects = new CopyOnWriteArrayList<>(); // Objects to render
-    private InputEvent ie = new InputEvent(); // Current input event
+    private List<IGameObject> gameObjects = new CopyOnWriteArrayList<>();
+    private InputEvent ie = new InputEvent();
     private Camera camera;
+
+    /////////////////////////////////////////////////// Constructors ///////////////////////////////////////////////////
 
     /**
      * Constructs the GUI window, sets up rendering panel and input listeners.
@@ -50,10 +54,29 @@ public class GUI extends JFrame {
 
         // Mouse listeners
         addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                ie.mouseButtonPressed(e.getButton());
+        @Override
+        public void mousePressed(MouseEvent e) {
+            ie.mouseButtonPressed(e.getButton());
+
+            // Get camera and GUI info
+            Camera camera = Camera.getInstance();
+            JFrame gui = GameEngine.getInstance().getGui();
+            int screenCX = gui.getWidth() / 2;
+            int screenCY = gui.getHeight() / 2;
+
+            double camX = camera.position().x();
+            double camY = camera.position().y();
+
+            int worldX = e.getX() - screenCX + (int) camX;
+            int worldY = e.getY() - screenCY + (int) camY;
+
+            if (GameOverUI.getYesBox().contains(worldX, worldY)) {
+                Game.getInstance().loadRoom(0);
+                GameOverUI.reset();
+            } else if (GameOverUI.getNoBox().contains(worldX, worldY)) {
+                System.exit(0);
             }
+        }
 
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -82,7 +105,38 @@ public class GUI extends JFrame {
         setCursor(invisibleCursor);
     }
 
-    ///////////////// Inner Classes /////////////////
+    /////////////////////////////////////////////////// Logic ///////////////////////////////////////////////////
+
+    /**
+     * Updates the list of game objects to be rendered and repaints the canvas.
+     * @param gameObjects list of enabled game objects
+     */
+    public void renderGameObjects(List<IGameObject> gameObjects) {
+        this.gameObjects = new CopyOnWriteArrayList<>(gameObjects);
+        repaint();
+    }
+
+    /////////////////////////////////////////////////// Getters ///////////////////////////////////////////////////
+
+    /**
+     * Gets the current InputEvent instance.
+     * @return the InputEvent
+     */
+    public InputEvent ie() {
+        return ie;
+    }
+
+    /////////////////////////////////////////////////// Setters ///////////////////////////////////////////////////
+
+    /**
+     * Sets the camera used for rendering.
+     * @param camera the Camera instance
+     */
+    public void setCamera(Camera camera) {
+        this.camera = camera;
+    }
+
+    /////////////////////////////////////////////////// Inner Classes ///////////////////////////////////////////////////
 
     /**
      * Inner class for the rendering panel.
@@ -194,34 +248,5 @@ public class GUI extends JFrame {
 
             GameUI.getInstance().render(g2);
         }
-    }
-
-    /**
-     * Updates the list of game objects to be rendered and repaints the canvas.
-     * @param gameObjects list of enabled game objects
-     */
-    public void renderGameObjects(List<IGameObject> gameObjects) {
-        this.gameObjects = new CopyOnWriteArrayList<>(gameObjects);
-        repaint();
-    }
-
-    ///////////////// Getters /////////////////
-
-    /**
-     * Gets the current InputEvent instance.
-     * @return the InputEvent
-     */
-    public InputEvent ie() {
-        return ie;
-    }
-
-    ///////////////// Setters /////////////////
-
-    /**
-     * Sets the camera used for rendering.
-     * @param camera the Camera instance
-     */
-    public void setCamera(Camera camera) {
-        this.camera = camera;
     }
 }

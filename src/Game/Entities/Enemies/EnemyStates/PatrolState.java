@@ -86,6 +86,7 @@ public class PatrolState extends State {
 
     /**
      * Called when entering the patrol state.
+     * Plays the walking animation.
      */
     @Override
     public void onEnter() {
@@ -98,10 +99,12 @@ public class PatrolState extends State {
      * Called when exiting the patrol state.
      */
     @Override
-    public void onExit() {}
+    public void onExit() {
+    }
 
     /**
      * Handles collision while patrolling.
+     * Deals damage to the player on collision.
      * @param other the other game object collided with
      */
     @Override

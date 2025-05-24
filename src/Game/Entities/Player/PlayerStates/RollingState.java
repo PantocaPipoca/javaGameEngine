@@ -27,6 +27,9 @@ public class RollingState extends State {
 
     /**
      * Constructs a RollingState.
+     * @param currentSpeed the current movement speed of the player
+     * @param rollSpeedMultiplier the speed multiplier during roll
+     * @param rollDuration the duration of the roll
      */
     public RollingState(double currentSpeed, double rollSpeedMultiplier, double rollDuration) {
         super();
@@ -39,6 +42,7 @@ public class RollingState extends State {
 
     /**
      * Updates the rolling timer and transitions to Idle when done.
+     * Moves the player in the roll direction at roll speed.
      * @param dT delta time since last update
      * @param ie the current input event
      */
@@ -61,7 +65,7 @@ public class RollingState extends State {
 
     /**
      * Called when entering the rolling state.
-     * Resets the rolling timer.
+     * Resets the rolling timer, sets immunity, and starts the roll animation.
      */
     @Override
     public void onEnter() {
@@ -83,6 +87,7 @@ public class RollingState extends State {
 
     /**
      * Called when exiting the rolling state.
+     * Removes immunity if it was set.
      */
     @Override
     public void onExit() {

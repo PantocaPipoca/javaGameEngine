@@ -46,8 +46,8 @@ public class GameUI implements GameListener {
 
     public void updatePositions(Point cam) {
         healthUI.transform().position(new Point(cam.x() - 830, cam.y() - 490));
-        scoreUI.transform().position(new Point(cam.x() - 830, cam.y() - 460));
-        ammoUI.transform().position(new Point(cam.x() - 830, cam.y() - 430));
+        scoreUI.transform().position(new Point(cam.x() + 730, cam.y() - 490));
+        ammoUI.transform().position(new Point(cam.x() + 730, cam.y() + 400));
     }
 
     public void render(Graphics2D g) {

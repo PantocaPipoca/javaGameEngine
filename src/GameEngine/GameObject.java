@@ -18,6 +18,8 @@ public class GameObject implements IGameObject {
     private Shape shape;
     private boolean flip = false;
 
+    /////////////////////////////////////////////////// Constructors ///////////////////////////////////////////////////
+
     /**
      * Constructor for a game object.
      * @param name name of the object
@@ -47,6 +49,8 @@ public class GameObject implements IGameObject {
         this.shape = ShapeFactory.createShape(name, (int) transform.scale());
     }
 
+    /////////////////////////////////////////////////// Logic ///////////////////////////////////////////////////
+
     /**
      * Updates the game object's collider to follow the transform.
      */
@@ -61,7 +65,7 @@ public class GameObject implements IGameObject {
         collider = originalFigure.colliderInit(transform);
     }
 
-    /////////////////////////////////////////////////// Getters and Setters ///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Getters ///////////////////////////////////////////////////
 
     /**
      * Gets the name of the game object.
@@ -96,14 +100,6 @@ public class GameObject implements IGameObject {
     }
 
     /**
-     * Sets the shape of the game object.
-     * @param shape the shape to set
-     */
-    public void setShape(Shape shape) {
-        this.shape = shape;
-    }
-
-    /**
      * Gets the behaviour of the game object.
      * @return the behaviour
      */
@@ -119,6 +115,16 @@ public class GameObject implements IGameObject {
         return flip;
     }
 
+    /////////////////////////////////////////////////// Setters ///////////////////////////////////////////////////
+
+    /**
+     * Sets the shape of the game object.
+     * @param shape the shape to set
+     */
+    public void setShape(Shape shape) {
+        this.shape = shape;
+    }
+
     /**
      * Sets the flipped state of the object.
      * @param f true to flip, false otherwise
@@ -126,6 +132,8 @@ public class GameObject implements IGameObject {
     public void setFlip(boolean f) {
         flip = f;
     }
+
+    /////////////////////////////////////////////////// Other ///////////////////////////////////////////////////
 
     /**
      * Returns a string representation of the game object.

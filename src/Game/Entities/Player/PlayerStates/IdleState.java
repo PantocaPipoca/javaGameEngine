@@ -75,7 +75,9 @@ public class IdleState extends State {
      * Called when exiting the idle state.
      */
     @Override
-    public void onExit() {}
+    public void onExit() {
+        // No actions needed on exit from idle state.
+    }
 
     /**
      * Handles collision while idle.

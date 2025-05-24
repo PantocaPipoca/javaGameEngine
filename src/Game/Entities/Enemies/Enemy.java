@@ -21,8 +21,9 @@ public abstract class Enemy extends Entity {
     private IGameObject player;
 
     /**
-     * Constructs an enemy with the specified health manager.
+     * Constructs an enemy with the specified health manager and player reference.
      * @param health the health manager
+     * @param player the player game object to target
      */
     public Enemy(Health health, IGameObject player) {
         super(health);
@@ -58,6 +59,10 @@ public abstract class Enemy extends Entity {
         go.update();
     }
 
+    /**
+     * Handles collision with other game objects.
+     * @param gol list of game objects collided with
+     */
     @Override
     public void onCollision(List<IGameObject> gol) {
         boolean knocked = false;
@@ -85,17 +90,28 @@ public abstract class Enemy extends Entity {
         }
     }
 
+    /**
+     * Plays the specified animation for the enemy.
+     * @param name the animation name
+     */
     public void playAnimation(String name) {
         animator.play(name);
     }
 
+    /**
+     * Loads enemy animations.
+     * Implemented by subclasses.
+     */
     protected abstract void loadAnimations();
 
+    /**
+     * Sets the game object associated with the enemy.
+     * @param go the game object
+     */
     @Override
     public void gameObject(IGameObject go) {
         this.go = (GameObject) go;
         this.stateMachine.setOwner(this);
         loadAnimations();
     }
-    
 }

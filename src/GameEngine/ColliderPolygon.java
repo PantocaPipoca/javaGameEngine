@@ -19,6 +19,8 @@ public class ColliderPolygon implements ICollider {
     
     private Polygon polygonCollider;
 
+    /////////////////////////////////////////////////// Constructors ///////////////////////////////////////////////////
+
     /**
      * Constructs a ColliderPolygon with a polygon and a transform.
      * Applies scaling, translation, and rotation to the polygon according to the transform.
@@ -46,6 +48,8 @@ public class ColliderPolygon implements ICollider {
         // We now have a copy of our preset according to the GUI model
         polygonCollider = preset;
     }
+
+    /////////////////////////////////////////////////// Collision Logic ///////////////////////////////////////////////////
 
     /**
      * Checks if a circle collides with a geometric figure by delegating the call to the appropriate method.
@@ -197,6 +201,19 @@ public class ColliderPolygon implements ICollider {
     }
 
     /**
+     * Returns the list of points of the polygon collider.
+     * @return list of points
+     */
+    public List<Point> points() {
+        Point[] array = polygonCollider.points();
+        List<Point> lista = new ArrayList<>();
+        Collections.addAll(lista, array);
+        return lista;
+    }
+
+    ///////////////////////////////////////////////////// Drawing ///////////////////////////////////////////////////
+
+    /**
      * Draws the outline of the polygon collider.
      * @param g the Graphics context
      */
@@ -210,16 +227,5 @@ public class ColliderPolygon implements ICollider {
             ys[i] = (int) pts[i].y();
         }
         g.drawPolygon(xs, ys, pts.length);
-    }
-
-    /**
-     * Returns the list of points of the polygon collider.
-     * @return list of points
-     */
-    public List<Point> points() {
-        Point[] array = polygonCollider.points();
-        List<Point> lista = new ArrayList<>();
-        Collections.addAll(lista, array);
-        return lista;
     }
 }

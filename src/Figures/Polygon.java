@@ -146,7 +146,6 @@ public class Polygon extends GeometricFigure {
      * Scales the polygon by a factor.
      * @param factor scaling factor
      * @return new scaled polygon
-     * @see The assignment PDF :)
      */
     public GeometricFigure scale(double factor) {
         Point centroid = centroid();
@@ -165,7 +164,6 @@ public class Polygon extends GeometricFigure {
      * @param angle rotation angle
      * @param center point around which the polygon will rotate
      * @return new rotated polygon
-     * @see The assignment PDF :)
      */
     public GeometricFigure rotate(double angle, Point center) {
         int n = points.length;

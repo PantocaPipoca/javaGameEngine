@@ -17,7 +17,7 @@ public class Transform implements ITransform {
     private double scale;
 
     /**
-     * Constructor for a transform.
+     * Constructor for a transform, gives the inicial values for it.
      * @param pos position of the object
      * @param layer layer of the object
      * @param angle angle of the object

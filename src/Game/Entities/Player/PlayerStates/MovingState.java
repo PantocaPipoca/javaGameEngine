@@ -23,12 +23,12 @@ public class MovingState extends State {
 
     private double speed;
     private double rollCooldown;
-
     private double rollTime = 0;
 
     /**
-     * Constructs a MovingState with the specified movement speed.
+     * Constructs a MovingState with the specified movement speed and roll cooldown.
      * @param speed the movement speed
+     * @param rollCooldown the cooldown between rolls
      */
     public MovingState(double speed, double rollCooldown) {
         this.speed = speed;
@@ -95,7 +95,7 @@ public class MovingState extends State {
             }
         }
 
-        if(rollTime > 0) {
+        if (rollTime > 0) {
             rollTime -= dT;
         }
 
@@ -121,7 +121,9 @@ public class MovingState extends State {
      * Called when exiting the moving state.
      */
     @Override
-    public void onExit() {}
+    public void onExit() {
+        // No actions needed on exit from moving state.
+    }
 
     /**
      * Handles collision while moving.

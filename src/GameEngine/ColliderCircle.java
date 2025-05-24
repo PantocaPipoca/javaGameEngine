@@ -17,6 +17,8 @@ public class ColliderCircle implements ICollider {
     
     private Circle circleCollider;
 
+    /////////////////////////////////////////////////// Constructors ///////////////////////////////////////////////////
+
     /**
      * Constructor for ColliderCircle.
      * Initializes the collider and centers the figure according to the transform.
@@ -44,6 +46,8 @@ public class ColliderCircle implements ICollider {
         // We now have a copy of our preset according to the GUI model
         circleCollider = preset;
     }
+
+    /////////////////////////////////////////////////// Collision Logic ///////////////////////////////////////////////////
 
     /**
      * Checks if a circle collides with a geometric figure by delegating the call to the appropriate method.
@@ -114,6 +118,8 @@ public class ColliderCircle implements ICollider {
     public Circle figure() {
         return circleCollider;
     }
+
+    /////////////////////////////////////////////////// Drawing ///////////////////////////////////////////////////
 
     /**
      * Draws the outline of the circle collider.

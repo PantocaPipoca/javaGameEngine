@@ -23,6 +23,8 @@ public class GameEngine {
     private final List<IGameObject> disabled    = new CopyOnWriteArrayList<>();
     private final GUI gui;
 
+    /////////////////////////////////////////////////// Constructors ///////////////////////////////////////////////////
+
     /**
      * Constructor for the GameEngine.
      * @param gui GUI to be used
@@ -39,7 +41,6 @@ public class GameEngine {
 
     /**
      * Starts the GameEngine, receives input events and updates all game objects.
-     * @throws IllegalStateException if the GUI is not initialized
      */
     public void run() {
         long lastTime = System.nanoTime();
@@ -114,7 +115,7 @@ public class GameEngine {
     }
 
     /**
-     * Enables an object in the GameEngine.
+     * Enables an object in the GameEngine running onEnabled.
      * @param go object to be enabled
      */
     public void enable(IGameObject go) {
@@ -126,7 +127,7 @@ public class GameEngine {
     }
 
     /**
-     * Disables an object in the GameEngine.
+     * Disables an object in the GameEngine running onDisabled.
      * @param go object to be disabled
      */
     public void disable(IGameObject go) {
@@ -138,7 +139,7 @@ public class GameEngine {
     }
 
     /**
-     * Removes an object from the GameEngine.
+     * Removes an object from the GameEngine and runs onDestroy.
      * @param go object to be removed
      */
     public void destroy(IGameObject go) {
@@ -255,18 +256,36 @@ public class GameEngine {
         return gameObjects;
     }
 
+    /**
+     * Checks if an object is enabled.
+     * @param go object to check
+     * @return true if enabled, false otherwise
+     */
     public boolean isEnabled(IGameObject go) {
         return enabled.contains(go);
     }
 
+    /**
+     * Checks if an object is disabled.
+     * @param go object to check
+     * @return true if disabled, false otherwise
+     */
     public boolean isDisabled(IGameObject go) {
         return disabled.contains(go);
     }
 
+    /**
+     * Returns the list of enabled objects.
+     * @return list of enabled objects
+     */
     public List<IGameObject> enabled() {
         return new ArrayList<>(enabled);
     }
 
+    /**
+     * Returns the list of disabled objects.
+     * @return list of disabled objects
+     */
     public List<IGameObject> disabled() {
         return new ArrayList<>(disabled);
     }

@@ -22,7 +22,8 @@ public class AttackState extends State {
 
     /**
      * Constructs an AttackState.
-     * @param target the target game object (e.g., player)
+     * @param player the target game object (e.g., player)
+     * @param outOfRangeRadius the radius after which the enemy stops attacking and chases
      */
     public AttackState(IGameObject player, double outOfRangeRadius) {
         this.player = player;
@@ -32,7 +33,7 @@ public class AttackState extends State {
     /////////////////////////////////////////////////// State Methods ///////////////////////////////////////////////////
 
     /**
-     * Updates the attack state. (No default logic.)
+     * Updates the attack state, handles shooting and state transitions.
      * @param dT delta time since last update
      * @param ie the current input event
      */
@@ -63,6 +64,7 @@ public class AttackState extends State {
 
     /**
      * Called when entering the attack state.
+     * Sets up shooting cooldown and equips the gun.
      */
     @Override
     public void onEnter() {
@@ -78,7 +80,6 @@ public class AttackState extends State {
      */
     @Override
     public void onExit() {
-        // Additional logic for exiting attack state can be added here
     }
 
     /**
