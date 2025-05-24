@@ -133,6 +133,15 @@ public class Animator {
         return isStopped;
     }
 
+    /**
+     * Gets the list of frames for a given animation.
+     * @param name animation name
+     * @return list of Shape frames, or null if not found
+     */
+    public List<Shape> getAnimationFrames(String name) {
+        return animations.get(name);
+    }
+
     ////////////////////// Setters //////////////////////
 
     /**

@@ -65,7 +65,7 @@ public class Player extends Entity implements GamePublisher {
             go.update();
             lastSafePos = go.transform().position();
             setTargetPos(new Point(ie.mouseWorldPosition().getX(), ie.mouseWorldPosition().getY()));
-            if (currentGun != null) {
+            if (currentGun != null && !stateMachine.getCurrentStateName().equals("Dead")) {
                 currentGun.updateRotation(targetPos);
 
                 // Flip horizontal com base na posição da arma em relação ao corpo
@@ -74,6 +74,7 @@ public class Player extends Entity implements GamePublisher {
                 go.setFlip(gunX < bodyX); // vira para a esquerda se arma estiver à esquerda
             }
             if (!healthManager.isAlive() && !stateMachine.getCurrentStateName().equals("Dead")) {
+                System.out.println(stateMachine.getCurrentStateName());
                 stateMachine.setState("Dead");
                 System.out.println("Game Over!");
                 return;
@@ -87,33 +88,34 @@ public class Player extends Entity implements GamePublisher {
 
     @Override
     public void onCollision(List<IGameObject> gol) {
-    boolean knocked = false;
-    for (IGameObject other : gol) {
-        stateMachine.onCollision(other);
+        boolean knocked = false;
+        for (IGameObject other : gol) {
+            stateMachine.onCollision(other);
 
-        boolean isEnemy = other.name().startsWith("gunner") ||
-                          other.name().startsWith("bomber") ||
-                          other.name().startsWith("striker");
+            boolean isEnemy = other.name().startsWith("gunner") ||
+                            other.name().startsWith("bomber") ||
+                            other.name().startsWith("striker");
 
-        if (isEnemy) {
-            Enemy enemy = (Enemy) other.behaviour();
-            if (enemy.getStateMachine().getCurrentStateName().equals("Dead")) {
-                continue;
+            if (isEnemy) {
+                Enemy enemy = (Enemy) other.behaviour();
+                if (enemy.getStateMachine().getCurrentStateName().equals("Dead")) {
+                    continue;
+                }
+            }
+
+            if ((isEnemy || other.name().equals("enemyBullet")) &&
+                !knocked && !stateMachine.getCurrentStateName().equals("Rolling") &&
+                !stateMachine.getCurrentStateName().equals("Dead")){
+                EntityUtils.calculateKnockback(this, other, 20, 0.3);
+                SoundPlayer.playSound("songs/hit.wav");
+                stateMachine.setState("Knocked");
+                knocked = true;
+                healthManager.takeDamage(10);
+            }
+            if (other.name().equals("wall")) {
+                resolveAgainst(other);
             }
         }
-
-        if ((isEnemy || other.name().equals("enemyBullet")) &&
-            !knocked && !stateMachine.getCurrentStateName().equals("Rolling")) {
-            EntityUtils.calculateKnockback(this, other, 20, 0.3);
-            SoundPlayer.playSound("songs/hit.wav");
-            stateMachine.setState("Knocked");
-            knocked = true;
-            healthManager.takeDamage(10);
-        }
-        if (other.name().equals("wall")) {
-            resolveAgainst(other);
-        }
-    }
     }
 
     @Override

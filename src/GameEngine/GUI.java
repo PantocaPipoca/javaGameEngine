@@ -168,11 +168,11 @@ public class GUI extends JFrame {
                 go.shape().render(g2, go.transform(), go.isFlipped(), go.transform().angle());
 
                 // 4) Debug outline (always on)
-                if (go.collider() instanceof ColliderCircle) {
-                    ((ColliderCircle) go.collider()).drawOutline(g2);
-                } else if (go.collider() instanceof ColliderPolygon) {
-                    ((ColliderPolygon) go.collider()).drawOutline(g2);
-                }
+                //if (go.collider() instanceof ColliderCircle) {
+                //    ((ColliderCircle) go.collider()).drawOutline(g2);
+                //} else if (go.collider() instanceof ColliderPolygon) {
+                //    ((ColliderPolygon) go.collider()).drawOutline(g2);
+                //}
 
                 // 5) Restore
                 g2.setTransform(old);

@@ -2,7 +2,6 @@ package Game.Gun;
 
 import java.util.List;
 
-import Game.Game;
 import Game.Audio.SoundPlayer;
 import Game.Entities.Commons.Entity;
 import Game.Entities.Commons.IEntity;

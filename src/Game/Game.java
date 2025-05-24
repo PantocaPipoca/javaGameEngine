@@ -71,6 +71,25 @@ public class Game {
         currentRoom = rooms.get(roomIndex);
         currentRoomIndex = roomIndex;
 
+        if(roomIndex > 0) {
+            SoundPlayer.stopBackgroundMusic();
+            SoundPlayer.playSound("songs/newlevel.wav");
+        }
+        SoundPlayer.stopBackgroundMusic();
+        String musicPath;
+        switch (roomIndex) {
+            case 0:
+                musicPath = "songs/level1.wav";
+                break;
+            case 1:
+                musicPath = "songs/level2.wav";
+                break;
+            default:
+                musicPath = "songs/default.wav";
+                break;
+        }
+        SoundPlayer.playBackgroundMusic(musicPath);
+
         GameUI ui = GameUI.getInstance();
         ui.initUI(engine, camera.position());
 
@@ -107,7 +126,6 @@ public class Game {
      */
     public void start() {
         loadRoom(0);
-        SoundPlayer.playBackgroundMusic("songs/music.wav");
         engine.run();
     }
 
