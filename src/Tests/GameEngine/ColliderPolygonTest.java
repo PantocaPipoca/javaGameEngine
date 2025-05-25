@@ -11,6 +11,7 @@ import Figures.Point;
 
 public class ColliderPolygonTest {
 
+    // Tests ColliderPolygon.colidesWithPolygon()
     @Test
     public void twoPolygonsThatCollide() {
         Polygon p1 = new Polygon("4 0 0 4 0 4 4 0 4");
@@ -25,6 +26,7 @@ public class ColliderPolygonTest {
         assertTrue(collider1.colides(collider2));
     }
 
+    // Tests ColliderPolygon.colidesWithPolygon()
     @Test
     public void twoPolygonsThatDoNotCollide() {
         Polygon p1 = new Polygon("4 0 0 4 0 4 4 0 4");
@@ -39,6 +41,7 @@ public class ColliderPolygonTest {
         assertFalse(collider1.colides(collider2));
     }
 
+    // Tests ColliderPolygon.colidesWithCircle()
     @Test
     public void polygonCollidesWithCircle() {
         Polygon p = new Polygon("4 0 0 4 0 4 4 0 4");
@@ -53,6 +56,7 @@ public class ColliderPolygonTest {
         assertTrue(colliderPol.colides(colliderCir));
     }
 
+    // Tests ColliderPolygon.colidesWithCircle()
     @Test
     public void polygonDoesNotCollideWithCircle() {
         Polygon p = new Polygon("4 0 0 4 0 4 4 0 4");
@@ -67,6 +71,7 @@ public class ColliderPolygonTest {
         assertFalse(colliderPol.colides(colliderCir));
     }
 
+    // Tests ColliderPolygon.pointIsInsidePolygon()
     @Test
     public void pointInsidePolygon() {
         Polygon p = new Polygon("4 0 0 4 0 4 4 0 4");
@@ -77,6 +82,7 @@ public class ColliderPolygonTest {
         assertFalse(ColliderPolygon.pointIsInsidePolygon(outside, p));
     }
 
+    // Tests ColliderPolygon.centroid()
     @Test
     public void polygonCentroid() {
         Polygon p = new Polygon("4 0 0 4 0 4 4 0 4");
@@ -89,6 +95,7 @@ public class ColliderPolygonTest {
         assertEquals(2.0, centroid.y(), 0.001);
     }
 
+    // Tests ColliderPolygon.rayIntersectsSegment()
     @Test
     public void rayIntersectsSegment() {
         Point p1 = new Point(2, 2);
@@ -108,6 +115,7 @@ public class ColliderPolygonTest {
         assertTrue(ColliderPolygon.rayIntersectsSegment(p4, a4, b4));
     }
 
+    // Tests ColliderPolygon.rayIntersectsSegment()
     @Test
     public void rayDoesNotIntersectSegment() {
         Point p1 = new Point(2, 4);

@@ -11,6 +11,7 @@ import GameEngine.*;
 
 public class ColliderCircleTest {
 
+    // Tests ColliderCircle.colidesWithCircle()
     @Test
     public void twoCirclesThatCollide() {
         Circle c1 = new Circle("0 0 2");
@@ -25,6 +26,7 @@ public class ColliderCircleTest {
         assertTrue(collider1.colides(collider2));
     }
 
+    // Tests ColliderCircle.colidesWithCircle()
     @Test
     public void twoCirclesThatDoNotCollide() {
         Circle c1 = new Circle("0 0 1");    // radius 1
@@ -39,6 +41,7 @@ public class ColliderCircleTest {
         assertFalse(collider1.colides(collider2));
     }
 
+    // Tests ColliderCircle.figure()
     @Test
     public void getFigure() {
         Circle original = new Circle("1 1 1"); // radius 1
@@ -50,6 +53,7 @@ public class ColliderCircleTest {
         assertEquals(2, result.radius(), 0.0001);
     }
 
+    // Tests ColliderCircle.centroid()
     @Test
     public void centroid() {
         Circle c = new Circle("2 2 1");
@@ -62,6 +66,7 @@ public class ColliderCircleTest {
         assertEquals(5.0, center.y(), 0.001);
     }
 
+    // Tests ColliderCircle.colidesWithPolygon()
     @Test
     public void collidesWithPolygon() {
         Circle c = new Circle("4 4 1");
@@ -75,6 +80,7 @@ public class ColliderCircleTest {
         assertTrue(collider.colides(colliderPol));
     }
 
+    // Tests ColliderCircle.colidesWithPolygon()
     @Test
     public void doesNotCollideWithPolygon() {
         Circle c = new Circle("4 4 1");

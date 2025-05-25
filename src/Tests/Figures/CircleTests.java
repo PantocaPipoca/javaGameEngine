@@ -8,27 +8,28 @@ import Figures.Point;
 
 public class CircleTests {
 
+    // Tests Circle constructor and valid fields
     @Test
     public void validCircleTests() {
-        // Tests valid constructor
         assertDoesNotThrow(() -> {
             Circle c = new Circle("5 5 2.0");
             assertEquals(5, c.center().x());
             assertEquals(5, c.center().y());
             assertEquals(2.0, c.radius());
-            assertEquals("(5.00,5.00) 2.00", c.toString());
+            assertEquals("(5,00,5,00) 2,00", c.toString().replace('.', ','));
             assertEquals(2 * Math.PI * 2.0, c.perimeter(), 1e-9);
         });
     }
 
+    // Tests Circle constructor with invalid radius
     @Test
     public void invalidCircleTests() {
-        // Tests error for negative radius
         assertThrows(IllegalArgumentException.class, () -> {
             new Circle("5 5 -1.0");
         });
     }
 
+    // Tests Circle.translate()
     @Test
     public void testTranslateValid() {
         Circle c = new Circle("5 5 2.0");
@@ -36,20 +37,19 @@ public class CircleTests {
         assertEquals(8, translated.center().x());
         assertEquals(9, translated.center().y());
         assertEquals(2.0, translated.radius(), 1e-9);
-        assertEquals("(8.00,9.00) 2.00", translated.toString());
+        assertEquals("(8,00,9,00) 2,00", translated.toString().replace('.', ','));
     }
 
+    // Tests Circle.clone()
     @Test
     public void testClone() {
         Circle c = new Circle("5 5 2.0");
-        
-        // Tests if the clone does not throw exceptions
         assertDoesNotThrow(() -> {
             Circle clone = c.clone();
             assertEquals(c.center().x(), clone.center().x());
             assertEquals(c.center().y(), clone.center().y());
             assertEquals(c.radius(), clone.radius());
-            assertNotSame(c, clone); // Verifies that it is not the same object
+            assertNotSame(c, clone);
         });
 
         // Tests if the clone is independent of the original
@@ -58,11 +58,12 @@ public class CircleTests {
         assertNotEquals(clone.radius(), scaled.radius());
     }
 
+    // Tests Circle.scale()
     @Test
     public void testScale() {
         Circle c = new Circle("5 5 2.0");
 
-        // Tests valid scaling
+        // Valid scaling
         assertDoesNotThrow(() -> {
             Circle scaled = c.scale(2.0);
             assertEquals(4.0, scaled.radius());
@@ -70,22 +71,23 @@ public class CircleTests {
             assertEquals(c.center().y(), scaled.center().y());
         });
 
-        // Tests scaling with factor 1 (should be equal to the original)
+        // Scaling with factor 1 (should be equal to the original)
         Circle scaled = c.scale(1.0);
         assertEquals(c.radius(), scaled.radius());
 
-        // Tests scaling with a negative factor (invalid radius)
+        // Scaling with a negative factor (invalid radius)
         assertThrows(IllegalArgumentException.class, () -> {
             c.scale(-1.0);
         });
     }
 
+    // Tests Circle.rotate()
     @Test
     public void testRotate() {
         Circle c = new Circle("5 5 2.0");
         Point rotationCenter = new Point(0, 0);
 
-        // Tests valid rotation (does nothing but should not throw exceptions)
+        // Valid rotation (should not throw and should be equal to original)
         assertDoesNotThrow(() -> {
             Circle rotated = c.rotate(90, rotationCenter);
             assertEquals(c.center().x(), rotated.center().x());
@@ -93,13 +95,13 @@ public class CircleTests {
             assertEquals(c.radius(), rotated.radius());
         });
 
-        // Tests rotation with angle 0 (should be equal to the original)
+        // Rotation with angle 0 (should be equal to the original)
         Circle rotated = c.rotate(0, rotationCenter);
         assertEquals(c.center().x(), rotated.center().x());
         assertEquals(c.center().y(), rotated.center().y());
         assertEquals(c.radius(), rotated.radius());
 
-        // Tests rotation with a negative angle (should not throw exceptions)
+        // Rotation with a negative angle (should not throw)
         assertDoesNotThrow(() -> {
             Circle rotatedNegative = c.rotate(-45, rotationCenter);
             assertEquals(c.center().x(), rotatedNegative.center().x());
@@ -107,7 +109,7 @@ public class CircleTests {
             assertEquals(c.radius(), rotatedNegative.radius());
         });
 
-        // Tests rotation with a different rotation point (should not throw exceptions)
+        // Rotation with a different rotation point (should not throw)
         Point anotherCenter = new Point(10, 10);
         assertDoesNotThrow(() -> {
             Circle rotatedAnotherCenter = c.rotate(45, anotherCenter);

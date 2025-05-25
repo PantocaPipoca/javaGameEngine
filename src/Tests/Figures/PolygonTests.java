@@ -9,20 +9,22 @@ import Figures.Point;
 
 public class PolygonTests {
 
+    // Tests Polygon constructor and toString()
     @Test
     public void testValidPolygon() {
         assertDoesNotThrow(() -> {
             // Square
             Polygon p = new Polygon("4 5 5 8 6 8 7 5 7");
-            assertEquals("(5.00,5.00) (8.00,6.00) (8.00,7.00) (5.00,7.00)", p.toString());
+            assertEquals("(5,00,5,00) (8,00,6,00) (8,00,7,00) (5,00,7,00)", p.toString().replace('.', ','));
         });
         assertDoesNotThrow(() -> {
             // Triangle
             Polygon p = new Polygon("3 1 1 3 1 2 4");
-            assertEquals("(1.00,1.00) (3.00,1.00) (2.00,4.00)", p.toString());
+            assertEquals("(1,00,1,00) (3,00,1,00) (2,00,4,00)", p.toString().replace('.', ','));
         });
     }
 
+    // Tests Polygon constructor invalid cases
     @Test
     public void testInvalidPolygon() {
         // Too few vertices
@@ -46,19 +48,21 @@ public class PolygonTests {
         });
     }
 
+    // Tests Polygon.translate()
     @Test
     public void testTranslate() {
         Polygon p = new Polygon("6 5 5 8 6 8 7 5 7 11 12 1 5");
         Polygon res = p.translate(1, 3);
-        assertEquals("(6.00,8.00) (9.00,9.00) (9.00,10.00) (6.00,10.00) (12.00,15.00) (2.00,8.00)", res.toString());
-        assertEquals("(5.00,5.00) (8.00,6.00) (8.00,7.00) (5.00,7.00) (11.00,12.00) (1.00,5.00)", p.toString()); // p should not be modified
+        assertEquals("(6,00,8,00) (9,00,9,00) (9,00,10,00) (6,00,10,00) (12,00,15,00) (2,00,8,00)", res.toString().replace('.', ','));
+        assertEquals("(5,00,5,00) (8,00,6,00) (8,00,7,00) (5,00,7,00) (11,00,12,00) (1,00,5,00)", p.toString().replace('.', ',')); // p should not be modified
 
         p = new Polygon("6 5 5 8 6 8 7 5 7 11 12 1 5");
         res = p.translate(0, 0);
-        assertEquals("(5.00,5.00) (8.00,6.00) (8.00,7.00) (5.00,7.00) (11.00,12.00) (1.00,5.00)", res.toString());
-        assertEquals("(5.00,5.00) (8.00,6.00) (8.00,7.00) (5.00,7.00) (11.00,12.00) (1.00,5.00)", p.toString()); // p should not be modified
+        assertEquals("(5,00,5,00) (8,00,6,00) (8,00,7,00) (5,00,7,00) (11,00,12,00) (1,00,5,00)", res.toString().replace('.', ','));
+        assertEquals("(5,00,5,00) (8,00,6,00) (8,00,7,00) (5,00,7,00) (11,00,12,00) (1,00,5,00)", p.toString().replace('.', ',')); // p should not be modified
     }
 
+    // Tests Polygon.centroid()
     @Test
     public void testCentroid() {
         // Square
@@ -80,59 +84,62 @@ public class PolygonTests {
         assertEquals(2.0, c3.y(), 1e-9);
     }
 
+    // Tests Polygon.clone()
     @Test
     public void testClone() {
         // Square
         Polygon original = new Polygon("4 0 0 4 0 4 4 0 4");
         GeometricFigure cloneFigura = original.clone();
         assertNotSame(original, cloneFigura);
-        assertEquals(original.toString(), cloneFigura.toString());
+        assertEquals(original.toString().replace('.', ','), cloneFigura.toString().replace('.', ','));
 
         // Triangle
         Polygon tri = new Polygon("3 0 0 3 0 2 5");
         Polygon triClone = (Polygon) tri.clone();
         assertNotSame(tri, triClone);
-        assertEquals(tri.toString(), triClone.toString());
+        assertEquals(tri.toString().replace('.', ','), triClone.toString().replace('.', ','));
 
         // Pentagon
         Polygon penta = new Polygon("5 0 0 4 0 6 2 4 4 2 4");
         Polygon pentaClone = (Polygon) penta.clone();
-        assertEquals("(0.00,0.00) (4.00,0.00) (6.00,2.00) (4.00,4.00) (2.00,4.00)", penta.toString());
-        assertEquals(penta.toString(), pentaClone.toString());
+        assertEquals("(0,00,0,00) (4,00,0,00) (6,00,2,00) (4,00,4,00) (2,00,4,00)", penta.toString().replace('.', ','));
+        assertEquals(penta.toString().replace('.', ','), pentaClone.toString().replace('.', ','));
 
         // Verify that changes to the original do not affect the clone
         Polygon altered = penta.translate(1, 1);
-        assertNotEquals(altered.toString(), pentaClone.toString());
+        assertNotEquals(altered.toString().replace('.', ','), pentaClone.toString().replace('.', ','));
 
         // Creating another clone
         Polygon anotherClone = (Polygon) penta.clone();
-        assertEquals(pentaClone.toString(), anotherClone.toString());
+        assertEquals(pentaClone.toString().replace('.', ','), anotherClone.toString().replace('.', ','));
         assertNotSame(pentaClone, anotherClone);
     }
 
+    // Tests Polygon.scale()
     @Test
     public void testScale() {
         // Scaling by factor 2
         Polygon square = new Polygon("4 0 0 4 0 4 4 0 4");
         Polygon scaledSquare = (Polygon) square.scale(2.0);
-        assertEquals("(-2.00,-2.00) (6.00,-2.00) (6.00,6.00) (-2.00,6.00)", scaledSquare.toString());
+        assertEquals("(-2,00,-2,00) (6,00,-2,00) (6,00,6,00) (-2,00,6,00)", scaledSquare.toString().replace('.', ','));
 
         // Verify that the original was not modified
-        assertEquals("(0.00,0.00) (4.00,0.00) (4.00,4.00) (0.00,4.00)", square.toString());
+        assertEquals("(0,00,0,00) (4,00,0,00) (4,00,4,00) (0,00,4,00)", square.toString().replace('.', ','));
 
         // Centroid scaled by 0.5
         Polygon triangle = new Polygon("3 0 0 6 0 3 6");
         Polygon scaledTriangle = (Polygon) triangle.scale(0.5);
-        assertEquals("(1.50,1.00) (4.50,1.00) (3.00,4.00)", scaledTriangle.toString());
+        assertEquals("(1,50,1,00) (4,50,1,00) (3,00,4,00)", scaledTriangle.toString().replace('.', ','));
 
         // Scale with factor 1 (no changes)
         Polygon sameSize = (Polygon) square.scale(1.0);
-        assertEquals(square.toString(), sameSize.toString());
+        assertEquals(square.toString().replace('.', ','), sameSize.toString().replace('.', ','));
 
         // Null or negative factor
         assertThrows(IllegalArgumentException.class, () -> square.scale(0));
     }
 
+    // Tests Polygon.rotate()
     @Test
     public void testRotate() {
         Polygon square = new Polygon("4 0 0 4 0 4 4 0 4");
@@ -140,25 +147,25 @@ public class PolygonTests {
 
         // Rotation of 90 degrees around the center (2,2)
         Polygon rotatedSquare90 = (Polygon) square.rotate(90, center);
-        assertEquals("(4.00,0.00) (4.00,4.00) (0.00,4.00) (0.00,0.00)", rotatedSquare90.toString());
+        assertEquals("(4,00,0,00) (4,00,4,00) (0,00,4,00) (0,00,0,00)", rotatedSquare90.toString().replace('.', ','));
         // Verify that the original was not modified
-        assertEquals("(0.00,0.00) (4.00,0.00) (4.00,4.00) (0.00,4.00)", square.toString());
+        assertEquals("(0,00,0,00) (4,00,0,00) (4,00,4,00) (0,00,4,00)", square.toString().replace('.', ','));
 
         // Rotation of 0 degrees (no changes)
         Polygon notRotated = (Polygon) square.rotate(0, center);
-        assertEquals(square.toString(), notRotated.toString());
+        assertEquals(square.toString().replace('.', ','), notRotated.toString().replace('.', ','));
 
         // Rotation of 180 degrees around the same center
         Polygon rotatedSquare180 = (Polygon) square.rotate(180, center);
-        assertEquals("(4.00,4.00) (0.00,4.00) (-0.00,0.00) (4.00,-0.00)", rotatedSquare180.toString());
+        assertEquals("(4,00,4,00) (0,00,4,00) (-0,00,0,00) (4,00,-0,00)", rotatedSquare180.toString().replace('.', ','));
 
         // Rotation of -90 degrees
         Polygon rotatedSquareNeg90 = (Polygon) square.rotate(-90, center);
-        assertEquals("(0.00,4.00) (0.00,0.00) (4.00,0.00) (4.00,4.00)", rotatedSquareNeg90.toString());
+        assertEquals("(0,00,4,00) (0,00,0,00) (4,00,0,00) (4,00,4,00)", rotatedSquareNeg90.toString().replace('.', ','));
 
         // Rotation around the origin (0,0)
         Polygon tri = new Polygon("3 1 1 3 1 2 5");
         Polygon rotatedTri = (Polygon) tri.rotate(90, new Point(0, 0));
-        assertNotEquals(tri.toString(), rotatedTri.toString()); // Just verifies that it changed
+        assertNotEquals(tri.toString().replace('.', ','), rotatedTri.toString().replace('.', ',')); // Just verifies that it changed
     }
 }
