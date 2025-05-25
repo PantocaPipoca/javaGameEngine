@@ -119,11 +119,6 @@ public class Game {
         ui.reset();
         ui.initUI(engine, camera.position());
 
-        // Load Figures
-        for (IGameObject figure : currentRoom.figures()) {
-            engine.addEnabled(figure);
-        }
-
         // Load Enemies
         for (Enemy enemy : currentRoom.enemies()) {
             engine.addEnabled(enemy.gameObject());
@@ -145,6 +140,11 @@ public class Game {
         camera.target(currentRoom.player().gameObject().transform());
         engine.addEnabled(cameraObject);
         engine.getGui().setCamera(camera);
+
+        // Load Figures
+        for (IGameObject figure : currentRoom.figures()) {
+            engine.addEnabled(figure);
+        }
 
         restarted = false; // Reset restart flag
     }
