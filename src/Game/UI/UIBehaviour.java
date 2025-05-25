@@ -6,10 +6,25 @@ import GameEngine.*;
 import Figures.Point;
 import java.util.List;
 
+/**
+ * Behaviour class for UI elements.
+ * Responsible for updating UI positions relative to the camera, handling UI-specific logic,
+ * and processing UI button clicks.
+ * Implements the IBehaviour interface for integration with the game engine.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (25/05/25)
+ * @inv Owner must be a valid UI GameObject.
+ */
 public class UIBehaviour implements IBehaviour {
     private IGameObject owner;
     private double timer = 0;
 
+    /**
+     * Updates the UI element each frame.
+     * Adjusts UI position based on camera and handles special UI logic.
+     * @param dT delta time since last update
+     * @param ie input event
+     */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
         if (owner == null) return;
@@ -53,6 +68,12 @@ public class UIBehaviour implements IBehaviour {
         }
     }
 
+    /**
+     * Handles UI button click events.
+     * Processes clicks for "Yes" and "No" buttons on the Game Over UI.
+     * @param x the x coordinate of the click
+     * @param y the y coordinate of the click
+     */
     public void onUIClick(int x, int y) {
         String name = owner.name();
         Point cam = Camera.getInstance(null).position();
@@ -74,11 +95,41 @@ public class UIBehaviour implements IBehaviour {
         }
     }
 
+    /**
+     * Called when the UI element is initialized.
+     */
     @Override public void onInit() {}
+
+    /**
+     * Called when the UI element is enabled.
+     */
     @Override public void onEnabled() {}
+
+    /**
+     * Called when the UI element is disabled.
+     */
     @Override public void onDisabled() {}
+
+    /**
+     * Called when the UI element is destroyed.
+     */
     @Override public void onDestroy() {}
+
+    /**
+     * Handles collision events for the UI element (not used for UI).
+     * @param gol list of game objects collided with
+     */
     @Override public void onCollision(List<IGameObject> gol) {}
+
+    /**
+     * Gets the owner game object of this behaviour.
+     * @return the owner game object
+     */
     @Override public IGameObject gameObject() { return owner; }
+
+    /**
+     * Sets the owner game object of this behaviour.
+     * @param go the owner game object
+     */
     @Override public void gameObject(IGameObject go) { this.owner = go; }
 }

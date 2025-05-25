@@ -10,10 +10,21 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Class that manages the Victory UI.
+ * Responsible for displaying the victory screen and handling its timed removal and level reload.
+ * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
+ * @version 1.0 (25/05/25)
+ * @inv Only one victory screen is active at a time.
+ */
 public class VictoryUI {
     private boolean active = false;
     private GameObject victorySprite;
 
+    /**
+     * Shows the victory UI, creating and enabling the victory sprite.
+     * After 10 seconds, removes the sprite and reloads the first level.
+     */
     public void showVictory() {
         if (active) return;
         active = true;
@@ -29,10 +40,8 @@ public class VictoryUI {
         Timer timer = new Timer(10000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Remove the victory sprite if still present
                 GameEngine.getInstance().destroy(victorySprite);
                 active = false;
-                // Reload level 0
                 Game.getInstance().loadRoom(0);
             }
         });

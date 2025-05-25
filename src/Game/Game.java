@@ -117,7 +117,7 @@ public class Game {
         for (IGameObject figure : currentRoom.figures()) {
             engine.addEnabled(figure);
         }
-        
+
         // Load Enemies
         for (Enemy enemy : currentRoom.enemies()) {
             engine.addEnabled(enemy.gameObject());
@@ -149,7 +149,7 @@ public class Game {
     public void start() {
         MainMenuUI mainMenuUI = new MainMenuUI();
         mainMenuUI.showMenu();
-        loadRoom(2);
+        loadRoom(0);
         engine.run();
     }
 
