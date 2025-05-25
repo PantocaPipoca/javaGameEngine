@@ -7,9 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import Game.Camera;
-import Game.Game;
-import Game.UI.GameOverUI;
-import Game.UI.GameUI;
+import Game.UI.MainMenuUI;
 
 /**
  * Class that represents the main GUI window for the game engine.
@@ -58,23 +56,16 @@ public class GUI extends JFrame {
         public void mousePressed(MouseEvent e) {
             ie.mouseButtonPressed(e.getButton());
 
-            // Get camera and GUI info
-            Camera camera = Camera.getInstance();
-            JFrame gui = GameEngine.getInstance().getGui();
-            int screenCX = gui.getWidth() / 2;
-            int screenCY = gui.getHeight() / 2;
+            int x = e.getX();
+            int y = e.getY();
 
-            double camX = camera.position().x();
-            double camY = camera.position().y();
-
-            int worldX = e.getX() - screenCX + (int) camX;
-            int worldY = e.getY() - screenCY + (int) camY;
-
-            if (GameOverUI.getYesBox().contains(worldX, worldY)) {
-                Game.getInstance().loadRoom(0);
-                GameOverUI.reset();
-            } else if (GameOverUI.getNoBox().contains(worldX, worldY)) {
-                System.exit(0);
+            MainMenuUI mainMenu = MainMenuUI.getInstance();
+            if (mainMenu != null && mainMenu.isVisible()) {
+                if (mainMenu.isInPlay(x, y)) {
+                    mainMenu.hideMenu();
+                } else if (mainMenu.isInQuit(x, y)) {
+                    System.exit(0);
+                }
             }
         }
 
@@ -246,7 +237,11 @@ public class GUI extends JFrame {
                 }
             }
 
-            GameUI.getInstance().render(g2);
+            MainMenuUI mainMenu = MainMenuUI.getInstance();
+            if (mainMenu != null && mainMenu.isVisible()) {
+                mainMenu.render(g);
+                return;
+            }
         }
     }
 }

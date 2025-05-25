@@ -1,74 +1,62 @@
 package Game.UI;
 
-import GameEngine.IBehaviour;
-import GameEngine.IGameObject;
-import GameEngine.InputEvent;
-
+import Game.Camera;
+import GameEngine.*;
+import Figures.Point;
 import java.util.List;
 
-/**
- * Passive behaviour used for UI GameObjects.
- * Does not react to collisions or require per-frame logic.
- * Implements all IBehaviour methods as no-ops.
- * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version 1.0 (17/05/25)
- */
 public class UIBehaviour implements IBehaviour {
-
     private IGameObject owner;
+    private double timer = 0;
 
-    /**
-     * Updates the UI object each frame (no-op).
-     * @param dT delta time since last update
-     * @param ie input event
-     */
     @Override
-    public void onUpdate(double dT, InputEvent ie) {}
+    public void onUpdate(double dT, InputEvent ie) {
+        if (owner == null) return;
 
-    /**
-     * Initializes the UI object (no-op).
-     */
-    @Override
-    public void onInit() {}
+        String name = owner.name();
 
-    /**
-     * Called when the UI object is enabled (no-op).
-     */
-    @Override
-    public void onEnabled() {}
+        // HUD UI
+        if (name.equals("ui_health") || name.equals("ui_score") || name.equals("ui_ammo")) {
+            Point cam = Camera.getInstance(null).position();
+            if (name.equals("ui_health"))
+                owner.transform().position(new Point(cam.x() - 830, cam.y() - 490));
+            if (name.equals("ui_score"))
+                owner.transform().position(new Point(cam.x() + 730, cam.y() - 490));
+            if (name.equals("ui_ammo"))
+                owner.transform().position(new Point(cam.x() + 730, cam.y() + 400));
+        }
 
-    /**
-     * Called when the UI object is disabled (no-op).
-     */
-    @Override
-    public void onDisabled() {}
+        // GameOver UI
+        if (name.equals("ui_gameover_sprite") || name.equals("ui_blackout") ||
+            name.equals("ui_yes_button") || name.equals("ui_no_button")) {
+            Point cam = Camera.getInstance(null).position();
+            if (name.equals("ui_gameover_sprite") || name.equals("ui_blackout")) {
+                owner.transform().position(cam);
+            }
+            if (name.equals("ui_yes_button")) {
+                owner.transform().position(new Point(cam.x() - 185, cam.y() + 185));
+            }
+            if (name.equals("ui_no_button")) {
+                owner.transform().position(new Point(cam.x() + 75, cam.y() + 185));
+            }
+        }
 
-    /**
-     * Called when the UI object is destroyed (no-op).
-     */
-    @Override
-    public void onDestroy() {}
-
-    /**
-     * Handles collision with other game objects (no-op).
-     * @param gol the list of game objects collided with
-     */
-    @Override
-    public void onCollision(List<IGameObject> gol) {}
-
-    /**
-     * Gets the game object associated with this UI behaviour.
-     * @return the game object
-     */
-    public IGameObject gameObject() {
-        return owner;
+        // Victory UI
+        if (name.equals("ui_victory")) {
+            timer += dT;
+            if (timer >= 10.0) {
+                GameEngine.getInstance().destroy(owner);
+                // Optionally: return to main menu, etc.
+            }
+            owner.transform().position(Camera.getInstance(null).position());
+        }
     }
 
-    /**
-     * Sets the game object associated with this UI behaviour.
-     * @param go the game object
-     */
-    public void gameObject(IGameObject go) {
-        this.owner = go;
-    }
+    @Override public void onInit() {}
+    @Override public void onEnabled() {}
+    @Override public void onDisabled() {}
+    @Override public void onDestroy() {}
+    @Override public void onCollision(List<IGameObject> gol) {}
+    @Override public IGameObject gameObject() { return owner; }
+    @Override public void gameObject(IGameObject go) { this.owner = go; }
 }

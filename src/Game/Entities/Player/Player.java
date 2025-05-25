@@ -17,6 +17,7 @@ import Game.Gun.Gun;
 import Game.Observer.GameListener;
 import Game.Observer.GamePublisher;
 import Game.UI.GameUI;
+import Game.UI.MainMenuUI;
 import GameEngine.*;
 
 /**
@@ -65,6 +66,9 @@ public class Player extends Entity implements GamePublisher {
      */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
+        if (MainMenuUI.getInstance().isVisible()) {
+            return; // Don't update player if main menu is visible
+        }
         animator.update((float) dT);
         if (ie.isKeyPressed(KeyEvent.VK_F)) {
             System.out.println(go.transform().position());

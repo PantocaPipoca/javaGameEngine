@@ -8,6 +8,7 @@ import Game.Entities.Enemies.Enemy;
 import Game.Loaders.ConfigModels.LevelConfig;
 import Game.Loaders.RoomFactory;
 import Game.UI.GameUI;
+import Game.UI.MainMenuUI;
 import GameEngine.IGameObject;
 import GameEngine.GameObject;
 import GameEngine.GameEngine;
@@ -128,6 +129,8 @@ public class Game {
      * Starts the game loop, loading the first room.
      */
     public void start() {
+        MainMenuUI mainMenuUI = new MainMenuUI();
+        mainMenuUI.showMenu();
         loadRoom(0);
         engine.run();
     }

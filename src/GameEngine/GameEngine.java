@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import Game.Camera;
-import Game.UI.GameUI;
-
 /**
  * Class that represents the GameEngine.
  * Responsible for managing game objects, layers, collisions, and the main game loop.
@@ -67,8 +64,6 @@ public class GameEngine {
                     updateObjectLayer(go, oldLayer, newLayer);
                 }
             }
-
-            GameUI.getInstance().updatePositions(Camera.getInstance().position());
 
             // Render the game objects
             gui.renderGameObjects(enabled);
