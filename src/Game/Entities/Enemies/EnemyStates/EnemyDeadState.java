@@ -1,6 +1,7 @@
 package Game.Entities.Enemies.EnemyStates;
 
 import Game.Game;
+import Game.Audio.SoundPlayer;
 import Game.Entities.Commons.State;
 import Game.Entities.Enemies.Enemy;
 import Game.Entities.Player.Player;
@@ -43,6 +44,7 @@ public class EnemyDeadState extends State {
         Animator animator = e.getAnimator();
         animator.frameDuration(0.05f);
         e.playAnimation("death");
+        SoundPlayer.playSound("songs/enemyNoise.wav");
 
         // Remove the weapon if present
         if (e.getCurrentGun() != null) {

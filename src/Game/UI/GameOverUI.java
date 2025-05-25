@@ -64,14 +64,14 @@ public class GameOverUI {
     }
 
     public boolean isInYes(int x, int y) {
-        Point center = Camera.getInstance(null).position();
+        Point center = Camera.getInstance().position();
         int bx = (int) (center.x() - 160);
         int by = (int) (center.y() + 140);
         return x >= bx && x <= bx + 120 && y >= by && y <= by + 50;
     }
 
     public boolean isInNo(int x, int y) {
-        Point center = Camera.getInstance(null).position();
+        Point center = Camera.getInstance().position();
         int bx = (int) (center.x() + 20);
         int by = (int) (center.y() + 145);
         return x >= bx && x <= bx + 120 && y >= by && y <= by + 50;

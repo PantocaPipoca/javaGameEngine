@@ -8,22 +8,32 @@ import Game.Gun.Weapon;
 
 /**
  * Abstract base class for all living entities (Player, Enemy, etc).
- * Contains shared logic for state, animation, collision, and weapons.
+ * Responsible for shared logic such as state management, animation, collision resolution, and weapon handling.
+ * Subclasses should implement their own animation loading and state setup.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version 1.0 (17/05/25)
+ * @version 1.1 (25/05/25)
+ * @inv Entity must always have a valid health manager and state machine.
  */
 public abstract class Entity implements IEntity {
 
+    /** State machine for entity behavior */
     protected final StateMachine stateMachine;
+    /** Health manager for the entity */
     protected final Health healthManager;
+    /** The main game object representing this entity */
     protected GameObject go;
+    /** List of weapons the entity can use */
     protected List<Weapon> guns;
+    /** The currently equipped weapon */
     protected Weapon currentGun;
+    /** Animator for handling entity animations */
     protected Animator animator = new Animator(0.1f);
+    /** Last safe position for collision resolution */
     protected Point lastSafePos;
+    /** Target position for aiming or movement */
     protected Point targetPos = new Point(0, 0);
 
-    /////////////////////////////////////////////////// Constructor ///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Constructors ///////////////////////////////////////////////////
 
     /**
      * Constructs an Entity with the specified health manager.
@@ -35,10 +45,12 @@ public abstract class Entity implements IEntity {
         this.guns = new ArrayList<>();
     }
 
-    /////////////////////////////////////////////////// IBehaviour Methods ///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Logic ///////////////////////////////////////////////////
 
     /**
      * Updates the entity's state, animation, and position.
+     * Handles animation, gun flipping, health checks, and state machine updates.
+     * Subclasses may override for additional logic.
      * @param dT delta time since last update
      * @param ie the current input event
      */
@@ -49,6 +61,21 @@ public abstract class Entity implements IEntity {
             go.setShape(animator.currentShape());
             go.update();
             lastSafePos = go.transform().position();
+
+            // Gun flip logic (if applicable)
+            if (currentGun != null && !stateMachine.getCurrentStateName().equals("Dead")) {
+                currentGun.updateRotation(targetPos);
+                double gunX = currentGun.gameObject().transform().position().x();
+                double bodyX = go.transform().position().x();
+                go.setFlip(gunX < bodyX);
+            }
+
+            // Health check (let subclasses override for custom behavior)
+            if (!healthManager.isAlive() && !stateMachine.getCurrentStateName().equals("Dead")) {
+                stateMachine.setState("Dead");
+                return;
+            }
+
             stateMachine.onUpdate(dT, ie);
             go.update();
         }
@@ -62,23 +89,19 @@ public abstract class Entity implements IEntity {
         stateMachine.resetToDefault();
     }
 
-    /**
-     * Called when the entity is enabled.
-     */
+    /** Called when the entity is enabled. */
     @Override
     public void onEnabled() {}
 
-    /**
-     * Called when the entity is disabled.
-     */
+    /** Called when the entity is disabled. */
     @Override
     public void onDisabled() {}
 
-    /**
-     * Called when the entity is destroyed.
-     */
+    /** Called when the entity is destroyed. */
     @Override
     public void onDestroy() {}
+
+    /////////////////////////////////////////////////// GameObject Association ///////////////////////////////////////////////////
 
     /**
      * Gets the game object associated with this entity.
@@ -99,8 +122,11 @@ public abstract class Entity implements IEntity {
         this.stateMachine.setOwner((IEntity) go.behaviour());
     }
 
+    /////////////////////////////////////////////////// Collision ///////////////////////////////////////////////////
+
     /**
      * Resolves collision against a wall by moving the entity back to the last safe position.
+     * Uses binary search to find the last non-colliding position.
      * @param wall the wall game object to resolve against
      */
     @Override
@@ -187,63 +213,47 @@ public abstract class Entity implements IEntity {
         }
     }
 
-    /////////////////////////////////////////////////// Getters ///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Getters & Setters ///////////////////////////////////////////////////
 
     /**
      * Gets the health manager.
      * @return the health manager
      */
-    public Health getHealthManager() {
-        return healthManager;
-    }
+    public Health getHealthManager() { return healthManager; }
 
     /**
      * Gets the state machine.
      * @return the state machine
      */
-    public StateMachine getStateMachine() {
-        return stateMachine;
-    }
+    public StateMachine getStateMachine() { return stateMachine; }
 
     /**
      * Gets the animator.
      * @return the animator
      */
-    public Animator getAnimator() {
-        return animator;
-    }
+    public Animator getAnimator() { return animator; }
 
     /**
      * Gets the list of guns.
      * @return the list of guns
      */
-    public List<Weapon> getGuns() {
-        return guns;
-    }
+    public List<Weapon> getGuns() { return guns; }
 
     /**
      * Gets the currently equipped gun.
-     * @return the current gun
+     * @return the currently equipped gun
      */
-    public Weapon getCurrentGun() {
-        return currentGun;
-    }
-
-    /////////////////////////////////////////////////// Setters ///////////////////////////////////////////////////
+    public Weapon getCurrentGun() { return currentGun; }
 
     /**
      * Sets the last safe position of the entity.
      * @param p the last safe position
      */
-    public void lastSafePos(Point p) {
-        this.lastSafePos = p;
-    }
+    public void lastSafePos(Point p) { this.lastSafePos = p; }
 
     /**
      * Sets the target position of the entity.
      * @param p the target position
      */
-    public void setTargetPos(Point p) {
-        this.targetPos = p;
-    }
+    public void setTargetPos(Point p) { this.targetPos = p; }
 }

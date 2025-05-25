@@ -22,21 +22,23 @@ import GameEngine.*;
 
 /**
  * Class that represents the player entity in the game.
- * Handles health, state, weapons, animation, and collision logic.
+ * Responsible for handling player health, state, weapons, animation, collision logic,
+ * and publishing events for UI updates and score changes.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version 1.0 (17/05/25)
+ * @version 1.1 (25/05/25)
  * @inv Player must always have a valid health manager and state machine.
  */
 public class Player extends Entity implements GamePublisher {
 
-    private final List<GameListener> listeners = new ArrayList<>();
-    private float score;
-    private Point lastMoveDirection = new Point(1, 0);
+    private final List<GameListener> listeners = new ArrayList<>(); // Listeners for player events (UI, etc.)
+    private float score; // Player's score
+    private Point lastMoveDirection = new Point(1, 0); // Last move direction for rolling, etc.
 
-    /////////////////////////////////////////////////// Constructor ///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Constructors ///////////////////////////////////////////////////
 
     /**
      * Constructs a player with the specified health, movement speed, and rolling speed.
+     * Adds all player-specific states to the state machine.
      * @param health the health manager
      * @param movingSpeed the movement speed
      * @param rollCooldown the cooldown between rolls
@@ -57,48 +59,39 @@ public class Player extends Entity implements GamePublisher {
         stateMachine.setDefaultState("Idle");
     }
 
-    /////////////////////////////////////////////////// IBehaviour Methods ///////////////////////////////////////////////////
+    /////////////////////////////////////////////////// Logic ///////////////////////////////////////////////////
 
     /**
      * Updates the player each frame.
+     * Handles input, aiming, and delegates to Entity's update logic.
      * @param dT delta time since last update
      * @param ie input event
      */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
+        // Don't update player if main menu is visible
         if (MainMenuUI.getInstance().isVisible()) {
-            return; // Don't update player if main menu is visible
+            return;
         }
-        animator.update((float) dT);
+        setTargetPos(new Point(ie.mouseWorldPosition().getX(), ie.mouseWorldPosition().getY()));
+        super.onUpdate(dT, ie);
+
+        // Debug: print position if F is pressed
         if (ie.isKeyPressed(KeyEvent.VK_F)) {
             System.out.println(go.transform().position());
         }
-        if (go != null) {
-            go.setShape(animator.currentShape());
-            go.update();
-            lastSafePos = go.transform().position();
-            setTargetPos(new Point(ie.mouseWorldPosition().getX(), ie.mouseWorldPosition().getY()));
-            if (currentGun != null && !stateMachine.getCurrentStateName().equals("Dead")) {
-                currentGun.updateRotation(targetPos);
 
-                // Flip horizontal com base na posição da arma em relação ao corpo
-                double gunX = currentGun.gameObject().transform().position().x();
-                double bodyX = go.transform().position().x();
-                go.setFlip(gunX < bodyX); // vira para a esquerda se arma estiver à esquerda
-            }
-            if (!healthManager.isAlive() && !stateMachine.getCurrentStateName().equals("Dead")) {
-                System.out.println(stateMachine.getCurrentStateName());
-                stateMachine.setState("Dead");
-                System.out.println("Game Over!");
-                return;
-            }
-            stateMachine.onUpdate(dT, ie);
-            go.update();
+        // Check for death
+        if (!healthManager.isAlive() && !stateMachine.getCurrentStateName().equals("Dead")) {
+            stateMachine.setState("Dead");
+            System.out.println("Game Over!");
+            return;
         }
     }
 
     /**
      * Handles collision with other game objects.
+     * Handles knockback from enemies, damage from bullets, and wall collision.
      * @param gol list of game objects collided with
      */
     @Override
@@ -108,9 +101,10 @@ public class Player extends Entity implements GamePublisher {
             stateMachine.onCollision(other);
 
             boolean isEnemy = other.name().startsWith("gunner") ||
-                            other.name().startsWith("bomber") ||
-                            other.name().startsWith("striker");
+                              other.name().startsWith("bomber") ||
+                              other.name().startsWith("striker");
 
+            // Ignore dead enemies
             if (isEnemy) {
                 Enemy enemy = (Enemy) other.behaviour();
                 if (enemy.getStateMachine().getCurrentStateName().equals("Dead")) {
@@ -118,15 +112,18 @@ public class Player extends Entity implements GamePublisher {
                 }
             }
 
+            // Handle knockback and damage from enemies or enemy bullets
             if ((isEnemy || other.name().equals("enemyBullet")) &&
                 !knocked && !stateMachine.getCurrentStateName().equals("Rolling") &&
-                !stateMachine.getCurrentStateName().equals("Dead")){
+                !stateMachine.getCurrentStateName().equals("Dead")) {
                 EntityUtils.calculateKnockback(this, other, 20, 0.3);
                 SoundPlayer.playSound("songs/hit.wav");
                 stateMachine.setState("Knocked");
                 knocked = true;
                 healthManager.takeDamage(10);
             }
+
+            // Handle wall collision
             if (other.name().equals("wall")) {
                 resolveAgainst(other);
             }
@@ -134,7 +131,7 @@ public class Player extends Entity implements GamePublisher {
     }
 
     /**
-     * Initializes the player.
+     * Initializes the player, subscribes UI, and equips the first gun.
      */
     @Override
     public void onInit() {
@@ -152,8 +149,8 @@ public class Player extends Entity implements GamePublisher {
     /////////////////////////////////////////////////// Player Logic ///////////////////////////////////////////////////
 
     /**
-     * Adds score to the player.
-     * @param score the score to add
+     * Adds score to the player and notifies listeners.
+     * @param score amount to add
      */
     public void addScore(float score) {
         this.score += score;
@@ -161,8 +158,8 @@ public class Player extends Entity implements GamePublisher {
     }
 
     /**
-     * Sets the player's score.
-     * @param score the score to set
+     * Sets the player's score and notifies listeners.
+     * @param score new score value
      */
     public void setScore(float score) {
         this.score = score;
@@ -171,7 +168,7 @@ public class Player extends Entity implements GamePublisher {
 
     /**
      * Updates the score based on the enemy killed.
-     * @param enemyName the name of the enemy killed
+     * @param enemyName name of the enemy killed
      */
     public void onEnemyKilled(String enemyName) {
         if (enemyName.startsWith("gunner")) {
@@ -185,7 +182,7 @@ public class Player extends Entity implements GamePublisher {
 
     /**
      * Gets the player's score.
-     * @return the score
+     * @return the player's score
      */
     public float getScore() {
         return score;
@@ -193,7 +190,7 @@ public class Player extends Entity implements GamePublisher {
 
     /**
      * Plays the specified animation.
-     * @param name the animation name
+     * @param name animation name
      */
     public void playAnimation(String name) {
         animator.play(name);
@@ -201,6 +198,7 @@ public class Player extends Entity implements GamePublisher {
 
     /**
      * Loads player animations.
+     * Called when the player game object is set.
      */
     private void loadAnimations() {
         animator.addAnimation("walk", Shape.loadAnimation("player_walk", 8, (int) go.transform().scale()));
@@ -210,7 +208,7 @@ public class Player extends Entity implements GamePublisher {
     }
 
     /**
-     * Sets the game object associated with the player.
+     * Sets the game object associated with the player and loads animations.
      * @param go the game object
      */
     @Override
@@ -221,16 +219,17 @@ public class Player extends Entity implements GamePublisher {
     }
 
     /**
-     * Equips a gun by index.
+     * Equips a gun by index, manages listener subscriptions for UI updates.
      * @param index the index of the gun in the inventory
      */
     @Override
     public void equipGun(int index) {
         if (index >= 0 && index < guns.size()) {
             // Unsubscribe listeners from the old gun (if any)
-            if (currentGun.gameObject().name().equals("pistol") ||
+            if (currentGun != null && (
+                currentGun.gameObject().name().equals("pistol") ||
                 currentGun.gameObject().name().equals("shotgun") ||
-                currentGun.gameObject().name().equals("rifle")) {
+                currentGun.gameObject().name().equals("rifle"))) {
                 for (GameListener listener : listeners) {
                     Gun g = (Gun) currentGun;
                     g.unsubscribe(listener);
@@ -239,9 +238,10 @@ public class Player extends Entity implements GamePublisher {
             currentGun = guns.get(index);
             setCurrentGun(currentGun);
             // Subscribe listeners to the new gun (if any)
-            if (currentGun.gameObject().name().equals("pistol") ||
+            if (currentGun != null && (
+                currentGun.gameObject().name().equals("pistol") ||
                 currentGun.gameObject().name().equals("shotgun") ||
-                currentGun.gameObject().name().equals("rifle")) {
+                currentGun.gameObject().name().equals("rifle"))) {
                 for (GameListener listener : listeners) {
                     Gun g = (Gun) currentGun;
                     g.subscribe(listener);
@@ -296,7 +296,7 @@ public class Player extends Entity implements GamePublisher {
 
     /**
      * Sets the last move direction of the player.
-     * @param dir the direction as a Point
+     * @param dir the new direction
      */
     public void setLastMoveDirection(Point dir) {
         this.lastMoveDirection = dir;
@@ -304,7 +304,7 @@ public class Player extends Entity implements GamePublisher {
 
     /**
      * Gets the last move direction of the player.
-     * @return the last move direction as a Point
+     * @return the last move direction
      */
     public Point getLastMoveDirection() {
         return lastMoveDirection;

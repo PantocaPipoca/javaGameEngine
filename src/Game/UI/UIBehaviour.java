@@ -1,6 +1,7 @@
 package Game.UI;
 
 import Game.Camera;
+import Game.Game;
 import GameEngine.*;
 import Figures.Point;
 import java.util.List;
@@ -49,6 +50,27 @@ public class UIBehaviour implements IBehaviour {
                 // Optionally: return to main menu, etc.
             }
             owner.transform().position(Camera.getInstance(null).position());
+        }
+    }
+
+    public void onUIClick(int x, int y) {
+        String name = owner.name();
+        Point cam = Camera.getInstance(null).position();
+        if (name.equals("ui_yes_button")) {
+            int bx = (int) (cam.x() - 160);
+            int by = (int) (cam.y() + 140);
+            if (x >= bx && x <= bx + 120 && y >= by && y <= by + 50) {
+                GameOverUI.getInstance().reset();
+                Game.getInstance().previousScore(0);
+                Game.getInstance().restart();
+            }
+        }
+        if (name.equals("ui_no_button")) {
+            int bx = (int) (cam.x() + 20);
+            int by = (int) (cam.y() + 145);
+            if (x >= bx && x <= bx + 120 && y >= by && y <= by + 50) {
+                System.exit(0);
+            }
         }
     }
 

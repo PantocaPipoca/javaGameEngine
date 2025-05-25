@@ -11,17 +11,22 @@ import GameEngine.*;
 
 /**
  * Abstract class that represents a generic enemy entity in the game.
- * Handles health, state, weapons, animation, and collision logic.
+ * Responsible for handling health, state, weapons, animation, and collision logic.
+ * Subclasses must implement animation loading.
  * @author Daniel Pantyukhov a83896 Gustavo Silva a83994 Alexandre Goncalves a83892
- * @version 1.0 (17/05/25)
+ * @version 1.1 (25/05/25)
  * @inv Enemy must always have a valid health manager and state machine.
  */
 public abstract class Enemy extends Entity {
 
+    /** Reference to the player game object for targeting */
     private IGameObject player;
+
+    /////////////////////////////////////////////////// Constructors ///////////////////////////////////////////////////
 
     /**
      * Constructs an enemy with the specified health manager and player reference.
+     * Adds default states for Stunned and Knocked.
      * @param health the health manager
      * @param player the player game object to target
      */
@@ -32,48 +37,39 @@ public abstract class Enemy extends Entity {
         stateMachine.addState("Knocked", new KnockbackState(0.2));
     }
 
+    /////////////////////////////////////////////////// Logic ///////////////////////////////////////////////////
+
     /**
      * Updates the enemy's state and position.
+     * Sets the target position to the player and delegates to Entity's update logic.
      * @param dT delta time since last update
      * @param ie the current input event
      */
     @Override
     public void onUpdate(double dT, InputEvent ie) {
-        animator.update((float) dT);
-        go.setShape(animator.currentShape());
-        go.update();
-        lastSafePos = go.transform().position();
-        if (!healthManager.isAlive() && !stateMachine.getCurrentStateName().equals("Dead")) {
-            stateMachine.setState("Dead");
-            return;
-        }
         setTargetPos(player.transform().position());
-        if (currentGun != null) {
-            currentGun.updateRotation(targetPos);
-
-            double gunX = currentGun.gameObject().transform().position().x();
-            double bodyX = go.transform().position().x();
-            go.setFlip(gunX < bodyX);
-        }
-        stateMachine.onUpdate(dT, ie);
-        go.update();
+        super.onUpdate(dT, ie);
     }
 
     /**
      * Handles collision with other game objects.
+     * Handles wall collision, knockback from player, and damage from bullets.
      * @param gol list of game objects collided with
      */
     @Override
     public void onCollision(List<IGameObject> gol) {
         boolean knocked = false;
         for (IGameObject other : gol) {
+            // Handle wall collision
             if (other.name().equals("wall")) {
                 resolveAgainst(other);
                 continue;
             }
+            // Ignore further logic if already dead
             if(stateMachine.getCurrentStateName().equals("Dead")) {
                 continue;
             }
+            // Handle knockback and damage from player or bullets
             if(!knocked) {
                 knocked = true;
                 if (other.name().equals("player")) {
@@ -90,6 +86,8 @@ public abstract class Enemy extends Entity {
         }
     }
 
+    /////////////////////////////////////////////////// Animation ///////////////////////////////////////////////////
+
     /**
      * Plays the specified animation for the enemy.
      * @param name the animation name
@@ -105,7 +103,7 @@ public abstract class Enemy extends Entity {
     protected abstract void loadAnimations();
 
     /**
-     * Sets the game object associated with the enemy.
+     * Sets the game object associated with the enemy and loads animations.
      * @param go the game object
      */
     @Override

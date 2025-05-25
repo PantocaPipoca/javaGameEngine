@@ -11,6 +11,7 @@ import Game.UI.GameUI;
 import Game.UI.MainMenuUI;
 import Game.UI.VictoryUI;
 import GameEngine.IGameObject;
+import GameEngine.ShapeFactory;
 import GameEngine.GameObject;
 import GameEngine.GameEngine;
 import GameEngine.Transform;
@@ -33,6 +34,7 @@ public class Game {
     private int currentRoomIndex; // Index of the current room
     private double currentEnemyCount = 0;
     private float previousScore;
+    private boolean restarted = false; // Flag to track if the game was restarted
 
     private VictoryUI victoryUI = new VictoryUI();
 
@@ -64,7 +66,7 @@ public class Game {
             victoryUI.showVictory();
             return;
         }
-        if (currentRoom != null && currentRoom.player() != null) {
+        if (currentRoom != null && currentRoom.player() != null && !restarted) {
             previousScore = currentRoom.player().getScore();
         }
         // Clear out any old unnecessary objects
@@ -72,6 +74,15 @@ public class Game {
         for (IGameObject go : objectsToDestroy) {
             engine.destroy(go);
         }
+
+        GameObject backgroundGO = new GameObject(
+                "gameBackground",
+                new Transform(new Point(1024, 1024), 0, 0, 1),
+                new Circle("0 0 1"),
+                new Background()
+        );
+        backgroundGO.setShape(ShapeFactory.createShape("gameBackground", 1));
+        engine.addEnabled(backgroundGO);
 
         currentEnemyCount = 0; // Always reset enemy count
 
@@ -128,6 +139,8 @@ public class Game {
         for (IGameObject figure : currentRoom.figures()) {
             engine.addEnabled(figure);
         }
+
+        restarted = false; // Reset restart flag
     }
 
     /**
@@ -138,6 +151,11 @@ public class Game {
         mainMenuUI.showMenu();
         loadRoom(0);
         engine.run();
+    }
+
+    public void restart() {
+        restarted = true;
+        loadRoom(0);
     }
 
     ////////////////////// Getters //////////////////////
@@ -190,5 +208,13 @@ public class Game {
      */
     public void currentEnemyCount(double currentEnemyCount) {
         this.currentEnemyCount = currentEnemyCount;
+    }
+
+    /**
+     * Set previous score.
+     * @param previousScore the score to set
+     */
+    public void previousScore(float previousScore) {
+        this.previousScore = previousScore;
     }
 }

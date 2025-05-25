@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import Game.Camera;
 import Game.UI.MainMenuUI;
-import Game.UI.GameOverUI;
-import Game.Game;
+import Game.UI.UIBehaviour;
 
 /**
  * Class that represents the main GUI window for the game engine.
@@ -78,15 +77,11 @@ public class GUI extends JFrame {
                     return;
                 }
 
-                GameOverUI gameOverUI = GameOverUI.getInstance();
-                if (gameOverUI != null && gameOverUI.isActive()) {
-                    if (gameOverUI.isInYes(worldX, worldY)) {
-                        gameOverUI.reset();
-                        Game.getInstance().loadRoom(0);
-                    } else if (gameOverUI.isInNo(worldX, worldY)) {
-                        System.exit(0);
+                for (IGameObject go : gameObjects) {
+                    if (go.name().equals("ui_yes_button") || go.name().equals("ui_no_button")) {
+                        UIBehaviour ui = (UIBehaviour) go.behaviour();
+                        ui.onUIClick(worldX, worldY);
                     }
-                    return;
                 }
             }
 
@@ -219,12 +214,6 @@ public class GUI extends JFrame {
                 // Desired screen coordinates
                 int drawX = (int) ((wx - camX) + screenCX);
                 int drawY = (int) ((wy - camY) + screenCY);
-
-                // Quick cull
-                if (drawX + 100 < 0 || drawX - 100 > getWidth() ||
-                    drawY + 100 < 0 || drawY - 100 > getHeight()) {
-                    return;
-                }
 
                 // 1) Save original transform
                 AffineTransform old = g2.getTransform();
