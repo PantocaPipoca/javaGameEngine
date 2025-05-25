@@ -19,6 +19,9 @@ public class EntityUtils {
      * @param duration the duration of the knockback
      */
     public static void calculateKnockback(Entity entity, IGameObject other, double strength, double duration) {
+        if (entity.gameObject().name().equals("player")) {
+            return;
+        }
         // Calculate knockback direction (from other to this enemy)
         Point myPos = entity.gameObject().transform().position();
         Point otherPos = other.transform().position();

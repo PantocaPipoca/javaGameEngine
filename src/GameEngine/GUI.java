@@ -207,14 +207,6 @@ public class GUI extends JFrame {
 
                 if (go.transform() == null || go.shape() == null) return;
 
-                // World coordinates
-                double wx = go.transform().position().x();
-                double wy = go.transform().position().y();
-
-                // Desired screen coordinates
-                int drawX = (int) ((wx - camX) + screenCX);
-                int drawY = (int) ((wy - camY) + screenCY);
-
                 // 1) Save original transform
                 AffineTransform old = g2.getTransform();
 
@@ -265,7 +257,7 @@ public class GUI extends JFrame {
                 mainMenu.render(g);
                 return;
             }
-            /* g.setColor(Color.YELLOW);
+            g.setColor(Color.YELLOW);
             for (IGameObject go : gameObjects) {
                 if (go.collider() instanceof ColliderPolygon) {
                     ColliderPolygon col = (ColliderPolygon) go.collider();
@@ -287,7 +279,7 @@ public class GUI extends JFrame {
                     int drawY = (int) (center.y() - camY + screenCY - radius);
                     g.drawOval(drawX, drawY, radius * 2, radius * 2);
                 }
-            } */
+            }
         }
     }
 }

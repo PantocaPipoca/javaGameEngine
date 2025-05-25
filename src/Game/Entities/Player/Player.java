@@ -54,7 +54,7 @@ public class Player extends Entity implements GamePublisher {
         stateMachine.addState("Rolling", new RollingState(movingSpeed, rollSpeedMultiplier, rollTime));
         stateMachine.addState("Stunned", new StunnedState(0.2));
         stateMachine.addState("Dead", new DeadState());
-        stateMachine.addState("Knocked", new KnockbackState(0.2));
+        stateMachine.addState("Knocked", new KnockbackState(0));
 
         stateMachine.setDefaultState("Idle");
     }
