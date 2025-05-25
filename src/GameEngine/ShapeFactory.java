@@ -52,6 +52,8 @@ public class ShapeFactory {
                 };
             case "gameover":
                 return new Shape(name, 1200, 400, 0, 0);
+            case "victory":
+                return new Shape(name, 800, 600, 0, 0);
             default:
                 System.err.println("Tipo de shape desconhecido: " + type);
                 return new Shape(name, 100 * scale, 100 * scale, 0, 0);

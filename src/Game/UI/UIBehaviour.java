@@ -34,10 +34,10 @@ public class UIBehaviour implements IBehaviour {
                 owner.transform().position(cam);
             }
             if (name.equals("ui_yes_button")) {
-                owner.transform().position(new Point(cam.x() - 185, cam.y() + 185));
+                owner.transform().position(new Point(cam.x() - 160, cam.y() + 140));
             }
             if (name.equals("ui_no_button")) {
-                owner.transform().position(new Point(cam.x() + 75, cam.y() + 185));
+                owner.transform().position(new Point(cam.x() + 20, cam.y() + 145));
             }
         }
 

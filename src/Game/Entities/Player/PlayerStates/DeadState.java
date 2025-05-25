@@ -60,7 +60,7 @@ public class DeadState extends State {
         player.playAnimation("death");
         SoundPlayer.playSound("songs/death.wav");
 
-        GameOverUI gameOverUI = new GameOverUI();
+        GameOverUI gameOverUI = GameOverUI.getInstance();
         gameOverUI.show();
     }
 

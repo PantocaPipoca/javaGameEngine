@@ -9,6 +9,7 @@ import Game.Loaders.ConfigModels.LevelConfig;
 import Game.Loaders.RoomFactory;
 import Game.UI.GameUI;
 import Game.UI.MainMenuUI;
+import Game.UI.VictoryUI;
 import GameEngine.IGameObject;
 import GameEngine.GameObject;
 import GameEngine.GameEngine;
@@ -32,6 +33,8 @@ public class Game {
     private int currentRoomIndex; // Index of the current room
     private double currentEnemyCount = 0;
     private float previousScore;
+
+    private VictoryUI victoryUI = new VictoryUI();
 
     /**
      * Constructs the Game with a list of level configs.
@@ -58,6 +61,7 @@ public class Game {
     public void loadRoom(int roomIndex) {
         if (roomIndex < 0 || roomIndex >= levelConfigs.size()) {
             System.out.println("You Win");
+            victoryUI.showVictory();
             return;
         }
         if (currentRoom != null && currentRoom.player() != null) {
@@ -95,6 +99,7 @@ public class Game {
         SoundPlayer.playBackgroundMusic(musicPath);
 
         GameUI ui = GameUI.getInstance();
+        ui.reset();
         ui.initUI(engine, camera.position());
 
         // Load Enemies

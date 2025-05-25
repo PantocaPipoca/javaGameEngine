@@ -228,7 +228,9 @@ public class Player extends Entity implements GamePublisher {
     public void equipGun(int index) {
         if (index >= 0 && index < guns.size()) {
             // Unsubscribe listeners from the old gun (if any)
-            if (currentGun != null && currentGun.gameObject().name().equals("pistol")) {
+            if (currentGun.gameObject().name().equals("pistol") ||
+                currentGun.gameObject().name().equals("shotgun") ||
+                currentGun.gameObject().name().equals("rifle")) {
                 for (GameListener listener : listeners) {
                     Gun g = (Gun) currentGun;
                     g.unsubscribe(listener);
@@ -237,7 +239,9 @@ public class Player extends Entity implements GamePublisher {
             currentGun = guns.get(index);
             setCurrentGun(currentGun);
             // Subscribe listeners to the new gun (if any)
-            if (currentGun != null && currentGun.gameObject().name().equals("pistol")) {
+            if (currentGun.gameObject().name().equals("pistol") ||
+                currentGun.gameObject().name().equals("shotgun") ||
+                currentGun.gameObject().name().equals("rifle")) {
                 for (GameListener listener : listeners) {
                     Gun g = (Gun) currentGun;
                     g.subscribe(listener);

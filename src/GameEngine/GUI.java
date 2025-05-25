@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import Game.Camera;
 import Game.UI.MainMenuUI;
+import Game.UI.GameOverUI;
+import Game.Game;
 
 /**
  * Class that represents the main GUI window for the game engine.
@@ -52,22 +54,41 @@ public class GUI extends JFrame {
 
         // Mouse listeners
         addMouseListener(new MouseAdapter() {
-        @Override
-        public void mousePressed(MouseEvent e) {
-            ie.mouseButtonPressed(e.getButton());
+            @Override
+            public void mousePressed(MouseEvent e) {
+                ie.mouseButtonPressed(e.getButton());
 
-            int x = e.getX();
-            int y = e.getY();
+                int x = e.getX();
+                int y = e.getY();
 
-            MainMenuUI mainMenu = MainMenuUI.getInstance();
-            if (mainMenu != null && mainMenu.isVisible()) {
-                if (mainMenu.isInPlay(x, y)) {
-                    mainMenu.hideMenu();
-                } else if (mainMenu.isInQuit(x, y)) {
-                    System.exit(0);
+                double camX = (camera != null) ? camera.position().x() : 0;
+                double camY = (camera != null) ? camera.position().y() : 0;
+                int screenCX = getWidth() / 2;
+                int screenCY = getHeight() / 2;
+                int worldX = (int) (x - screenCX + camX);
+                int worldY = (int) (y - screenCY + camY);
+
+                MainMenuUI mainMenu = MainMenuUI.getInstance();
+                if (mainMenu != null && mainMenu.isVisible()) {
+                    if (mainMenu.isInPlay(x, y)) {
+                        mainMenu.hideMenu();
+                    } else if (mainMenu.isInQuit(x, y)) {
+                        System.exit(0);
+                    }
+                    return;
+                }
+
+                GameOverUI gameOverUI = GameOverUI.getInstance();
+                if (gameOverUI != null && gameOverUI.isActive()) {
+                    if (gameOverUI.isInYes(worldX, worldY)) {
+                        gameOverUI.reset();
+                        Game.getInstance().loadRoom(0);
+                    } else if (gameOverUI.isInNo(worldX, worldY)) {
+                        System.exit(0);
+                    }
+                    return;
                 }
             }
-        }
 
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -142,17 +163,21 @@ public class GUI extends JFrame {
             g.fillRect(0, 0, getWidth(), getHeight());
 
             // Camera
-            double camX = 0, camY = 0;
+            final double camX, camY;
             if (camera != null) {
                 camX = camera.position().x();
                 camY = camera.position().y();
+            } else {
+                camX = 0;
+                camY = 0;
             }
-            int screenCX = getWidth() / 2;
-            int screenCY = getHeight() / 2;
+            final int screenCX = getWidth() / 2;
+            final int screenCY = getHeight() / 2;
 
             Graphics2D g2 = (Graphics2D) g;
-            for (IGameObject go : gameObjects) {
 
+            // Helper to draw a game object
+            java.util.function.Consumer<IGameObject> drawGameObject = go -> {
                 // Draw wall polygons
                 if (go.name().equals("wall")) {
                     ColliderPolygon col = (ColliderPolygon) go.collider();
@@ -185,7 +210,7 @@ public class GUI extends JFrame {
                     g.fillPolygon(xs, ys, pontos.size());
                 }
 
-                if (go.transform() == null || go.shape() == null) continue;
+                if (go.transform() == null || go.shape() == null) return;
 
                 // World coordinates
                 double wx = go.transform().position().x();
@@ -198,7 +223,7 @@ public class GUI extends JFrame {
                 // Quick cull
                 if (drawX + 100 < 0 || drawX - 100 > getWidth() ||
                     drawY + 100 < 0 || drawY - 100 > getHeight()) {
-                    continue;
+                    return;
                 }
 
                 // 1) Save original transform
@@ -211,13 +236,6 @@ public class GUI extends JFrame {
 
                 // 3) Draw sprite
                 go.shape().render(g2, go.transform(), go.isFlipped(), go.transform().angle());
-
-                // 4) Debug outline (always on)
-                //if (go.collider() instanceof ColliderCircle) {
-                //    ((ColliderCircle) go.collider()).drawOutline(g2);
-                //} else if (go.collider() instanceof ColliderPolygon) {
-                //    ((ColliderPolygon) go.collider()).drawOutline(g2);
-                //}
 
                 // 5) Restore
                 g2.setTransform(old);
@@ -235,6 +253,22 @@ public class GUI extends JFrame {
                 } catch (Exception e) {
                     System.err.println("Erro ao carregar a imagem da mira: " + e.getMessage());
                 }
+            };
+
+            // Draw all non-UI objects (layer < 1000)
+            for (IGameObject go : gameObjects) {
+                if (go.transform() == null || go.shape() == null) continue;
+                if (go.transform().layer() < 1000) {
+                    drawGameObject.accept(go);
+                }
+            }
+
+            // Draw all UI objects (layer >= 1000) on top
+            for (IGameObject go : gameObjects) {
+                if (go.transform() == null || go.shape() == null) continue;
+                if (go.transform().layer() >= 1000) {
+                    drawGameObject.accept(go);
+                }
             }
 
             MainMenuUI mainMenu = MainMenuUI.getInstance();
@@ -242,6 +276,29 @@ public class GUI extends JFrame {
                 mainMenu.render(g);
                 return;
             }
+            /* g.setColor(Color.YELLOW);
+            for (IGameObject go : gameObjects) {
+                if (go.collider() instanceof ColliderPolygon) {
+                    ColliderPolygon col = (ColliderPolygon) go.collider();
+                    List<Figures.Point> pontos = col.points();
+
+                    int[] xs = new int[pontos.size()];
+                    int[] ys = new int[pontos.size()];
+                    for (int i = 0; i < pontos.size(); i++) {
+                        Figures.Point p = pontos.get(i);
+                        xs[i] = (int) (p.x() - camX + screenCX);
+                        ys[i] = (int) (p.y() - camY + screenCY);
+                    }
+                    g.drawPolygon(xs, ys, pontos.size());
+                } else if (go.collider() instanceof ColliderCircle) {
+                    ColliderCircle col = (ColliderCircle) go.collider();
+                    Figures.Point center = col.centroid();
+                    int radius = (int) col.figure().radius();
+                    int drawX = (int) (center.x() - camX + screenCX - radius);
+                    int drawY = (int) (center.y() - camY + screenCY - radius);
+                    g.drawOval(drawX, drawY, radius * 2, radius * 2);
+                }
+            } */
         }
     }
 }

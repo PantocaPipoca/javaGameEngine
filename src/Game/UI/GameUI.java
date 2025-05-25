@@ -11,23 +11,29 @@ public class GameUI implements GameListener {
 
     private GameUI() {}
 
+    public void reset() {
+        healthUI = null;
+        scoreUI = null;
+        ammoUI = null;
+    }
+
     public void initUI(GameEngine engine, Point cam) {
         if (healthUI != null && scoreUI != null && ammoUI != null) return;
 
         UIBehaviour healthBehaviour = new UIBehaviour();
-        healthUI = new GameObject("ui_health", new Transform(new Point(cam.x(), cam.y()), 3, 0, 1), new Circle("0 0 1"), healthBehaviour);
+        healthUI = new GameObject("ui_health", new Transform(new Point(cam.x(), cam.y()), 1001, 0, 1), new Circle("0 0 1"), healthBehaviour);
         healthBehaviour.gameObject(healthUI);
         healthUI.setShape(new UITextShape("Health: ---"));
         engine.addEnabled(healthUI);
 
         UIBehaviour scoreBehaviour = new UIBehaviour();
-        scoreUI = new GameObject("ui_score", new Transform(new Point(cam.x(), cam.y()), 3, 0, 1), new Circle("0 0 1"), scoreBehaviour);
+        scoreUI = new GameObject("ui_score", new Transform(new Point(cam.x(), cam.y()), 1001, 0, 1), new Circle("0 0 1"), scoreBehaviour);
         scoreBehaviour.gameObject(scoreUI);
         scoreUI.setShape(new UITextShape("Score: ---"));
         engine.addEnabled(scoreUI);
 
         UIBehaviour ammoBehaviour = new UIBehaviour();
-        ammoUI = new GameObject("ui_ammo", new Transform(new Point(cam.x(), cam.y()), 3, 0, 1), new Circle("0 0 1"), ammoBehaviour);
+        ammoUI = new GameObject("ui_ammo", new Transform(new Point(cam.x(), cam.y()), 1001, 0, 1), new Circle("0 0 1"), ammoBehaviour);
         ammoBehaviour.gameObject(ammoUI);
         ammoUI.setShape(new UITextShape("Ammo: ---"));
         engine.addEnabled(ammoUI);

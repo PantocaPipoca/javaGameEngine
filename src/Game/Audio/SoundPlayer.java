@@ -53,7 +53,7 @@ public class SoundPlayer {
             backgroundClip.open(audio);
 
             FloatControl gainControl = (FloatControl) backgroundClip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-45.0f); // música mais baixa
+            gainControl.setValue(-25.0f); // música mais baixa
 
             backgroundClip.loop(Clip.LOOP_CONTINUOUSLY);
             backgroundClip.start();
