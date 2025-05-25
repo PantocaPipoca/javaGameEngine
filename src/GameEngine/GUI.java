@@ -186,7 +186,7 @@ public class GUI extends JFrame {
                         ys[i] = (int) (p.y() - camY + screenCY);
                     }
 
-                    g.setColor(Color.BLACK);
+                    g.setColor(new Color(20, 20, 20));
                     g.fillPolygon(xs, ys, pontos.size());
                 }
                 else if (go.name().equals("door")) {
@@ -201,7 +201,7 @@ public class GUI extends JFrame {
                         ys[i] = (int) (p.y() - camY + screenCY);
                     }
 
-                    g.setColor(Color.RED);
+                    g.setColor(new Color(100, 0, 30));
                     g.fillPolygon(xs, ys, pontos.size());
                 }
 
@@ -256,29 +256,6 @@ public class GUI extends JFrame {
             if (mainMenu != null && mainMenu.isVisible()) {
                 mainMenu.render(g);
                 return;
-            }
-            g.setColor(Color.YELLOW);
-            for (IGameObject go : gameObjects) {
-                if (go.collider() instanceof ColliderPolygon) {
-                    ColliderPolygon col = (ColliderPolygon) go.collider();
-                    List<Figures.Point> pontos = col.points();
-
-                    int[] xs = new int[pontos.size()];
-                    int[] ys = new int[pontos.size()];
-                    for (int i = 0; i < pontos.size(); i++) {
-                        Figures.Point p = pontos.get(i);
-                        xs[i] = (int) (p.x() - camX + screenCX);
-                        ys[i] = (int) (p.y() - camY + screenCY);
-                    }
-                    g.drawPolygon(xs, ys, pontos.size());
-                } else if (go.collider() instanceof ColliderCircle) {
-                    ColliderCircle col = (ColliderCircle) go.collider();
-                    Figures.Point center = col.centroid();
-                    int radius = (int) col.figure().radius();
-                    int drawX = (int) (center.x() - camX + screenCX - radius);
-                    int drawY = (int) (center.y() - camY + screenCY - radius);
-                    g.drawOval(drawX, drawY, radius * 2, radius * 2);
-                }
             }
         }
     }

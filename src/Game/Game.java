@@ -61,11 +61,11 @@ public class Game {
      * @throws IndexOutOfBoundsException if the index is invalid
      */
     public void loadRoom(int roomIndex) {
-        if (roomIndex < 0 || roomIndex >= levelConfigs.size()) {
-            System.out.println("You Win");
-            victoryUI.showVictory();
-            return;
-        }
+    if (roomIndex < 0 || roomIndex >= levelConfigs.size()) {
+        System.out.println("You Win");
+        victoryUI.showVictory();
+        return;
+    }
         if (currentRoom != null && currentRoom.player() != null && !restarted) {
             previousScore = currentRoom.player().getScore();
         }
@@ -102,6 +102,12 @@ public class Game {
                 break;
             case 1:
                 musicPath = "songs/level2.wav";
+                break;
+            case 2:
+                musicPath = "songs/level3.wav";
+                break;
+            case 3:
+                musicPath = "songs/level4.wav";
                 break;
             default:
                 musicPath = "songs/default.wav";

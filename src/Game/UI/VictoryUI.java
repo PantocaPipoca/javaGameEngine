@@ -5,6 +5,7 @@ import Figures.Point;
 import Game.Camera;
 import GameEngine.*;
 import Game.Game;
+import Game.Audio.SoundPlayer;
 
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
@@ -27,6 +28,8 @@ public class VictoryUI {
      */
     public void showVictory() {
         if (active) return;
+        SoundPlayer.stopBackgroundMusic();
+        SoundPlayer.playSound("songs/victory.wav");
         active = true;
         Point center = Camera.getInstance(null).position();
 
