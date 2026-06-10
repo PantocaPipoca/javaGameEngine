@@ -20,3 +20,20 @@ Unit tests covering geometry primitives, colliders, transforms, game objects, an
 
 ## Documentation
 Full Javadoc generated for all packages and UML diagrams covering the full class hierarchy
+
+## Requirements
+Java 11 or higher
+
+## Running the game
+
+From the project root:
+```
+javac -d src/out $(find src -name "*.java" ! -path "*/Tests/*")
+java -cp src/out Main
+```
+
+## Running the tests
+```
+javac -cp lib/junit-platform-console-standalone-1.12.1.jar -d src/out $(find src -name "*.java")
+java -jar lib/junit-platform-console-standalone-1.12.1.jar execute --class-path src/out --scan-class-path
+```
